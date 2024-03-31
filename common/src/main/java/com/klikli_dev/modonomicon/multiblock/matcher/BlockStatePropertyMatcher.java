@@ -76,7 +76,8 @@ public class BlockStatePropertyMatcher implements StateMatcher {
                 displayState = BlockStateParser.parseForBlock(BuiltInRegistries.BLOCK.asLookup(), new StringReader(buffer.readUtf()), false).blockState();
 
             var block = BuiltInRegistries.BLOCK.get(buffer.readResourceLocation());
-            var props = buffer.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readUtf);
+            var props = buffer.readMap((b) -> b.readUtf(), (b) -> b.readUtf());
+
 
             return new BlockStatePropertyMatcher(displayState, block, Suppliers.memoize(() -> props));
         } catch (CommandSyntaxException e) {
@@ -118,7 +119,7 @@ public class BlockStatePropertyMatcher implements StateMatcher {
         if (this.displayState != null)
             buffer.writeUtf(BlockStateParser.serialize(this.displayState));
         buffer.writeResourceLocation(BuiltInRegistries.BLOCK.getKey(this.block));
-        buffer.writeMap(this.props.get(), FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
+        buffer.writeMap(this.props.get(), (b, v) -> b.writeUtf(v), (b, v) -> b.writeUtf(v));
     }
 
     @Override

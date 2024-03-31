@@ -25,6 +25,7 @@ public class Networking {
         registrar.play(SaveCategoryStateMessage.ID, (b) -> new NeoMessageWrapper(b, SaveCategoryStateMessage::new), MessageHandler::handle);
         registrar.play(SaveEntryStateMessage.ID, (b) -> new NeoMessageWrapper(b, SaveEntryStateMessage::new), MessageHandler::handle);
         registrar.play(SendUnlockCodeToClientMessage.ID, (b) -> new NeoMessageWrapper(b, SendUnlockCodeToClientMessage::new), MessageHandler::handle);
+        registrar.play(SendAdvancementToClientMessage.ID, (b) -> new NeoMessageWrapper(b, SendAdvancementToClientMessage::new), MessageHandler::handle);
         registrar.play(SyncBookDataMessage.ID, (b) -> new NeoMessageWrapper(b, SyncBookDataMessage::new), MessageHandler::handle);
         registrar.play(SyncBookUnlockStatesMessage.ID, (b) -> new NeoMessageWrapper(b, SyncBookUnlockStatesMessage::new), MessageHandler::handle);
         registrar.play(SyncBookVisualStatesMessage.ID, (b) -> new NeoMessageWrapper(b, SyncBookVisualStatesMessage::new), MessageHandler::handle);
@@ -32,6 +33,7 @@ public class Networking {
         registrar.play(ReloadResourcesOnClientMessage.ID, (b) -> new NeoMessageWrapper(b, ReloadResourcesOnClientMessage::new), MessageHandler::handle);
         registrar.play(ReloadResourcesDoneMessage.ID, (b) -> new NeoMessageWrapper(b, ReloadResourcesDoneMessage::new), MessageHandler::handle);
         registrar.play(RequestSyncBookStatesMessage.ID, (b) -> new NeoMessageWrapper(b, ReloadResourcesDoneMessage::new), MessageHandler::handle);
+        registrar.play(RequestAdvancementMessage.ID, (b) -> new NeoMessageWrapper(b, RequestAdvancementMessage::new), MessageHandler::handle);
     }
 
     public static <T extends Message> void sendToSplit(ServerPlayer player, T message) {

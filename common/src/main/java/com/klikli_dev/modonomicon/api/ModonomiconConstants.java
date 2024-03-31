@@ -145,7 +145,7 @@ public class ModonomiconConstants {
             public static final String HOVER_COMMAND_LINK = PREFIX + "hover.command_link";
             public static final String HOVER_COMMAND_LINK_UNAVAILABLE = PREFIX + "hover.command_link.unavailable";
             public static final String NO_ERRORS_FOUND = PREFIX + "no_errors_found";
-            public static final String PAGE_ENTITY_LOADING_ERROR = PREFIX + ".page.entity.loading_error";
+            public static final String PAGE_ENTITY_LOADING_ERROR = PREFIX + "page.entity.loading_error";
 
             public static final String SEARCH_SCREEN_TITLE = PREFIX + "search.screen.title";
             public static final String SEARCH_ENTRY_LOCKED = PREFIX + "search.entry.locked";
@@ -173,12 +173,14 @@ public class ModonomiconConstants {
 
         public static class Tooltips {
             public static final String PREFIX = "tooltip." + ModonomiconAPI.ID + ".";
-            public static final String CONDITION_PREFIX = PREFIX + ".condition.";
+            public static final String CONDITION_PREFIX = PREFIX + "condition.";
             public static final String CONDITION_ADVANCEMENT = CONDITION_PREFIX + "advancement";
+            public static final String CONDITION_ADVANCEMENT_LOADING = CONDITION_ADVANCEMENT + ".loading";
+            public static final String CONDITION_ADVANCEMENT_HIDDEN = CONDITION_ADVANCEMENT + ".hidden";
             public static final String CONDITION_MOD_LOADED = CONDITION_PREFIX + "mod_loaded";
             public static final String CONDITION_ENTRY_UNLOCKED = CONDITION_PREFIX + "entry_unlocked";
             public static final String CONDITION_ENTRY_READ = CONDITION_PREFIX + "entry_read";
-            public static final String RECIPE_PREFIX = PREFIX + ".recipe.";
+            public static final String RECIPE_PREFIX = PREFIX + "recipe.";
             public static final String RECIPE_CRAFTING_SHAPELESS = RECIPE_PREFIX + "crafting_shapeless";
             public static final String ITEM_NO_BOOK_FOUND_FOR_STACK = PREFIX + "no_book_found_for_stack";
             public static final String FLUID_AMOUNT = PREFIX + "fluid.amount";

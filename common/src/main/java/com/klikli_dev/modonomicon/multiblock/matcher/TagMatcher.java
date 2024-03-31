@@ -108,7 +108,7 @@ public class TagMatcher implements StateMatcher {
             }
 
             var tag = TagKey.create(Registries.BLOCK, buffer.readResourceLocation());
-            var props = buffer.readMap(FriendlyByteBuf::readUtf, FriendlyByteBuf::readUtf);
+            var props = buffer.readMap((b) -> b.readUtf(), (b) -> b.readUtf());
 
             return new TagMatcher(displayState, () -> tag, () -> props);
         } catch (CommandSyntaxException e) {
@@ -167,7 +167,7 @@ public class TagMatcher implements StateMatcher {
             buffer.writeUtf(BlockStateParser.serialize(this.displayState));
         }
         buffer.writeResourceLocation(this.tag.get().location());
-        buffer.writeMap(this.props.get(), FriendlyByteBuf::writeUtf, FriendlyByteBuf::writeUtf);
+        buffer.writeMap(this.props.get(), (b, v) -> b.writeUtf(v), (b, v) -> b.writeUtf(v));
     }
 
     @Override
