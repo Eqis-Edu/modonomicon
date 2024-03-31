@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.4-1.66.2] - 2024-03-31
+### :bug: Bug Fixes
+- [`5c92322`](https://github.com/klikli-dev/modonomicon/commit/5c9232287a20dc659ed5e6b6597dd6f065fa5909) - book link target text fetching *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.4-1.66.0] - 2024-03-31
 ### :sparkles: New Features
 - [`546cdbf`](https://github.com/klikli-dev/modonomicon/commit/546cdbf8ec04781f22f4c6e0e42aecec1cdaef79) - better advancement condition tooltip handling *(PR [#192](https://github.com/klikli-dev/modonomicon/pull/192) by [@klikli-dev](https://github.com/klikli-dev))*
@@ -765,3 +770,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.4-1.64.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.63.0...release/v1.20.4-1.64.0
 [release/v1.20.4-1.65.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.64.0...release/v1.20.4-1.65.0
 [release/v1.20.4-1.66.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.65.0...release/v1.20.4-1.66.0
+[release/v1.20.4-1.66.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.0...release/v1.20.4-1.66.2
