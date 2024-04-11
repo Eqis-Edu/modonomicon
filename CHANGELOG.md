@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.4-1.67.0] - 2024-04-11
+### :sparkles: New Features
+- [`1b21d71`](https://github.com/klikli-dev/modonomicon/commit/1b21d713e70273b2530fce86eaa8e7a48e854371) - Added BookCategoryHasEntriesCondition ([#194](https://github.com/klikli-dev/modonomicon/pull/194)) - thanks @DaFuqs *(commit by [@DaFuqs](https://github.com/DaFuqs))*
+
+
 ## [release/v1.20.4-1.66.5] - 2024-03-31
 ### :bug: Bug Fixes
 - [`a69fba0`](https://github.com/klikli-dev/modonomicon/commit/a69fba01cdbd49883f0b1ab07fc5d8b5901ade20) - Added missing lang for condition.mod_loaded ([#193](https://github.com/klikli-dev/modonomicon/pull/193))  - thanks @DaFuqs *(commit by [@DaFuqs](https://github.com/DaFuqs))*
@@ -783,3 +788,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.4-1.66.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.0...release/v1.20.4-1.66.2
 [release/v1.20.4-1.66.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.2...release/v1.20.4-1.66.3
 [release/v1.20.4-1.66.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.3...release/v1.20.4-1.66.5
+[release/v1.20.4-1.67.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.5...release/v1.20.4-1.67.0
