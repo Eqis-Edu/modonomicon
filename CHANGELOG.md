@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.4-1.67.1] - 2024-04-12
+### :bug: Bug Fixes
+- [`2d2f984`](https://github.com/klikli-dev/modonomicon/commit/2d2f984e0ebe8b6b81b72be633f653963b24f007) - crash when clicking redirect entry in search screen *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.4-1.67.0] - 2024-04-11
 ### :sparkles: New Features
 - [`1b21d71`](https://github.com/klikli-dev/modonomicon/commit/1b21d713e70273b2530fce86eaa8e7a48e854371) - Added BookCategoryHasEntriesCondition ([#194](https://github.com/klikli-dev/modonomicon/pull/194)) - thanks @DaFuqs *(commit by [@DaFuqs](https://github.com/DaFuqs))*
@@ -789,3 +794,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.4-1.66.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.2...release/v1.20.4-1.66.3
 [release/v1.20.4-1.66.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.3...release/v1.20.4-1.66.5
 [release/v1.20.4-1.67.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.66.5...release/v1.20.4-1.67.0
+[release/v1.20.4-1.67.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.67.0...release/v1.20.4-1.67.1
