@@ -11,6 +11,7 @@ package com.klikli_dev.modonomicon.api.datagen.book.condition;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Condition;
+import net.minecraft.core.HolderLookup;
 
 public class BookOrConditionModel extends BookConditionModel<BookOrConditionModel> {
 
@@ -29,11 +30,11 @@ public class BookOrConditionModel extends BookConditionModel<BookOrConditionMode
     }
 
     @Override
-    public JsonObject toJson() {
-        var json = super.toJson();
+    public JsonObject toJson(HolderLookup.Provider provider) {
+        var json = super.toJson(provider);
         var children = new JsonArray();
         for (var child : this.children) {
-            children.add(child.toJson());
+            children.add(child.toJson(provider));
         }
         json.add("children", children);
         return json;

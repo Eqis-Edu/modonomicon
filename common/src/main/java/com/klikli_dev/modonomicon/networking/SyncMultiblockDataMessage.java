@@ -11,7 +11,9 @@ import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
@@ -19,19 +21,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class SyncMultiblockDataMessage implements Message {
-    public static final ResourceLocation ID = new ResourceLocation(Modonomicon.MOD_ID, "sync_multiblock_data");
+
+
+    public static final Type<SyncMultiblockDataMessage> TYPE = new Type<>(new ResourceLocation(Modonomicon.MOD_ID, "sync_multiblock_data"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, SyncMultiblockDataMessage> STREAM_CODEC = CustomPacketPayload.codec(SyncMultiblockDataMessage::encode, SyncMultiblockDataMessage::new);
+
     public ConcurrentMap<ResourceLocation, Multiblock> multiblocks = new ConcurrentHashMap<>();
 
     public SyncMultiblockDataMessage(ConcurrentMap<ResourceLocation, Multiblock> multiblocks) {
         this.multiblocks = multiblocks;
     }
 
-    public SyncMultiblockDataMessage(FriendlyByteBuf buf) {
+    public SyncMultiblockDataMessage(RegistryFriendlyByteBuf buf) {
         this.decode(buf);
     }
 
-    @Override
-    public void encode(FriendlyByteBuf buf) {
+    private void encode(RegistryFriendlyByteBuf buf) {
         buf.writeVarInt(this.multiblocks.size());
         for (var multiblock : this.multiblocks.values()) {
             buf.writeResourceLocation(multiblock.getType());
@@ -40,8 +45,7 @@ public class SyncMultiblockDataMessage implements Message {
         }
     }
 
-    @Override
-    public void decode(FriendlyByteBuf buf) {
+    private void decode(RegistryFriendlyByteBuf buf) {
         int multiblockCount = buf.readVarInt();
         for (int i = 0; i < multiblockCount; i++) {
             var type = buf.readResourceLocation();
@@ -52,9 +56,10 @@ public class SyncMultiblockDataMessage implements Message {
         }
     }
 
+
     @Override
-    public ResourceLocation getId() {
-        return ID;
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
     @Override

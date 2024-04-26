@@ -16,7 +16,8 @@ import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
 import com.klikli_dev.modonomicon.util.EntityUtil;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -47,9 +48,9 @@ public class BookEntityPage extends BookPage {
         this.defaultRotation = defaultRotation;
     }
 
-    public static BookEntityPage fromJson(JsonObject json) {
-        var entityName = BookGsonHelper.getAsBookTextHolder(json, "name", BookTextHolder.EMPTY);
-        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY);
+    public static BookEntityPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+        var entityName = BookGsonHelper.getAsBookTextHolder(json, "name", BookTextHolder.EMPTY, provider);
+        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);
         var entityId = GsonHelper.getAsString(json, "entity_id");
         var scale = GsonHelper.getAsFloat(json, "scale", 1.0f);
         var offset = GsonHelper.getAsFloat(json, "offset", 0.0f);
@@ -58,12 +59,12 @@ public class BookEntityPage extends BookPage {
 
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")
-                ? BookCondition.fromJson(json.getAsJsonObject("condition"))
+                ? BookCondition.fromJson(json.getAsJsonObject("condition"), provider)
                 : new BookNoneCondition();
         return new BookEntityPage(entityName, text, entityId, scale, offset, rotate, defaultRotation, anchor, condition);
     }
 
-    public static BookEntityPage fromNetwork(FriendlyByteBuf buffer) {
+    public static BookEntityPage fromNetwork(RegistryFriendlyByteBuf buffer){
         var entityName = BookTextHolder.fromNetwork(buffer);
         var text = BookTextHolder.fromNetwork(buffer);
         var entityId = buffer.readUtf();
@@ -139,7 +140,7 @@ public class BookEntityPage extends BookPage {
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer) {
+    public void toNetwork(RegistryFriendlyByteBuf buffer) {
         this.entityName.toNetwork(buffer);
         this.text.toNetwork(buffer);
         buffer.writeUtf(this.entityId);

@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Page;
 import com.klikli_dev.modonomicon.api.datagen.book.BookTextHolderModel;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -39,14 +40,15 @@ public class BookSpotlightPageModel extends BookPageModel<BookSpotlightPageModel
     }
 
     @Override
-    public JsonObject toJson() {
-        var json = super.toJson();
-        json.add("title", this.title.toJson());
-        json.add("item", Ingredient.CODEC.encodeStart(JsonOps.INSTANCE,
-                this.item).getOrThrow(false, s -> {
-            throw new IllegalStateException("Could not encode ingredient");
-        }));
-        json.add("text", this.text.toJson());
+    public JsonObject toJson(HolderLookup.Provider provider) {
+        var json = super.toJson(provider);
+        json.add("title", this.title.toJson(provider));
+        json.add("item", Ingredient.CODEC
+                .encodeStart(JsonOps.INSTANCE, this.item)
+                .getOrThrow(s ->
+                        new IllegalStateException("Could not encode ingredient"))
+        );
+        json.add("text", this.text.toJson(provider));
         return json;
     }
 

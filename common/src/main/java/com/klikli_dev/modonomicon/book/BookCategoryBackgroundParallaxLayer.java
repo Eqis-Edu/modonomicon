@@ -12,7 +12,6 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
@@ -54,7 +53,7 @@ public class BookCategoryBackgroundParallaxLayer {
     }
 
     public static BookCategoryBackgroundParallaxLayer fromJson(JsonObject json) {
-        return BookCategoryBackgroundParallaxLayer.CODEC.parse(JsonOps.INSTANCE, json).get().orThrow();
+        return BookCategoryBackgroundParallaxLayer.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
     }
 
     public static List<BookCategoryBackgroundParallaxLayer> fromJson(JsonArray json) {

@@ -7,21 +7,13 @@
 package com.klikli_dev.modonomicon.networking;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
-public interface Message {
-    void encode(FriendlyByteBuf buf);
-
-    void decode(FriendlyByteBuf buf);
-
-    /**
-     * The id of the message for mod loaders that don't use incremental numeric ids, ie Fabric.
-     */
-    ResourceLocation getId();
+public interface Message extends CustomPacketPayload {
 
     default void onClientReceived(Minecraft minecraft, Player player) {
 

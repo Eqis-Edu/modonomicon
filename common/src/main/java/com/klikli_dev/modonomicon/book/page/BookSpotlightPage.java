@@ -17,7 +17,8 @@ import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
@@ -39,20 +40,21 @@ public class BookSpotlightPage extends BookPage {
         this.text = text;
         this.item = item;
     }
-    public static BookSpotlightPage fromJson(JsonObject json) {
-        var title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY);
+
+    public static BookSpotlightPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+        var title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider);
         var item = Ingredient.CODEC.parse(JsonOps.INSTANCE, json.get("item")).result().get();
-        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY);
+        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")
-                ? BookCondition.fromJson(json.getAsJsonObject("condition"))
+                ? BookCondition.fromJson(json.getAsJsonObject("condition"), provider)
                 : new BookNoneCondition();
         return new BookSpotlightPage(title, text, item, anchor, condition);
     }
 
-    public static BookSpotlightPage fromNetwork(FriendlyByteBuf buffer) {
+    public static BookSpotlightPage fromNetwork(RegistryFriendlyByteBuf buffer) {
         var title = BookTextHolder.fromNetwork(buffer);
-        var item = Ingredient.fromNetwork(buffer);
+        var item = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
         var text = BookTextHolder.fromNetwork(buffer);
         var anchor = buffer.readUtf();
         var condition = BookCondition.fromNetwork(buffer);
@@ -110,9 +112,9 @@ public class BookSpotlightPage extends BookPage {
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer) {
+    public void toNetwork(RegistryFriendlyByteBuf buffer) {
         this.title.toNetwork(buffer);
-        this.item.toNetwork(buffer);
+        Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, this.item);
         this.text.toNetwork(buffer);
         super.toNetwork(buffer);
     }

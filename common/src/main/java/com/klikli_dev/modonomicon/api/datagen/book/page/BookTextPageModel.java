@@ -9,6 +9,7 @@ package com.klikli_dev.modonomicon.api.datagen.book.page;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Page;
 import com.klikli_dev.modonomicon.api.datagen.book.BookTextHolderModel;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 
 public class BookTextPageModel extends BookPageModel<BookTextPageModel> {
@@ -42,12 +43,12 @@ public class BookTextPageModel extends BookPageModel<BookTextPageModel> {
     }
 
     @Override
-    public JsonObject toJson() {
-        var json = super.toJson();
-        json.add("title", this.title.toJson());
+    public JsonObject toJson(HolderLookup.Provider provider) {
+        var json = super.toJson(provider);
+        json.add("title", this.title.toJson(provider));
         json.addProperty("use_markdown_in_title", this.useMarkdownInTitle);
         json.addProperty("show_title_separator", this.showTitleSeparator);
-        json.add("text", this.text.toJson());
+        json.add("text", this.text.toJson(provider));
         return json;
     }
 

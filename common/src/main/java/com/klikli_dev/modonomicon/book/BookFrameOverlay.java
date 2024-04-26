@@ -10,7 +10,6 @@ import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 
@@ -64,7 +63,7 @@ public class BookFrameOverlay {
     }
 
     public static BookFrameOverlay fromJson(JsonObject json) {
-        return BookFrameOverlay.CODEC.parse(JsonOps.INSTANCE, json).get().orThrow();
+        return BookFrameOverlay.CODEC.parse(JsonOps.INSTANCE, json).getOrThrow();
     }
 
     public static BookFrameOverlay fromNetwork(FriendlyByteBuf buffer) {

@@ -14,9 +14,7 @@ import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
 import com.klikli_dev.modonomicon.client.ClientTicks;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
-import com.klikli_dev.modonomicon.client.gui.book.button.ArrowButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.BackButton;
-import com.klikli_dev.modonomicon.client.gui.book.button.ExitButton;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.ItemLinkRenderer;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
@@ -28,18 +26,19 @@ import com.klikli_dev.modonomicon.networking.SaveEntryStateMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
 import com.klikli_dev.modonomicon.platform.services.FluidHelper;
-import com.klikli_dev.modonomicon.util.ItemStackUtil;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.brigadier.StringReader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.commands.arguments.item.ItemInput;
+import net.minecraft.commands.arguments.item.ItemParser;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
@@ -49,7 +48,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
 import java.util.Arrays;
@@ -71,6 +71,7 @@ public class BookContentScreen extends BookPaginatedScreen {
     private static long lastTurnPageSoundTime;
     private final BookEntry entry;
     private final ResourceLocation bookContentTexture;
+    private final ItemParser itemParser;
     public int ticksInBook;
     public boolean simulateEscClosing;
     private List<BookPage> unlockedPages;
@@ -83,7 +84,6 @@ public class BookContentScreen extends BookPaginatedScreen {
      */
     private int openPagesIndex;
     private List<Component> tooltip;
-
     private ItemStack tooltipStack;
     private FluidHolder tooltipFluidStack;
     private boolean isHoveringItemLink;
@@ -92,6 +92,7 @@ public class BookContentScreen extends BookPaginatedScreen {
         super(Component.literal(""), parentScreen);
 
         this.minecraft = Minecraft.getInstance();
+        this.itemParser = new ItemParser(this.minecraft.level.registryAccess());
 
         this.entry = entry;
 
@@ -306,7 +307,7 @@ public class BookContentScreen extends BookPaginatedScreen {
         if (leftPageClickedStyle != null) {
             return leftPageClickedStyle;
         }
-		return this.getClickedComponentStyleAtForPage(this.rightPageRenderer, pMouseX, pMouseY);
+        return this.getClickedComponentStyleAtForPage(this.rightPageRenderer, pMouseX, pMouseY);
     }
 
     public int getBookLeft() {
@@ -325,13 +326,13 @@ public class BookContentScreen extends BookPaginatedScreen {
 
     protected void flipPage(boolean left, boolean playSound) {
         if (this.canSeeArrowButton(left)) {
-            
+
             if (left) {
                 this.openPagesIndex -= 2;
             } else {
                 this.openPagesIndex += 2;
             }
-            
+
             this.onPageChanged();
             if (playSound) {
                 playTurnPageSound(this.getBook());
@@ -447,7 +448,7 @@ public class BookContentScreen extends BookPaginatedScreen {
 
         //do not translate super (= widget rendering) -> otherwise our buttons are messed up
         //manually call the renderables like super does -> otherwise super renders the background again on top of our stuff
-        for(var renderable : this.renderables){
+        for (var renderable : this.renderables) {
             renderable.render(guiGraphics, pMouseX, pMouseY, pPartialTick);
         }
 
@@ -720,8 +721,18 @@ public class BookContentScreen extends BookPaginatedScreen {
                     if (ItemLinkRenderer.isItemLink(event.getValue())) {
 
                         if (ModonomiconJeiIntegration.get().isJeiLoaded()) {
-                            var itemId = event.getValue().substring(ItemLinkRenderer.PROTOCOL_ITEM_LENGTH);
-                            var itemStack = ItemStackUtil.loadFromParsed(ItemStackUtil.parseItemStackString(itemId));
+
+                            var itemStack = ItemStack.EMPTY;
+                            try {
+                                var itemId = event.getValue().substring(ItemLinkRenderer.PROTOCOL_ITEM_LENGTH);
+                                var reader = new StringReader(itemId);
+                                var itemResult = this.itemParser.parse(reader);
+                                var itemInput = new ItemInput(itemResult.item(), itemResult.components());
+                                itemStack = itemInput.createItemStack(1, false);
+                            } catch (Exception e) {
+                                Modonomicon.LOG.error("Failed to parse item link: {}", event.getValue(), e);
+                                return true;
+                            }
 
                             this.onClose(); //we have to do this before showing JEI, because super.onClose() clears Gui Layers, and thus would kill JEIs freshly spawned gui
 
@@ -800,7 +811,7 @@ public class BookContentScreen extends BookPaginatedScreen {
             }
         }
 
-        if(super.mouseClicked(pMouseX, pMouseY, pButton)) {
+        if (super.mouseClicked(pMouseX, pMouseY, pButton)) {
             return true;
         }
 

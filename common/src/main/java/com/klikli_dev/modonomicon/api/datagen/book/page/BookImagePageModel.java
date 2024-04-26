@@ -10,9 +10,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Page;
 import com.klikli_dev.modonomicon.api.datagen.book.BookTextHolderModel;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 public class BookImagePageModel extends BookPageModel<BookImagePageModel> {
     protected BookTextHolderModel title = new BookTextHolderModel("");
@@ -46,10 +46,10 @@ public class BookImagePageModel extends BookPageModel<BookImagePageModel> {
     }
 
     @Override
-    public JsonObject toJson() {
-        var json = super.toJson();
-        json.add("title", this.title.toJson());
-        json.add("text", this.text.toJson());
+    public JsonObject toJson(HolderLookup.Provider provider) {
+        var json = super.toJson(provider);
+        json.add("title", this.title.toJson(provider));
+        json.add("text", this.text.toJson(provider));
         json.addProperty("border", this.border);
 
         var imagesArray = new JsonArray();

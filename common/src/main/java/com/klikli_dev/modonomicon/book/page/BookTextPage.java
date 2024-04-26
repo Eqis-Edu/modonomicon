@@ -14,7 +14,8 @@ import com.klikli_dev.modonomicon.book.conditions.BookCondition;
 import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -34,19 +35,19 @@ public class BookTextPage extends BookPage {
         this.showTitleSeparator = showTitleSeparator;
     }
 
-    public static BookTextPage fromJson(JsonObject json) {
-        var title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY);
+    public static BookTextPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+        var title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider);
         var useMarkdownInTitle = GsonHelper.getAsBoolean(json, "use_markdown_title", false);
         var showTitleSeparator = GsonHelper.getAsBoolean(json, "show_title_separator", true);
-        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY);
+        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")
-                ? BookCondition.fromJson(json.getAsJsonObject("condition"))
+                ? BookCondition.fromJson(json.getAsJsonObject("condition"), provider)
                 : new BookNoneCondition();
         return new BookTextPage(title, text, useMarkdownInTitle, showTitleSeparator, anchor, condition);
     }
 
-    public static BookTextPage fromNetwork(FriendlyByteBuf buffer) {
+    public static BookTextPage fromNetwork(RegistryFriendlyByteBuf buffer){
         var title = BookTextHolder.fromNetwork(buffer);
         var useMarkdownInTitle = buffer.readBoolean();
         var showTitleSeparator = buffer.readBoolean();
@@ -102,7 +103,7 @@ public class BookTextPage extends BookPage {
 
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer) {
+    public void toNetwork(RegistryFriendlyByteBuf buffer) {
         this.title.toNetwork(buffer);
         buffer.writeBoolean(this.useMarkdownInTitle);
         buffer.writeBoolean(this.showTitleSeparator);

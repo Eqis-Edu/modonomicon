@@ -15,11 +15,15 @@ import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.level.*;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ColorResolver;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.Rotation;
@@ -44,7 +48,7 @@ public abstract class AbstractMultiblock implements Multiblock {
     protected boolean symmetrical;
     Level level;
 
-    public static Map<Character, StateMatcher> mappingFromJson(JsonObject jsonMapping) {
+    public static Map<Character, StateMatcher> mappingFromJson(JsonObject jsonMapping, HolderLookup.Provider provider) {
         var mapping = new HashMap<Character, StateMatcher>();
         for (Entry<String, JsonElement> entry : jsonMapping.entrySet()) {
             if (entry.getKey().length() != 1)
@@ -52,7 +56,7 @@ public abstract class AbstractMultiblock implements Multiblock {
             char key = entry.getKey().charAt(0);
             var value = entry.getValue().getAsJsonObject();
             var stateMatcherType = ResourceLocation.tryParse(GsonHelper.getAsString(value, "type"));
-            var stateMatcher = LoaderRegistry.getStateMatcherJsonLoader(stateMatcherType).fromJson(value);
+            var stateMatcher = LoaderRegistry.getStateMatcherJsonLoader(stateMatcherType).fromJson(value, provider);
             mapping.put(key, stateMatcher);
         }
 

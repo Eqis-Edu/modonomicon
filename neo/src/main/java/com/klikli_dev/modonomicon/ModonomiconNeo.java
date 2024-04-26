@@ -22,21 +22,18 @@ import com.klikli_dev.modonomicon.registry.CommandRegistry;
 import com.klikli_dev.modonomicon.registry.CreativeModeTabRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.packs.resources.PreparableReloadListener;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.client.event.*;
-import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay;
+import net.neoforged.neoforge.client.gui.VanillaGuiLayers;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
@@ -47,13 +44,10 @@ import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-
 @Mod(Modonomicon.MOD_ID)
 public class ModonomiconNeo {
 
-    public ModonomiconNeo(IEventBus modEventBus) {
+    public ModonomiconNeo(IEventBus modEventBus, ModContainer modContainer) {
         // This method is invoked by the Forge mod loader when it is ready
         // to load your mod. You can access Forge and Common code in this
         // project.
@@ -61,7 +55,7 @@ public class ModonomiconNeo {
         // Use Forge to bootstrap the Common mod.
         Modonomicon.init();
 
-        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.get().spec);
+        modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.get().spec);
 
         //Most registries are handled by common, but creative tabs are easier per loader
         CreativeModeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
@@ -73,7 +67,10 @@ public class ModonomiconNeo {
 
         //register data managers as reload listeners
         NeoForge.EVENT_BUS.addListener((AddReloadListenerEvent e) -> {
+            BookDataManager.get().registries(e.getRegistryAccess());
             e.addListener(BookDataManager.get());
+
+            MultiblockDataManager.get().registries(e.getRegistryAccess());
             e.addListener(MultiblockDataManager.get());
         });
 
@@ -189,10 +186,8 @@ public class ModonomiconNeo {
             event.register(Modonomicon.loc("book_model_loader"), new BookModelLoader());
         }
 
-        public static void onRegisterGuiOverlays(RegisterGuiOverlaysEvent event) {
-            event.registerBelow(VanillaGuiOverlay.BOSS_EVENT_PROGRESS.id(), Modonomicon.loc("multiblock_hud"), (gui, guiGraphics, partialTick, screenWidth, screenHeight) -> {
-                MultiblockPreviewRenderer.onRenderHUD(guiGraphics, partialTick);
-            });
+        public static void onRegisterGuiOverlays(RegisterGuiLayersEvent event) {
+            event.registerBelow(VanillaGuiLayers.BOSS_OVERLAY, Modonomicon.loc("multiblock_hud"), MultiblockPreviewRenderer::onRenderHUD);
         }
     }
 }

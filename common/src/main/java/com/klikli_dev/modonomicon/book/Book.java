@@ -6,19 +6,14 @@
 
 package com.klikli_dev.modonomicon.book;
 
-import com.google.common.base.Suppliers;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data;
-import com.klikli_dev.modonomicon.api.ModonomiconConstants.Nbt;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
-import com.klikli_dev.modonomicon.registry.ItemRegistry;
-import com.klikli_dev.modonomicon.util.ItemStackUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.function.Supplier;
 
 public class Book {
     protected ResourceLocation id;
@@ -83,18 +77,6 @@ public class Book {
     protected int searchButtonYOffset;
     protected int readAllButtonYOffset;
 
-    protected Supplier<ItemStack> bookItem = Suppliers.memoize(() -> {
-        if (this.customBookItem != null) {
-            var parsed = ItemStackUtil.parseItemStackString(this.customBookItem.toString());
-            return ItemStackUtil.loadFromParsed(parsed);
-        }
-        var stack = new ItemStack(ItemRegistry.MODONOMICON.get());
-        var tag = new CompoundTag();
-        tag.putString(Nbt.ITEM_BOOK_ID_TAG, this.id.toString());
-        stack.setTag(tag);
-        return stack;
-    });
-
     public Book(ResourceLocation id, String name, String tooltip, ResourceLocation model, boolean generateBookItem,
                 ResourceLocation customBookItem, String creativeTab, ResourceLocation font, ResourceLocation bookOverviewTexture, ResourceLocation frameTexture,
                 BookFrameOverlay topFrameOverlay, BookFrameOverlay bottomFrameOverlay, BookFrameOverlay leftFrameOverlay, BookFrameOverlay rightFrameOverlay,
@@ -136,7 +118,7 @@ public class Book {
         this.readAllButtonYOffset = readAllButtonYOffset;
     }
 
-    public static Book fromJson(ResourceLocation id, JsonObject json) {
+    public static Book fromJson(ResourceLocation id, JsonObject json, HolderLookup.Provider provider) {
         var name = GsonHelper.getAsString(json, "name");
         var tooltip = GsonHelper.getAsString(json, "tooltip", "");
         var model = new ResourceLocation(GsonHelper.getAsString(json, "model", Data.Book.DEFAULT_MODEL));
@@ -304,10 +286,6 @@ public class Book {
         buffer.writeShort(this.searchButtonXOffset);
         buffer.writeShort(this.searchButtonYOffset);
         buffer.writeShort(this.readAllButtonYOffset);
-    }
-
-    public ItemStack getBookItem() {
-        return this.bookItem.get();
     }
 
     public boolean autoAddReadConditions() {

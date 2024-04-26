@@ -9,7 +9,8 @@ package com.klikli_dev.modonomicon.book.conditions;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.book.conditions.context.BookConditionContext;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -26,30 +27,31 @@ public abstract class BookCondition {
         this.tooltip = tooltip;
     }
 
-    public static MutableComponent tooltipFromJson(JsonObject json) {
+    public static MutableComponent tooltipFromJson(JsonObject json, HolderLookup.Provider provider) {
         if (json.has("tooltip")) {
             var tooltipElement = json.get("tooltip");
             if (tooltipElement.isJsonPrimitive())
                 return Component.translatable(tooltipElement.getAsString());
 
-            return Component.Serializer.fromJson(tooltipElement);
+            return Component.Serializer.fromJson(tooltipElement, provider);
         }
         return null;
     }
 
-    public static BookCondition fromJson(JsonObject json) {
+
+    public static BookCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
         var type = new ResourceLocation(GsonHelper.getAsString(json, "type"));
         var loader = LoaderRegistry.getConditionJsonLoader(type);
-        return loader.fromJson(json);
+        return loader.fromJson(json, provider);
     }
 
-    public static BookCondition fromNetwork(FriendlyByteBuf buf) {
+    public static BookCondition fromNetwork(RegistryFriendlyByteBuf buf) {
         var type = buf.readResourceLocation();
         var loader = LoaderRegistry.getConditionNetworkLoader(type);
         return loader.fromNetwork(buf);
     }
 
-    public static void toNetwork(BookCondition condition, FriendlyByteBuf buf) {
+    public static void toNetwork(BookCondition condition, RegistryFriendlyByteBuf buf) {
         buf.writeResourceLocation(condition.getType());
         condition.toNetwork(buf);
     }
@@ -57,9 +59,9 @@ public abstract class BookCondition {
     public abstract ResourceLocation getType();
 
     /**
-     * Always write type before calling, ideally call {@link #toNetwork(BookCondition, FriendlyByteBuf)}
+     * Always write type before calling, ideally call {@link #toNetwork(BookCondition, RegistryFriendlyByteBuf)}
      */
-    public abstract void toNetwork(FriendlyByteBuf buffer);
+    public abstract void toNetwork(RegistryFriendlyByteBuf buffer);
 
     /**
      * Use this to test the condition for the given player at runtime

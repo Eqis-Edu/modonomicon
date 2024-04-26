@@ -18,7 +18,8 @@ import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
@@ -42,19 +43,19 @@ public class BookMultiblockPage extends BookPage {
         this.showVisualizeButton = showVisualizeButton;
     }
 
-    public static BookMultiblockPage fromJson(JsonObject json) {
-        var multiblockName = BookGsonHelper.getAsBookTextHolder(json, "multiblock_name", BookTextHolder.EMPTY);
+    public static BookMultiblockPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+        var multiblockName = BookGsonHelper.getAsBookTextHolder(json, "multiblock_name", BookTextHolder.EMPTY, provider);
         var multiblockId = ResourceLocation.tryParse(GsonHelper.getAsString(json, "multiblock_id"));
-        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY);
+        var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);
         var showVisualizeButton = GsonHelper.getAsBoolean(json, "show_visualize_button", true);
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")
-                ? BookCondition.fromJson(json.getAsJsonObject("condition"))
+                ? BookCondition.fromJson(json.getAsJsonObject("condition"), provider)
                 : new BookNoneCondition();
         return new BookMultiblockPage(multiblockName, text, multiblockId, showVisualizeButton, anchor, condition);
     }
 
-    public static BookMultiblockPage fromNetwork(FriendlyByteBuf buffer) {
+    public static BookMultiblockPage fromNetwork(RegistryFriendlyByteBuf buffer){
         var multiblockName = BookTextHolder.fromNetwork(buffer);
         var multiblockId = buffer.readResourceLocation();
         var text = BookTextHolder.fromNetwork(buffer);
@@ -112,7 +113,7 @@ public class BookMultiblockPage extends BookPage {
     }
 
     @Override
-    public void toNetwork(FriendlyByteBuf buffer) {
+    public void toNetwork(RegistryFriendlyByteBuf buffer) {
         this.multiblockName.toNetwork(buffer);
         buffer.writeResourceLocation(this.multiblockId);
         this.text.toNetwork(buffer);

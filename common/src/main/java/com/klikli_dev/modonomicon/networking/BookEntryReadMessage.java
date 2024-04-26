@@ -10,13 +10,24 @@ import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 
 public class BookEntryReadMessage implements Message {
 
-    public static final ResourceLocation ID = new ResourceLocation(Modonomicon.MOD_ID, "book_entry_read");
+    public static final Type<BookEntryReadMessage> TYPE = new Type<>(new ResourceLocation(Modonomicon.MOD_ID, "book_entry_read"));
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, BookEntryReadMessage> STREAM_CODEC = StreamCodec.composite(
+            ResourceLocation.STREAM_CODEC,
+            (m) -> m.bookId,
+            ResourceLocation.STREAM_CODEC,
+            (m) -> m.entryId,
+            BookEntryReadMessage::new
+    );
 
     public ResourceLocation bookId;
     public ResourceLocation entryId;
@@ -26,26 +37,9 @@ public class BookEntryReadMessage implements Message {
         this.entryId = entryId;
     }
 
-    public BookEntryReadMessage(FriendlyByteBuf buf) {
-        this.decode(buf);
-    }
-
     @Override
-    public void encode(FriendlyByteBuf buf) {
-        buf.writeResourceLocation(this.bookId);
-        buf.writeResourceLocation(this.entryId);
-    }
-
-    @Override
-    public void decode(FriendlyByteBuf buf) {
-        this.bookId = buf.readResourceLocation();
-        this.entryId = buf.readResourceLocation();
-    }
-
-
-    @Override
-    public ResourceLocation getId() {
-        return ID;
+    public CustomPacketPayload.Type<? extends CustomPacketPayload> type() {
+        return TYPE;
     }
 
     @Override

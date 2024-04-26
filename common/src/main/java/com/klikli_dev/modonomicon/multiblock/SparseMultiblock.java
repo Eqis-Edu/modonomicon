@@ -18,8 +18,10 @@ import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.klikli_dev.modonomicon.multiblock.matcher.Matchers;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.Level;
@@ -44,9 +46,9 @@ public class SparseMultiblock extends AbstractMultiblock {
         this.size = this.calculateSize();
     }
 
-    public static SparseMultiblock fromJson(JsonObject json) {
+    public static SparseMultiblock fromJson(JsonObject json, HolderLookup.Provider provider) {
         var jsonMapping = GsonHelper.getAsJsonObject(json, "mapping");
-        var mapping = mappingFromJson(jsonMapping);
+        var mapping = mappingFromJson(jsonMapping, provider);
 
         //        "pattern": {
 //            "N": [
@@ -89,7 +91,7 @@ public class SparseMultiblock extends AbstractMultiblock {
         return additionalPropertiesFromJson(multiblock, json);
     }
 
-    public static SparseMultiblock fromNetwork(FriendlyByteBuf buffer) {
+    public static SparseMultiblock fromNetwork(RegistryFriendlyByteBuf buffer) {
         var symmetrical = buffer.readBoolean();
         var offX = buffer.readVarInt();
         var offY = buffer.readVarInt();
