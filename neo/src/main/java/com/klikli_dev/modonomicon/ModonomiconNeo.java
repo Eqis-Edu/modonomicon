@@ -38,7 +38,6 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
 import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
@@ -138,17 +137,15 @@ public class ModonomiconNeo {
         public static void onClientSetup(FMLClientSetupEvent event) {
             PageRendererRegistry.registerPageRenderers();
 
-            NeoForge.EVENT_BUS.addListener((TickEvent.ClientTickEvent e) -> {
-                if (e.phase == TickEvent.Phase.END) {
-                    ClientTicks.endClientTick(Minecraft.getInstance());
-                }
+            NeoForge.EVENT_BUS.addListener((ClientTickEvent.Post e) -> {
+                ClientTicks.endClientTick(Minecraft.getInstance());
+                MultiblockPreviewRenderer.onClientTick(Minecraft.getInstance());
             });
-            NeoForge.EVENT_BUS.addListener((TickEvent.RenderTickEvent e) -> {
-                if (e.phase == TickEvent.Phase.START) {
-                    ClientTicks.renderTickStart(e.renderTickTime);
-                } else {
-                    ClientTicks.renderTickEnd();
-                }
+            NeoForge.EVENT_BUS.addListener((RenderFrameEvent.Pre e) -> {
+                ClientTicks.renderTickStart(e.getPartialTick());
+            });
+            NeoForge.EVENT_BUS.addListener((RenderFrameEvent.Post e) -> {
+                ClientTicks.renderTickEnd();
             });
 
             //let multiblock preview renderer handle right clicks for anchoring
@@ -157,13 +154,6 @@ public class ModonomiconNeo {
                 if (result.consumesAction()) {
                     e.setCanceled(true);
                     e.setCancellationResult(result);
-                }
-            });
-
-            //Tick multiblock preview
-            NeoForge.EVENT_BUS.addListener((TickEvent.ClientTickEvent e) -> {
-                if (e.phase == TickEvent.Phase.END) {
-                    MultiblockPreviewRenderer.onClientTick(Minecraft.getInstance());
                 }
             });
 
