@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.6-1.69.3] - 2024-04-30
+### :sparkles: New Features
+- [`37b0a81`](https://github.com/klikli-dev/modonomicon/commit/37b0a81c6895745db38443c41141667c7f506f23) - update to 1.20.6 *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.5-1.69.2] - 2024-04-26
 ### :sparkles: New Features
 - [`cb83152`](https://github.com/klikli-dev/modonomicon/commit/cb83152f762691f8af2656df691c073e0fa1aaa3) - upgrade to 1.20.5 *(PR [#204](https://github.com/klikli-dev/modonomicon/pull/204) by [@klikli-dev](https://github.com/klikli-dev))*
@@ -823,3 +828,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.4-1.69.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.68.0...release/v1.20.4-1.69.0
 [release/v1.20.4-1.69.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.4-1.69.0...release/v1.20.4-1.69.1
 [release/v1.20.5-1.69.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.5-0.0.0...release/v1.20.5-1.69.2
+[release/v1.20.6-1.69.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-0.0.0...release/v1.20.6-1.69.3
