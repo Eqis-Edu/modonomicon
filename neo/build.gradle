@@ -22,6 +22,7 @@ if (file('src/main/resources/META-INF/accesstransformer.cfg').exists()) {
 configurations {
     libraries {}
     implementation.extendsFrom libraries
+    runtimeClasspath.extendsFrom localRuntime
 }
 
 runs {
@@ -61,7 +62,7 @@ dependencies {
     //Jei
 //    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
 //    compileOnly "mezz.jei:jei-${minecraft_version}-neoforge-api:${jei_version}"
-//    runtimeOnly "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
+//    localRuntime "mezz.jei:jei-${minecraft_version}-neoforge:${jei_version}"
 
 //    implementation "vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}-FORGE"
 
