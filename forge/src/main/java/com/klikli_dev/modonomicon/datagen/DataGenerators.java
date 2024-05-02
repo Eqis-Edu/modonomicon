@@ -18,12 +18,12 @@ public class DataGenerators {
     public static void gatherData(GatherDataEvent event) {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
-
+        var registries = event.getLookupProvider();
 
         //We use a language cache that the book provider can write into
         var enUsCache = new LanguageProviderCache("en_us");
 
-        generator.addProvider(event.includeServer(), new DemoBookProvider(generator.getPackOutput(), Modonomicon.MOD_ID, enUsCache));
+        generator.addProvider(event.includeServer(), new DemoBookProvider(generator.getPackOutput(), registries, Modonomicon.MOD_ID, enUsCache));
         generator.addProvider(event.includeServer(), new DemoMultiblockProvider(generator.getPackOutput(), Modonomicon.MOD_ID));
 
         //Important: lang provider needs to be added after the book provider, so it can read the texts added by the book provider out of the cache

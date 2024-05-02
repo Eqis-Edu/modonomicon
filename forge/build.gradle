@@ -1,7 +1,7 @@
 plugins {
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0.16,6.2)'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
     id 'java-library'
 }
 
@@ -16,6 +16,9 @@ base {
 
 minecraft {
     mappings channel: forge_mapping_channel, version: forge_mapping_version
+
+    // Tell FG to not automtically create the reobf tasks, as we now use Official mappings at runtime, If you don't use them at dev time then you'll have to fix your reobf yourself.
+    reobf = false
 
     // When true, this property will have all Eclipse/IntelliJ IDEA run configurations run the "prepareX" task for the given run configuration before launching the game.
     // In most cases, it is not necessary to enable.
@@ -87,11 +90,14 @@ dependencies {
     compileOnly project(":common")
 
     //Jei
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
-    compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+//    compileOnly "mezz.jei:jei-${minecraft_version}-common-api:${jei_version}"
+//    compileOnly "mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}"
+//    runtimeOnly "mezz.jei:jei-${minecraft_version}-forge:${jei_version}"
 
 //    implementation "vazkii.patchouli:Patchouli:${minecraft_version}-${patchouli_version}-FORGE"
+
+    // Hack fix for now, force jopt-simple to be exactly 5.0.4 because Mojang ships that version, but some transtive dependencies request 6.0+
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 
     //commonmark
     //mark it for forge to add to the classpath
@@ -126,14 +132,14 @@ tasks.named("sourcesJar", Jar) {
 
 tasks.named('jar') {
     archiveClassifier = "slim"
-    finalizedBy('reobfJar')
+//    finalizedBy('reobfJar')
 }
 
 tasks.named('build').configure { dependsOn('jarJar') }
 jarJar.enable()
 tasks.named('jarJar') {
     archiveClassifier = ""
-    finalizedBy('reobfJar')
+//    finalizedBy('reobfJar')
 }
 
 tasks.withType(ProcessResources).configureEach {
