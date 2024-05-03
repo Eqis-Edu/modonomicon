@@ -177,7 +177,9 @@ public class ModonomiconForge {
             //Render multiblock preview
             MinecraftForge.EVENT_BUS.addListener((RenderLevelStageEvent e) -> {
                 if (e.getStage() == RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS) { //After translucent causes block entities to error out on render in preview
-                    MultiblockPreviewRenderer.onRenderLevelLastEvent(e.getPoseStack());
+                    var pose = new PoseStack();
+                    pose.last().pose = e.getPoseStack();
+                    MultiblockPreviewRenderer.onRenderLevelLastEvent(pose);
                 }
             });
         }
