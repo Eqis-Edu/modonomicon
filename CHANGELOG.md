@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.6-1.70.1] - 2024-05-03
+### :bug: Bug Fixes
+- [`4eb2c70`](https://github.com/klikli-dev/modonomicon/commit/4eb2c70617d5712e7b5e4ca1f85fa730e347c6b2) - workaround for use of internal commonmark modules in extensions *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`248f556`](https://github.com/klikli-dev/modonomicon/commit/248f556977594bb1ca313780d151ce48948e5009) - copy remaining internal commonmark classes to modonomicon *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`e1fef95`](https://github.com/klikli-dev/modonomicon/commit/e1fef951de574c6e38e2a24c9c4770ebce410173) - prepare for forge 1.20.6 *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`283d6ad`](https://github.com/klikli-dev/modonomicon/commit/283d6adba262efc48cc84f8f9e453312e2988ff2) - more preparations for forge 1.20.6 *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`f3b21df`](https://github.com/klikli-dev/modonomicon/commit/f3b21dfc16f03d47fbaad2eebb18fa66d178fa2e) - re-establish reuse compliance *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.6-1.70.0] - 2024-05-01
 ### :sparkles: New Features
 - [`6a472c3`](https://github.com/klikli-dev/modonomicon/commit/6a472c318aed9c4047db10fbd61a6ce882f0382e) - Dynamic BookEntries *(PR [#202](https://github.com/klikli-dev/modonomicon/pull/202) by [@klikli-dev](https://github.com/klikli-dev))*
@@ -838,3 +849,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.5-1.69.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.5-0.0.0...release/v1.20.5-1.69.2
 [release/v1.20.6-1.69.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-0.0.0...release/v1.20.6-1.69.3
 [release/v1.20.6-1.70.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.69.3...release/v1.20.6-1.70.0
+[release/v1.20.6-1.70.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.70.0...release/v1.20.6-1.70.1
