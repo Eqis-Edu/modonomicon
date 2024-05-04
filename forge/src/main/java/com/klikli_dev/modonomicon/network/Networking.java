@@ -8,12 +8,18 @@ package com.klikli_dev.modonomicon.network;
 
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.networking.*;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.common.util.LogicalSidedProvider;
 import net.minecraftforge.event.network.CustomPayloadEvent;
+import net.minecraftforge.fml.LogicalSide;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.PacketDistributor;
 import net.minecraftforge.network.SimpleChannel;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.function.BiConsumer;
 
@@ -32,13 +38,13 @@ public class Networking {
     }
 
     public static void registerMessages() {
-
         INSTANCE.messageBuilder(BookEntryReadMessage.class)
                 .encoder(BookEntryReadMessage::encode)
                 .decoder(BookEntryReadMessage::new)
                 .consumerNetworkThread((BiConsumer<BookEntryReadMessage, CustomPayloadEvent.Context>) MessageHandler::handle)
                 .add();
 
+        RegistryFriendlyByteBuf.
         INSTANCE.messageBuilder(ClickCommandLinkMessage.class)
                 .encoder(ClickCommandLinkMessage::encode)
                 .decoder(ClickCommandLinkMessage::new)

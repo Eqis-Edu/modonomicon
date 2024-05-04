@@ -6,7 +6,10 @@
 
 package com.klikli_dev.modonomicon.fluid;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
@@ -18,15 +21,20 @@ public class ForgeFluidHolder implements FluidHolder {
     }
 
     public ForgeFluidHolder(FluidHolder fluid) {
-        this(fluid.getFluid(), fluid.getAmount(), fluid.getTag());
+        this(fluid.getFluid(), fluid.getAmount(), fluid.getComponents());
     }
 
     public ForgeFluidHolder(Fluid fluid, int amount, CompoundTag tag) {
         this.fluidStack = new FluidStack(fluid, amount, tag);
     }
 
+    public ForgeFluidHolder(Holder<Fluid> fluid, int amount, DataComponentPatch patch) {
+        this.fluidStack = new FluidStack(fluid.value(), amount, (CompoundTag) DataComponentPatch.CODEC.encodeStart(NbtOps.INSTANCE, patch).getOrThrow());
+    }
+
+
     public static FluidStack toStack(FluidHolder fluidHolder) {
-        return new FluidStack(fluidHolder.getFluid(), fluidHolder.getAmount(), fluidHolder.getTag());
+        return new FluidStack(fluidHolder.getFluid().value(), fluidHolder.getAmount(), (CompoundTag) DataComponentPatch.CODEC.encodeStart(NbtOps.INSTANCE, fluidHolder.getComponents()).getOrThrow());
     }
 
     public static ForgeFluidHolder empty() {
@@ -34,8 +42,8 @@ public class ForgeFluidHolder implements FluidHolder {
     }
 
     @Override
-    public Fluid getFluid() {
-        return this.fluidStack.getFluid();
+    public Holder<Fluid> getFluid() {
+        return this.fluidStack.getFluid().builtInRegistryHolder();
     }
 
     @Override
@@ -54,26 +62,16 @@ public class ForgeFluidHolder implements FluidHolder {
     }
 
     @Override
-    public boolean hasTag() {
-        return this.fluidStack.hasTag();
-    }
-
-    @Override
-    public CompoundTag getTag() {
-        return this.fluidStack.getTag();
-    }
-
-    @Override
-    public void setTag(CompoundTag tag) {
-        this.fluidStack.setTag(tag);
+    public DataComponentPatch getComponents() {
+        return DataComponentPatch.CODEC.decode(NbtOps.INSTANCE, this.fluidStack.getTag()).getOrThrow().getFirst();
     }
 
     @Override
     public FluidHolder copy() {
-        return new ForgeFluidHolder(this.getFluid(), this.getAmount(), this.getTag());
+        return new ForgeFluidHolder(this.getFluid().value(), this.getAmount(), this.fluidStack.getTag());
     }
 
     public FluidStack toStack() {
-        return new FluidStack(this.getFluid(), this.getAmount(), this.getTag());
+        return new FluidStack(this.getFluid().value(), this.getAmount(), this.fluidStack.getTag());
     }
 }

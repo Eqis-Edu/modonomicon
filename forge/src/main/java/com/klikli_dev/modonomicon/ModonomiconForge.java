@@ -47,6 +47,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.server.ServerLifecycleHooks;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -124,7 +125,7 @@ public class ModonomiconForge {
         if (FMLEnvironment.dist == Dist.CLIENT) {
             modEventBus.addListener(Client::onClientSetup);
             modEventBus.addListener(Client::onRegisterGeometryLoaders);
-            modEventBus.addListener(Client::onRegisterGuiOverlays);
+//            modEventBus.addListener(Client::onRegisterGuiOverlays);
             //build books and render markdown when client receives recipes
             MinecraftForge.EVENT_BUS.addListener(Client::onRecipesUpdated);
 
@@ -174,14 +175,15 @@ public class ModonomiconForge {
                 }
             });
 
-            //Render multiblock preview
-            MinecraftForge.EVENT_BUS.addListener((RenderLevelStageEvent e) -> {
-                if (e.getStage() == RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS) { //After translucent causes block entities to error out on render in preview
-                    var pose = new PoseStack();
-                    pose.last().pose = e.getPoseStack();
-                    MultiblockPreviewRenderer.onRenderLevelLastEvent(pose);
-                }
-            });
+//            //Render multiblock preview
+              //currently done with MixinLevelRenderer because forge no longer gives us a posestack ..
+//            MinecraftForge.EVENT_BUS.addListener((RenderLevelStageEvent e) -> {
+//                if (e.getStage() == RenderLevelStageEvent.Stage.AFTER_TRIPWIRE_BLOCKS) { //After translucent causes block entities to error out on render in preview
+//                    var pose = new PoseStack();
+//                    pose.last().pose = e.getPoseStack();
+//                    MultiblockPreviewRenderer.onRenderLevelLastEvent(pose);
+//                }
+//            });
         }
 
         /**
@@ -195,10 +197,11 @@ public class ModonomiconForge {
             event.register("book_model_loader", new BookModelLoader());
         }
 
-        public static void onRegisterGuiOverlays(RegisterGuiOverlaysEvent event) {
-            event.registerBelow(VanillaGuiOverlay.BOSS_EVENT_PROGRESS.id(), "multiblock_hud", (gui, guiGraphics, partialTick, screenWidth, screenHeight) -> {
-                MultiblockPreviewRenderer.onRenderHUD(guiGraphics, partialTick);
-            });
-        }
+        //Currently done in MixinGui because forge removed the event and LayeredDraw seems not up to the task yet
+//        public static void onRegisterGuiOverlays(RegisterGuiOverlaysEvent event) {
+//            event.registerBelow(VanillaGuiOverlay.BOSS_EVENT_PROGRESS.id(), "multiblock_hud", (gui, guiGraphics, partialTick, screenWidth, screenHeight) -> {
+//                MultiblockPreviewRenderer.onRenderHUD(guiGraphics, partialTick);
+//            });
+//        }
     }
 }
