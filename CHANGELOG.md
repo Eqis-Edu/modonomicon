@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.6-1.71.1] - 2024-05-04
+### :sparkles: New Features
+- [`695adda`](https://github.com/klikli-dev/modonomicon/commit/695adda40c7628a1646c6306ab87a18b5f374b56) - Catch errors on entry rendering sooner ([#205](https://github.com/klikli-dev/modonomicon/pull/205)) - thanks @DaFuqs *(commit by [@DaFuqs](https://github.com/DaFuqs))*
+
+### :bug: Bug Fixes
+- [`a049c8f`](https://github.com/klikli-dev/modonomicon/commit/a049c8f74c1b2aa305143bc585ad4bdf12c67e83) - use of StreamCodec.unit requires singeltons *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.6-1.70.1] - 2024-05-03
 ### :bug: Bug Fixes
 - [`4eb2c70`](https://github.com/klikli-dev/modonomicon/commit/4eb2c70617d5712e7b5e4ca1f85fa730e347c6b2) - workaround for use of internal commonmark modules in extensions *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -850,3 +858,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.6-1.69.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-0.0.0...release/v1.20.6-1.69.3
 [release/v1.20.6-1.70.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.69.3...release/v1.20.6-1.70.0
 [release/v1.20.6-1.70.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.70.0...release/v1.20.6-1.70.1
+[release/v1.20.6-1.71.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.70.1...release/v1.20.6-1.71.1
