@@ -20,6 +20,8 @@ mixin {
 
     config("${mod_id}.mixins.json")
     config("${mod_id}.forge.mixins.json")
+    debug.verbose = true
+    debug.export = true
 }
 
 minecraft {
