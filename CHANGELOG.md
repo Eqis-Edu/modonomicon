@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.6-1.72.0] - 2024-05-18
+### :sparkles: New Features
+- [`5bf0291`](https://github.com/klikli-dev/modonomicon/commit/5bf02914e0755eb25a241e01d424dcd804cb9993) - Use FastUtil instead of regular Java collections *(PR [#206](https://github.com/klikli-dev/modonomicon/pull/206) by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`ccfc2ad`](https://github.com/klikli-dev/modonomicon/commit/ccfc2ad1eec954e0a3f59a55437c8b80b6307923) - more forge 1.20.6 preparations *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`b69e669`](https://github.com/klikli-dev/modonomicon/commit/b69e66924b04ce910a4da699a29617dab0bcff58) - more forge prep *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.6-1.71.1] - 2024-05-04
 ### :sparkles: New Features
 - [`695adda`](https://github.com/klikli-dev/modonomicon/commit/695adda40c7628a1646c6306ab87a18b5f374b56) - Catch errors on entry rendering sooner ([#205](https://github.com/klikli-dev/modonomicon/pull/205)) - thanks @DaFuqs *(commit by [@DaFuqs](https://github.com/DaFuqs))*
@@ -859,3 +868,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.6-1.70.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.69.3...release/v1.20.6-1.70.0
 [release/v1.20.6-1.70.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.70.0...release/v1.20.6-1.70.1
 [release/v1.20.6-1.71.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.70.1...release/v1.20.6-1.71.1
+[release/v1.20.6-1.72.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.71.1...release/v1.20.6-1.72.0
