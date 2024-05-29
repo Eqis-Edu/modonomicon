@@ -14,7 +14,7 @@ import net.minecraftforge.fml.LogicalSide;
 public class MessageHandler {
 
     public static <T extends Message> void handle(T message, CustomPayloadEvent.Context ctx) {
-        if (ctx.getDirection().getReceptionSide() == LogicalSide.SERVER) {
+        if (ctx.isServerSide()) {
             ctx.enqueueWork(() -> {
                 handleServer(message, ctx);
             });
