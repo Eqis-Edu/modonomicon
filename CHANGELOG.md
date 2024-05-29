@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.6-1.72.1] - 2024-05-29
+### :bug: Bug Fixes
+- [`b5c0225`](https://github.com/klikli-dev/modonomicon/commit/b5c0225a2e9e0d4d4e90a52327d280a602ad9bbb) - creative mode tab double registration *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`0e8bfeb`](https://github.com/klikli-dev/modonomicon/commit/0e8bfeb30be2c4c34f6a0381249a98b91de3565b) - small forge prep *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.6-1.72.0] - 2024-05-18
 ### :sparkles: New Features
 - [`5bf0291`](https://github.com/klikli-dev/modonomicon/commit/5bf02914e0755eb25a241e01d424dcd804cb9993) - Use FastUtil instead of regular Java collections *(PR [#206](https://github.com/klikli-dev/modonomicon/pull/206) by [@klikli-dev](https://github.com/klikli-dev))*
@@ -869,3 +877,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.6-1.70.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.70.0...release/v1.20.6-1.70.1
 [release/v1.20.6-1.71.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.70.1...release/v1.20.6-1.71.1
 [release/v1.20.6-1.72.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.71.1...release/v1.20.6-1.72.0
+[release/v1.20.6-1.72.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.72.0...release/v1.20.6-1.72.1
