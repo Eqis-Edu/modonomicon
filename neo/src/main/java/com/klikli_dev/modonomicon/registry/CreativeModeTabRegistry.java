@@ -43,8 +43,8 @@ public class CreativeModeTabRegistry {
                     ItemStack stack = new ItemStack(ItemRegistry.MODONOMICON.get());
 
                     stack.set(DataComponentRegistry.BOOK_ID.get(), b.getId());
-
-                    event.accept(stack);
+                    if(!event.getEntries().contains(stack))
+                        event.accept(stack);
                 }
             }
         });

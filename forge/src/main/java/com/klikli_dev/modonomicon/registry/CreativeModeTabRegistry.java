@@ -45,8 +45,8 @@ public class CreativeModeTabRegistry {
                     cmp.putString(ModonomiconConstants.Nbt.ITEM_BOOK_ID_TAG, b.getId().toString());
 
                     stack.set(DataComponentRegistry.BOOK_ID.get(), b.getId());
-
-                    event.accept(stack);
+                    if(!event.getEntries().contains(stack))
+                        event.accept(stack);
                 }
             }
         });
