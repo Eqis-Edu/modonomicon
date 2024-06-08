@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.6-1.73.1] - 2024-06-08
+### :bug: Bug Fixes
+- [`54a626b`](https://github.com/klikli-dev/modonomicon/commit/54a626bca7c0ab32034fb199279b9ec78fee2bca) - book closes entirely in some cases instead of closing the open entry *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`06166b2`](https://github.com/klikli-dev/modonomicon/commit/06166b25bf56d5ef02fc35661aeeb3e46fa7bac0) - update neo version *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.6-1.73.0] - 2024-06-07
 ### :sparkles: New Features
 - [`09572c7`](https://github.com/klikli-dev/modonomicon/commit/09572c7ed1ace995a7832c0458ff87be0c940ce0) - enable forge support *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -895,3 +903,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.6-1.72.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.72.0...release/v1.20.6-1.72.1
 [release/v1.20.6-1.72.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.72.1...release/v1.20.6-1.72.2
 [release/v1.20.6-1.73.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.72.2...release/v1.20.6-1.73.0
+[release/v1.20.6-1.73.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.73.0...release/v1.20.6-1.73.1
