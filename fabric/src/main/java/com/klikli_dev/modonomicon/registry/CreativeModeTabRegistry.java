@@ -47,7 +47,7 @@ public class CreativeModeTabRegistry {
                     stack.set(DataComponentRegistry.BOOK_ID.get(), b.getId());
 
                     if(searchDupes.add(stack))
-                        entries.accept(stack);
+                        entries.accept(stack, tabKey == CreativeModeTabs.SEARCH ? CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY : CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 }
             }
         });
