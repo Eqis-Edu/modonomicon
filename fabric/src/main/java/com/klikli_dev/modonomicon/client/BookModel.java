@@ -71,7 +71,7 @@ public class BookModel implements BakedModel {
         };
     }
 
-    public static void replace(Map<ResourceLocation, BakedModel> models, ModelBakery bakery) {
+    public static void replace(Map<ModelResourceLocation, BakedModel> models, ModelBakery bakery) {
         ModelResourceLocation key = new ModelResourceLocation(ItemRegistry.MODONOMICON.getId(), "inventory");
         models.computeIfPresent(key, (k, oldModel) -> new BookModel(oldModel, bakery));
     }

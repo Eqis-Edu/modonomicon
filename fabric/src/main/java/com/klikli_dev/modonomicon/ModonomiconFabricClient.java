@@ -22,6 +22,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.client.DeltaTracker;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
@@ -65,7 +67,8 @@ public class ModonomiconFabricClient implements ClientModInitializer {
         //done in MixinLevelRenderer, because we have no event in Fabric
 
         //render multiblock hud
-        HudRenderCallback.EVENT.register(MultiblockPreviewRenderer::onRenderHUD);
+        HudRenderCallback.EVENT.register((drawContext, tickCounter) ->
+                MultiblockPreviewRenderer.onRenderHUD(drawContext, tickCounter.getGameTimeDeltaPartialTick(true)));
 
         //register client side reload listener that will reset the fallback font to handle locale changes on the fly
         ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new ReloadListenerWrapper(

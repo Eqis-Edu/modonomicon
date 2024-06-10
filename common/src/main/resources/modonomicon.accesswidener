@@ -12,3 +12,4 @@ accessible field net/minecraft/world/item/crafting/SmithingTrimRecipe addition L
 accessible field net/minecraft/world/item/crafting/SmithingTrimRecipe template Lnet/minecraft/world/item/crafting/Ingredient;
 accessible method net/minecraft/client/gui/GuiGraphics flushIfUnmanaged ()V
 extendable method net/minecraft/client/gui/components/AbstractWidget render (Lnet/minecraft/client/gui/GuiGraphics;IIF)V
+accessible method net/minecraft/client/resources/model/ModelBakery getModel (Lnet/minecraft/resources/ResourceLocation;)Lnet/minecraft/client/resources/model/UnbakedModel;
