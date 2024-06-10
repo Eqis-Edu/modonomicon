@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.20.6-1.73.3] - 2024-06-10
+### :bug: Bug Fixes
+- [`5765bc5`](https://github.com/klikli-dev/modonomicon/commit/5765bc5967724f4c942d18e2fb6da7b96e3083bb) - creative tab crash related to search tab *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.20.6-1.73.2] - 2024-06-10
 ### :bug: Bug Fixes
 - [`323a0ff`](https://github.com/klikli-dev/modonomicon/commit/323a0ff86800f8273d0d8e968ae5ab4e68b06ed2) - add custom anti-duplication handling for creative tabs *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -913,3 +918,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.20.6-1.73.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.72.2...release/v1.20.6-1.73.0
 [release/v1.20.6-1.73.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.73.0...release/v1.20.6-1.73.1
 [release/v1.20.6-1.73.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.73.1...release/v1.20.6-1.73.2
+[release/v1.20.6-1.73.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.20.6-1.73.2...release/v1.20.6-1.73.3
