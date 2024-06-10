@@ -9,6 +9,7 @@ package com.klikli_dev.modonomicon.registry;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.data.BookDataManager;
+import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenCustomHashSet;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackLinkedSet;
 
 public class CreativeModeTabRegistry {
 
@@ -31,6 +33,11 @@ public class CreativeModeTabRegistry {
 
     public static void onModifyEntries(CreativeModeTab group, FabricItemGroupEntries entries) {
         var tabKey = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(group).get();
+
+        //From: Neo EventHooks#onCreativeModeTabBuildContents
+        //we need to use it here to test before inserting, because event.getEntries().contains uses a different hashing strategy and is thus not reliable
+        final var searchDupes = ItemStackLinkedSet.createTypeAndComponentsSet();
+
         BookDataManager.get().getBooks().values().forEach(b -> {
             if (tabKey == CreativeModeTabs.SEARCH ||
                     BuiltInRegistries.CREATIVE_MODE_TAB.get(new ResourceLocation(b.getCreativeTab())) == group) {
@@ -39,7 +46,7 @@ public class CreativeModeTabRegistry {
                     
                     stack.set(DataComponentRegistry.BOOK_ID.get(), b.getId());
 
-                    if(!entries.getSearchTabStacks().contains(stack))
+                    if(searchDupes.add(stack))
                         entries.accept(stack);
                 }
             }
