@@ -14,11 +14,13 @@ import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.Level;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -46,7 +48,18 @@ public class BookCategory {
     protected BookCondition condition;
     protected boolean showCategoryButton;
 
-    public BookCategory(ResourceLocation id, String name, int sortNumber, BookCondition condition, boolean showCategoryButton, BookIcon icon, ResourceLocation background, int backgroundWidth, int backgroundHeight, float backgroundTextureZoomMultiplier, List<BookCategoryBackgroundParallaxLayer> backgroundParallaxLayers, ResourceLocation entryTextures) {
+    /**
+     * The entry to open when this category is opened.
+     * If null, no entry will be opened.
+     */
+    protected ResourceLocation entryToOpen;
+    /**
+     * If true, the entryToOpen will only be opened the first time the category is opened.
+     * If false, the entryToOpen will be opened every time the category is opened.
+     */
+    protected boolean openEntryToOpenOnlyOnce;
+
+    public BookCategory(ResourceLocation id, String name, int sortNumber, BookCondition condition, boolean showCategoryButton, BookIcon icon, ResourceLocation background, int backgroundWidth, int backgroundHeight, float backgroundTextureZoomMultiplier, List<BookCategoryBackgroundParallaxLayer> backgroundParallaxLayers, ResourceLocation entryTextures, ResourceLocation entryToOpen, boolean openEntryOnlyOnce) {
         this.id = id;
         this.name = name;
         this.sortNumber = sortNumber;
@@ -60,6 +73,8 @@ public class BookCategory {
         this.backgroundParallaxLayers = backgroundParallaxLayers;
         this.entryTextures = entryTextures;
         this.entries = new ConcurrentHashMap<>();
+        this.entryToOpen = entryToOpen;
+        this.openEntryToOpenOnlyOnce = openEntryOnlyOnce;
     }
 
     public static BookCategory fromJson(ResourceLocation id, JsonObject json, HolderLookup.Provider provider) {
@@ -82,7 +97,13 @@ public class BookCategory {
         if (json.has("background_parallax_layers"))
             backgroundParallaxLayers = BookCategoryBackgroundParallaxLayer.fromJson(json.getAsJsonArray("background_parallax_layers"));
 
-        return new BookCategory(id, name, sortNumber, condition, showCategoryButton, icon, background, backgroundWidth, backgroundHeight, backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures);
+        ResourceLocation entryToOpen = null;
+        if (json.has("entry_to_open")) {
+            entryToOpen = ResourceLocation.parse(GsonHelper.getAsString(json, "entry_to_open"));
+        }
+        boolean openEntryOnlyOnce = GsonHelper.getAsBoolean(json, "open_entry_to_open_only_once", true);
+
+        return new BookCategory(id, name, sortNumber, condition, showCategoryButton, icon, background, backgroundWidth, backgroundHeight, backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures, entryToOpen, openEntryOnlyOnce);
     }
 
     public static BookCategory fromNetwork(ResourceLocation id, RegistryFriendlyByteBuf buffer) {
@@ -97,9 +118,12 @@ public class BookCategory {
         var entryTextures = buffer.readResourceLocation();
         var condition = BookCondition.fromNetwork(buffer);
         var showCategoryButton = buffer.readBoolean();
+        var entryToOpen = buffer.readNullable(FriendlyByteBuf::readResourceLocation);
+        var openEntryOnlyOnce = buffer.readBoolean();
         return new BookCategory(id, name, sortNumber, condition, showCategoryButton, icon, background, backgroundWidth, backgroundHeight,
-                backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures);
+                backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures, entryToOpen, openEntryOnlyOnce);
     }
+
 
     public void toNetwork(RegistryFriendlyByteBuf buffer) {
         buffer.writeUtf(this.name);
@@ -113,10 +137,8 @@ public class BookCategory {
         buffer.writeResourceLocation(this.entryTextures);
         BookCondition.toNetwork(this.condition, buffer);
         buffer.writeBoolean(this.showCategoryButton);
-    }
-
-    public boolean showCategoryButton() {
-        return this.showCategoryButton;
+        buffer.writeNullable(this.entryToOpen, FriendlyByteBuf::writeResourceLocation);
+        buffer.writeBoolean(this.openEntryToOpenOnlyOnce);
     }
 
     /**
@@ -130,6 +152,13 @@ public class BookCategory {
             entry.build(level, this);
             BookErrorManager.get().getContextHelper().entryId = null;
         }
+
+        if (this.entryToOpen != null) {
+            var entry = this.entries.get(this.entryToOpen);
+            if (entry == null) { //entry must exist in category!
+                BookErrorManager.get().error(MessageFormat.format("EntryToOpen \"{0}\" in Category \"{1}\" does not exist.", this.entryToOpen, this.getId()));
+            }
+        }
     }
 
     /**
@@ -141,7 +170,7 @@ public class BookCategory {
             try {
                 entry.prerenderMarkdown(textRenderer);
             } catch (Exception e) {
-                BookErrorManager.get().error("Failed to render markdown in book '" + book.getId() + "' for entry '" + entry.getId() + "'", e);
+                BookErrorManager.get().error("Failed to render markdown in book '" + this.book.getId() + "' for entry '" + entry.getId() + "'", e);
             }
 
             BookErrorManager.get().getContextHelper().entryId = null;
@@ -206,5 +235,18 @@ public class BookCategory {
 
     public BookCondition getCondition() {
         return this.condition;
+    }
+
+
+    public boolean openEntryToOpenOnlyOnce() {
+        return this.openEntryToOpenOnlyOnce;
+    }
+
+    public ResourceLocation getEntryToOpen() {
+        return this.entryToOpen;
+    }
+
+    public boolean showCategoryButton() {
+        return this.showCategoryButton;
     }
 }

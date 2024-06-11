@@ -44,9 +44,9 @@ public class FormattingCategoryProvider extends CategoryProvider {
 
     @Override
     protected BookCategoryModel generateCategory() {
-
         return BookCategoryModel.create(this.modLoc(this.context().categoryId()), this.context().categoryName())
-                .withIcon(ResourceLocation.parse("minecraft:textures/item/book.png"));
+                .withIcon(ResourceLocation.parse("minecraft:textures/item/book.png"))
+                .withEntryToOpen(this.modLoc("formatting/basic"));
     }
 
     private BookEntryModel makeBasicFormattingEntry(char location) {

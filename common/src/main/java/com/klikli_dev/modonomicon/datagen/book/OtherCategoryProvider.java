@@ -53,6 +53,7 @@ public class OtherCategoryProvider extends CategoryProvider {
     protected BookCategoryModel generateCategory() {
         this.add(this.context().categoryName(), "Other");
         return BookCategoryModel.create(this.modLoc(this.context().categoryId()), this.context().categoryName())
-                .withIcon(Items.FEATHER);
+                .withIcon(Items.FEATHER)
+                .withEntryToOpen(this.modLoc("other/a"), false);
     }
 }

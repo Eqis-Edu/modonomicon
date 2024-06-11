@@ -430,6 +430,16 @@ public class BookCategoryScreen {
 
     public void onDisplay() {
         this.loadCategoryState();
+
+        //handle the entryToOpen
+        if(this.openEntry == null && this.category.getEntryToOpen() != null){
+            var entryToOpen = this.category.getEntry(this.category.getEntryToOpen());
+            //the entry is by default only opened if it was not read yet.
+            //however, the book author can override this with openEntryToOpenOnlyOnce = false
+            if(!this.category.openEntryToOpenOnlyOnce() || !BookUnlockStateManager.get().isReadFor(Minecraft.getInstance().player, entryToOpen)){
+                this.openEntry(entryToOpen);
+            }
+        }
     }
 
     public void onClose() {
