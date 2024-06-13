@@ -66,6 +66,9 @@ public class EnUsProvider extends AbstractModonomiconLanguageProvider {
         this.add(Gui.OPEN_SEARCH, "Open Search");
 
 
+        this.add(Gui.BOOK_INDEX_LIST_TITLE, "Categories");
+        this.add(Gui.CATEGORY_INDEX_LIST_TITLE, "Entries");
+
         this.add(Gui.RECIPE_PAGE_RECIPE_MISSING, "Recipe %s was not found! This may be an issue with the mod, or the modpack may have disabled it.");
 
         //Tooltip
@@ -144,7 +147,7 @@ public class EnUsProvider extends AbstractModonomiconLanguageProvider {
         this.add(helper.pageText(), "Multiblock pages allow to preview multiblocks both in the book and in the world.");
 
         helper.page("preview");
-        this.add("multiblocks.modonomicon.blockentity", "Blockentity Multiblock."); //TODO: should probably move into another part of langgen
+        this.add("multiblocks.modonomicon.blockentity", "Blockentity Multiblock.");
         this.add(helper.pageText(), "A sample multiblock.");
 
         this.add(helper.entryName(), "Multiblock Entry");

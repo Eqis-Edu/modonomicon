@@ -10,10 +10,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Category;
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookConditionModel;
+import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.klikli_dev.modonomicon.book.BookCategoryBackgroundParallaxLayer;
+import com.klikli_dev.modonomicon.book.BookDisplayMode;
 import com.klikli_dev.modonomicon.registry.ItemRegistry;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +29,17 @@ public class BookCategoryModel {
 
     protected ResourceLocation id;
     protected String name;
+    /**
+     * The description to (optionally) display on the first page of the category.
+     */
+    protected BookTextHolderModel description = new BookTextHolderModel("");
     protected BookIconModel icon = BookIconModel.create(ItemRegistry.MODONOMICON_PURPLE.get());
+
+    /**
+     * The display mode - node based (thaumonomicon style) or index based (lexica botania / patchouli style)
+     */
+    protected BookDisplayMode displayMode = BookDisplayMode.NODE;
+
     protected int sortNumber = -1;
     protected ResourceLocation background = ResourceLocation.parse(Category.DEFAULT_BACKGROUND);
     protected int backgroundWidth = Category.DEFAULT_BACKGROUND_WIDTH;
@@ -89,7 +102,9 @@ public class BookCategoryModel {
     public JsonObject toJson(HolderLookup.Provider provider) {
         JsonObject json = new JsonObject();
         json.addProperty("name", this.name);
+        json.add("description", this.description.toJson(provider));
         json.add("icon", this.icon.toJson(provider));
+        json.addProperty("display_mode", this.displayMode.getSerializedName());
         json.addProperty("sort_number", this.sortNumber);
         json.addProperty("background", this.background.toString());
         json.addProperty("background_width", this.backgroundWidth);
@@ -120,8 +135,16 @@ public class BookCategoryModel {
         return this.name;
     }
 
+    public BookTextHolderModel getDescription() {
+        return this.description;
+    }
+
     public BookIconModel getIcon() {
         return this.icon;
+    }
+
+    public BookDisplayMode getDisplayMode() {
+        return this.displayMode;
     }
 
     public int getSortNumber() {
@@ -146,6 +169,22 @@ public class BookCategoryModel {
 
     public ResourceLocation getEntryTextures() {
         return this.entryTextures;
+    }
+
+    /**
+     * The description to (optionally) display on the first page of the category.
+     */
+    public BookCategoryModel withDescription(String title) {
+        this.description = new BookTextHolderModel(title);
+        return this;
+    }
+
+    /**
+     * The description to (optionally) display on the first page of the category.
+     */
+    public BookCategoryModel withDescription(Component title) {
+        this.description = new BookTextHolderModel(title);
+        return this;
     }
 
     /**
@@ -180,6 +219,15 @@ public class BookCategoryModel {
         this.icon = BookIconModel.create(item);
         return this;
     }
+
+    /**
+     * Sets the display mode - node based (thaumonomicon style) or index based (lexica botania / patchouli style)
+     */
+    public BookCategoryModel withDisplayMode(BookDisplayMode displayMode) {
+        this.displayMode = displayMode;
+        return this;
+    }
+
 
     /**
      * Sets the category's sort number.

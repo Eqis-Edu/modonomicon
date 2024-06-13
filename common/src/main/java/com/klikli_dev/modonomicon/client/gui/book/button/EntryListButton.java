@@ -9,11 +9,10 @@
 package com.klikli_dev.modonomicon.client.gui.book.button;
 
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
-import com.klikli_dev.modonomicon.book.entries.*;
+import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.client.ClientTicks;
-import com.klikli_dev.modonomicon.client.gui.book.BookContentScreen;
-import com.klikli_dev.modonomicon.client.gui.book.BookSearchScreen;
+import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -26,14 +25,12 @@ public class EntryListButton extends Button {
 
     private static final int ANIM_TIME = 5;
 
-    private final BookSearchScreen parent;
     private final BookEntry entry;
     private float timeHovered;
 
-    public EntryListButton(BookSearchScreen parent, BookEntry entry, int pX, int pY, OnPress pOnPress) {
-        super(pX, pY, BookContentScreen.PAGE_WIDTH, 10, Component.translatable(entry.getName()), pOnPress, Button.DEFAULT_NARRATION);
+    public EntryListButton(BookEntry entry, int pX, int pY, OnPress pOnPress) {
+        super(pX, pY, BookEntryScreen.PAGE_WIDTH, 10, Component.translatable(entry.getName()), pOnPress, Button.DEFAULT_NARRATION);
 
-        this.parent = parent;
         this.entry = entry;
     }
 
@@ -64,7 +61,7 @@ public class EntryListButton extends Button {
 
             if (locked) {
                 RenderSystem.setShaderColor(1F, 1F, 1F, 0.7F);
-                BookContentScreen.drawLock(guiGraphics, this.parent.getParentScreen().getBook(), this.getX() * 2 + 2, this.getY() * 2 + 2);
+                BookEntryScreen.drawLock(guiGraphics, this.entry.getBook(), this.getX() * 2 + 2, this.getY() * 2 + 2);
             } else {
                 this.entry.getIcon().render(guiGraphics, this.getX() * 2 + 2, this.getY() * 2 + 2);
             }
@@ -78,7 +75,6 @@ public class EntryListButton extends Button {
                 name = Component.translatable(this.entry.getName());
             }
 
-            //TODO: if we ever add a font style setting to the book, use it here
             guiGraphics.drawString(Minecraft.getInstance().font, name, this.getX() + 12, this.getY(), this.getEntryColor(), false);
         }
     }

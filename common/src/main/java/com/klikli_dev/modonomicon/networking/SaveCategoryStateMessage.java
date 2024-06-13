@@ -9,6 +9,7 @@ package com.klikli_dev.modonomicon.networking;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.book.BookCategory;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
+import com.klikli_dev.modonomicon.bookstate.visual.CategoryVisualState;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -29,6 +30,10 @@ public class SaveCategoryStateMessage implements Message {
     public float targetZoom;
 
     public ResourceLocation openEntry = null;
+
+    public SaveCategoryStateMessage(BookCategory category, CategoryVisualState state) {
+        this(category, state.scrollX, state.scrollY, state.targetZoom, state.openEntry);
+    }
 
     public SaveCategoryStateMessage(BookCategory category, float scrollX, float scrollY, float targetZoom, ResourceLocation openEntry) {
         this.category = category;

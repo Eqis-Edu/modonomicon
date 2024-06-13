@@ -6,9 +6,11 @@
 
 package com.klikli_dev.modonomicon.client.gui.book;
 
+import com.klikli_dev.modonomicon.book.page.BookPage;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.button.ArrowButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.ExitButton;
+import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -21,16 +23,20 @@ public abstract class BookPaginatedScreen extends Screen implements BookScreenWi
 	
 	public static final int BOOK_BACKGROUND_WIDTH = 272;
 	public static final int BOOK_BACKGROUND_HEIGHT = 178;
-	
-	protected final BookOverviewScreen parentScreen;
-	
+
 	protected int bookLeft;
 	protected int bookTop;
-	
-	public BookPaginatedScreen(Component component, BookOverviewScreen parentScreen) {
+
+	protected boolean addExitButton;
+
+	public BookPaginatedScreen(Component component) {
+		this(component, true);
+	}
+
+	public BookPaginatedScreen(Component component, boolean addExitButton) {
 		super(component);
-		
-		this.parentScreen = parentScreen;
+
+		this.addExitButton = addExitButton;
 	}
 	
 	@Override
@@ -42,7 +48,9 @@ public abstract class BookPaginatedScreen extends Screen implements BookScreenWi
 
 		this.addRenderableWidget(new ArrowButton(this, this.bookLeft - 4, this.bookTop + FULL_HEIGHT - 6, true, () -> this.canSeeArrowButton(true), this::handleArrowButton));
 		this.addRenderableWidget(new ArrowButton(this, this.bookLeft + FULL_WIDTH - 14, this.bookTop + FULL_HEIGHT - 6, false, () -> this.canSeeArrowButton(false), this::handleArrowButton));
-		this.addRenderableWidget(new ExitButton(this, this.bookLeft + FULL_WIDTH - 10, this.bookTop - 2, this::handleExitButton));
+		if(this.addExitButton){
+			this.addRenderableWidget(new ExitButton(this, this.bookLeft + FULL_WIDTH - 10, this.bookTop - 2, this::handleExitButton));
+		}
 	}
 	
 	public void handleExitButton(Button button) {
@@ -62,10 +70,10 @@ public abstract class BookPaginatedScreen extends Screen implements BookScreenWi
 	protected abstract void flipPage(boolean left, boolean playSound);
 	
 	protected boolean isClickOutsideEntry(double pMouseX, double pMouseY) {
-		return pMouseX < this.bookLeft - BookContentScreen.CLICK_SAFETY_MARGIN
-				|| pMouseX > this.bookLeft + BookContentScreen.FULL_WIDTH + BookContentScreen.CLICK_SAFETY_MARGIN
-				|| pMouseY < this.bookTop - BookContentScreen.CLICK_SAFETY_MARGIN
-				|| pMouseY > this.bookTop + BookContentScreen.FULL_HEIGHT + BookContentScreen.CLICK_SAFETY_MARGIN;
+		return pMouseX < this.bookLeft - BookEntryScreen.CLICK_SAFETY_MARGIN
+				|| pMouseX > this.bookLeft + BookEntryScreen.FULL_WIDTH + BookEntryScreen.CLICK_SAFETY_MARGIN
+				|| pMouseY < this.bookTop - BookEntryScreen.CLICK_SAFETY_MARGIN
+				|| pMouseY > this.bookTop + BookEntryScreen.FULL_HEIGHT + BookEntryScreen.CLICK_SAFETY_MARGIN;
 	}
 	
 	@Override
@@ -89,7 +97,7 @@ public abstract class BookPaginatedScreen extends Screen implements BookScreenWi
 	public void back() {
 		if (BookGuiManager.get().getHistorySize() > 0) {
 			var lastPage = BookGuiManager.get().popHistory();
-			BookGuiManager.get().openEntry(lastPage.bookId, lastPage.categoryId, lastPage.entryId, lastPage.page);
+			BookGuiManager.get().openEntry(lastPage.bookId(), lastPage.categoryId(), lastPage.entryId(), lastPage.page());
 		} else {
 			this.onClose();
 		}
@@ -101,7 +109,7 @@ public abstract class BookPaginatedScreen extends Screen implements BookScreenWi
 			this.onClose();
 			return true; //need to return, otherwise a right click outside the entry causes a double-close (the whole book, due to calling .back() below)
 		}
-		
+
 		if (pButton == GLFW.GLFW_MOUSE_BUTTON_RIGHT) {
 			this.back();
 			return true;

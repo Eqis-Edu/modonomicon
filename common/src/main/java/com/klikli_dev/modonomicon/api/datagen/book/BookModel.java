@@ -9,9 +9,11 @@ package com.klikli_dev.modonomicon.api.datagen.book;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Book;
+import com.klikli_dev.modonomicon.book.BookDisplayMode;
 import com.klikli_dev.modonomicon.book.BookFrameOverlay;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,12 +24,23 @@ public class BookModel {
 
     protected ResourceLocation id;
     protected String name;
+    /**
+     * The description to (optionally) display on the first page of the category.
+     */
+    protected BookTextHolderModel description = new BookTextHolderModel("");
     protected String tooltip = "";
     protected ResourceLocation creativeTab = ResourceLocation.parse("modonomicon:modonomicon");
 
     protected ResourceLocation model = ResourceLocation.parse(Book.DEFAULT_MODEL);
     protected ResourceLocation bookOverviewTexture = ResourceLocation.parse(Data.Book.DEFAULT_OVERVIEW_TEXTURE);
     protected ResourceLocation font = ResourceLocation.parse(Book.DEFAULT_FONT);
+
+    /**
+     * The display mode - node based (thaumonomicon style) or index based (lexica botania / patchouli style)
+     * If the book is in index mode then all categories will also be shown in index mode. If the book is in node mode, then individual categories can be in index mode.
+     * If in index mode, the frame textures will be ignored, instead bookContentTexture will be used.
+     */
+    protected BookDisplayMode displayMode = BookDisplayMode.NODE;
 
     protected ResourceLocation frameTexture = ResourceLocation.parse(Book.DEFAULT_FRAME_TEXTURE);
     protected BookFrameOverlay topFrameOverlay = Data.Book.DEFAULT_TOP_FRAME_OVERLAY;
@@ -119,6 +132,10 @@ public class BookModel {
         return this.name;
     }
 
+    public BookTextHolderModel getDescription() {
+        return this.description;
+    }
+
     public String getTooltip() {
         return this.tooltip;
     }
@@ -167,11 +184,17 @@ public class BookModel {
         return this.bookTextOffsetWidth;
     }
 
+    public BookDisplayMode getDisplayMode() {
+        return this.displayMode;
+    }
+
     public JsonObject toJson(HolderLookup.Provider provider) {
         JsonObject json = new JsonObject();
         json.addProperty("name", this.name);
+        json.add("description", this.description.toJson(provider));
         json.addProperty("tooltip", this.tooltip);
         json.addProperty("model", this.model.toString());
+        json.addProperty("display_mode", this.displayMode.getSerializedName());
         json.addProperty("creative_tab", this.creativeTab.toString());
         json.addProperty("book_overview_texture", this.bookOverviewTexture.toString());
         json.addProperty("font", this.font.toString());
@@ -199,6 +222,22 @@ public class BookModel {
             json.addProperty("custom_book_item", this.customBookItem.toString());
         }
         return json;
+    }
+
+    /**
+     * The description to (optionally) display on the first page of the category.
+     */
+    public BookModel withDescription(String title) {
+        this.description = new BookTextHolderModel(title);
+        return this;
+    }
+
+    /**
+     * The description to (optionally) display on the first page of the category.
+     */
+    public BookModel withDescription(Component title) {
+        this.description = new BookTextHolderModel(title);
+        return this;
     }
 
     public BookModel withTooltip(String tooltip) {
@@ -284,6 +323,15 @@ public class BookModel {
 
     public BookModel withModel(ResourceLocation model) {
         this.model = model;
+        return this;
+    }
+
+    /**
+     * Sets the display mode - node based (thaumonomicon style) or index based (lexica botania / patchouli style)
+     * If in index mode, the frame textures will be ignored, instead bookContentTexture will be used
+     */
+    public BookModel withDisplayMode(BookDisplayMode displayMode) {
+        this.displayMode = displayMode;
         return this;
     }
 

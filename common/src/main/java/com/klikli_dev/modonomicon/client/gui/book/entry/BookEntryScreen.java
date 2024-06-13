@@ -4,30 +4,33 @@
  * SPDX-License-Identifier: MIT
  */
 
-package com.klikli_dev.modonomicon.client.gui.book;
+package com.klikli_dev.modonomicon.client.gui.book.entry;
 
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
-import com.klikli_dev.modonomicon.book.*;
-import com.klikli_dev.modonomicon.book.entries.*;
+import com.klikli_dev.modonomicon.book.Book;
+import com.klikli_dev.modonomicon.book.BookLink;
+import com.klikli_dev.modonomicon.book.CommandLink;
+import com.klikli_dev.modonomicon.book.PatchouliLink;
+import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.page.BookPage;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
-import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
+import com.klikli_dev.modonomicon.bookstate.visual.EntryVisualState;
 import com.klikli_dev.modonomicon.client.ClientTicks;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.BackButton;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.ItemLinkRenderer;
+import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.fluid.FluidHolder;
 import com.klikli_dev.modonomicon.integration.ModonomiconJeiIntegration;
 import com.klikli_dev.modonomicon.networking.ClickCommandLinkMessage;
-import com.klikli_dev.modonomicon.networking.SaveEntryStateMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
 import com.klikli_dev.modonomicon.platform.services.FluidHelper;
-import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.brigadier.StringReader;
 import net.minecraft.ChatFormatting;
@@ -57,7 +60,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-public class BookContentScreen extends BookPaginatedScreen {
+public class BookEntryScreen extends BookPaginatedScreen {
 
     public static final int TOP_PADDING = 15;
     public static final int LEFT_PAGE_X = 12;
@@ -70,11 +73,11 @@ public class BookContentScreen extends BookPaginatedScreen {
     public static final int CLICK_SAFETY_MARGIN = 20;
 
     private static long lastTurnPageSoundTime;
-    private final ContentBookEntry entry;
+    protected final BookParentScreen parentScreen;
+    private final BookContentEntry entry;
     private final ResourceLocation bookContentTexture;
     private final ItemParser itemParser;
     public int ticksInBook;
-    public boolean simulateEscClosing;
     private List<BookPage> unlockedPages;
     private BookPage leftPage;
     private BookPage rightPage;
@@ -89,8 +92,10 @@ public class BookContentScreen extends BookPaginatedScreen {
     private FluidHolder tooltipFluidStack;
     private boolean isHoveringItemLink;
 
-    public BookContentScreen(BookOverviewScreen parentScreen, ContentBookEntry entry) {
-        super(Component.literal(""), parentScreen);
+    public BookEntryScreen(BookParentScreen parentScreen, BookContentEntry entry) {
+        super(Component.literal(""));
+
+        this.parentScreen = parentScreen;
 
         this.minecraft = Minecraft.getInstance();
         this.itemParser = new ItemParser(this.minecraft.level.registryAccess());
@@ -99,7 +104,8 @@ public class BookContentScreen extends BookPaginatedScreen {
 
         this.bookContentTexture = this.parentScreen.getBook().getBookContentTexture();
 
-        this.loadEntryState();
+        //We're doing that here to ensure unlockedPages is available for state modification during loading
+        this.unlockedPages = this.entry.getUnlockedPagesFor(this.minecraft.player);
     }
 
     public static void drawFromTexture(GuiGraphics guiGraphics, Book book, int x, int y, int u, int v, int w, int h) {
@@ -142,14 +148,16 @@ public class BookContentScreen extends BookPaginatedScreen {
         return this.minecraft;
     }
 
-    public ContentBookEntry getEntry() {
+    public BookContentEntry getEntry() {
         return this.entry;
     }
 
+    @Override
     public Book getBook() {
         return this.entry.getBook();
     }
 
+    @Override
     public boolean canSeeArrowButton(boolean left) {
         return left ? this.openPagesIndex > 0 : (this.openPagesIndex + 2) < this.unlockedPages.size();
     }
@@ -158,6 +166,7 @@ public class BookContentScreen extends BookPaginatedScreen {
         this.setTooltip(List.of(strings));
     }
 
+    @Override
     public void setTooltip(List<Component> tooltip) {
         this.resetTooltip();
         this.tooltip = tooltip;
@@ -272,6 +281,10 @@ public class BookContentScreen extends BookPaginatedScreen {
             }
         }
         return 0;
+    }
+
+    public void setOpenPagesIndex(int openPagesIndex) {
+        this.openPagesIndex = openPagesIndex;
     }
 
     /**
@@ -413,15 +426,12 @@ public class BookContentScreen extends BookPaginatedScreen {
         this.tooltipFluidStack = null;
     }
 
-    private void loadEntryState() {
-        var state = BookVisualStateManager.get().getEntryStateFor(this.parentScreen.getMinecraft().player, this.entry);
+    public void loadState(EntryVisualState state) {
+        this.openPagesIndex = state.openPagesIndex;
+    }
 
-        BookGuiManager.get().currentEntry = this.entry;
-        BookGuiManager.get().currentContentScreen = this;
-
-        if (state != null) {
-            this.openPagesIndex = state.openPagesIndex;
-        }
+    public void saveState(EntryVisualState state, boolean savePage) {
+        state.openPagesIndex = savePage ? this.openPagesIndex : 0;
     }
 
     @Override
@@ -458,22 +468,19 @@ public class BookContentScreen extends BookPaginatedScreen {
     }
 
     @Override
-    public void onClose() {
-        if (this.simulateEscClosing || InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_ESCAPE)) {
-            Services.NETWORK.sendToServer(new SaveEntryStateMessage(this.entry, this.openPagesIndex));
-
-            super.onClose();
-            this.parentScreen.onClose();
-
-            this.simulateEscClosing = false;
-        } else {
-            Services.NETWORK.sendToServer(new SaveEntryStateMessage(this.entry,
-                    ClientServices.CLIENT_CONFIG.storeLastOpenPageWhenClosingEntry() ? this.openPagesIndex : 0));
-
-            this.parentScreen.getCurrentCategoryScreen().onCloseEntry(this);
-
-            ClientServices.GUI.popGuiLayer(); //instead of super.onClose() to restore our parent screen
+    public boolean keyPressed(int key, int scanCode, int modifiers) {
+        if (key == GLFW.GLFW_KEY_ESCAPE) {
+            BookGuiManager.get().closeScreenStack(this);
+            return true;
         }
+        return super.keyPressed(key, scanCode, modifiers);
+    }
+
+    @Override
+    public void onClose() {
+        //do not call super, as it would close the screen stack
+        //In most cases closeEntryScreen should be called directly, but if our parent BookPaginatedScreen wants us to close we need to handle that
+        BookGuiManager.get().closeEntryScreen(this);
     }
 
     /**
@@ -710,10 +717,8 @@ public class BookContentScreen extends BookPaginatedScreen {
                     if (PatchouliLink.isPatchouliLink(event.getValue())) {
                         var link = PatchouliLink.from(event.getValue());
                         if (link.bookId != null) {
+                            BookGuiManager.get().closeScreenStack(this.parentScreen); //will cause the book to close entirely, and save the open page
                             //the integration class handles class loading guards if patchouli is not present
-                            this.simulateEscClosing = true;
-                            //this.onClose();
-
                             Services.PATCHOULI.openEntry(link.bookId, link.entryId, link.pageNumber);
                             return true;
                         }
@@ -735,16 +740,12 @@ public class BookContentScreen extends BookPaginatedScreen {
                                 return true;
                             }
 
-                            this.onClose(); //we have to do this before showing JEI, because super.onClose() clears Gui Layers, and thus would kill JEIs freshly spawned gui
+                            BookGuiManager.get().closeScreenStack(this); //will cause the book to close entirely, and save the open page
 
                             if (Screen.hasShiftDown()) {
                                 ModonomiconJeiIntegration.get().showUses(itemStack);
                             } else {
                                 ModonomiconJeiIntegration.get().showRecipe(itemStack);
-                            }
-
-                            if (!ModonomiconJeiIntegration.get().isJEIRecipesGuiOpen()) {
-                                ClientServices.GUI.pushGuiLayer(this);
                             }
 
                             //TODO: Consider adding logic to restore content screen after JEI gui close

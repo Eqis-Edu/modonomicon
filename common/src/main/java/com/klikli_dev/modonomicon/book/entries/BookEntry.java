@@ -15,8 +15,7 @@ import com.klikli_dev.modonomicon.book.conditions.BookEntryReadCondition;
 import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.book.page.BookPage;
-import com.klikli_dev.modonomicon.client.gui.book.BookCategoryScreen;
-import com.klikli_dev.modonomicon.client.gui.book.BookContentScreen;
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import net.minecraft.core.HolderLookup;
@@ -60,7 +59,7 @@ public abstract class BookEntry {
 
     public abstract ResourceLocation getType();
 
-    public abstract BookContentScreen openEntry(BookCategoryScreen categoryScreen);
+    public abstract void openEntry(BookAddress address);
 
     /**
      * Called after build() (after loading the book jsons) to render markdown and store any errors
@@ -172,6 +171,10 @@ public abstract class BookEntry {
         return this.data.categoryId;
     }
 
+    public int getSortNumber() {
+        return this.data.sortNumber;
+    }
+
     public abstract void toNetwork(RegistryFriendlyByteBuf buf);
 
     /**
@@ -182,7 +185,7 @@ public abstract class BookEntry {
      */
     public record BookEntryData(ResourceLocation categoryId, List<BookEntryParent> parents, int x, int y, String name,
                                 String description, BookIcon icon, int entryBackgroundUIndex, int entryBackgroundVIndex,
-                                BookCondition condition, boolean hideWhileLocked, boolean showWhenAnyParentUnlocked) {
+                                BookCondition condition, boolean hideWhileLocked, boolean showWhenAnyParentUnlocked, int sortNumber) {
 
         public static BookEntryData fromJson(JsonObject json, boolean autoAddReadConditions, HolderLookup.Provider provider) {
             var categoryId = ResourceLocation.parse(GsonHelper.getAsString(json, "category"));
@@ -233,7 +236,9 @@ public abstract class BookEntry {
              */
             var showWhenAnyParentUnlocked = GsonHelper.getAsBoolean(json, "show_when_any_parent_unlocked", false);
 
-            return new BookEntryData(categoryId, parents, x, y, name, description, icon, entryBackgroundUIndex, entryBackgroundVIndex, condition, hideWhileLocked, showWhenAnyParentUnlocked);
+            var sortNumber = GsonHelper.getAsInt(json, "sort_number", -1);
+
+            return new BookEntryData(categoryId, parents, x, y, name, description, icon, entryBackgroundUIndex, entryBackgroundVIndex, condition, hideWhileLocked, showWhenAnyParentUnlocked, sortNumber);
         }
 
         public static BookEntryData fromNetwork(RegistryFriendlyByteBuf buffer) {
@@ -255,7 +260,9 @@ public abstract class BookEntry {
                 parentEntries.add(BookEntryParent.fromNetwork(buffer));
             }
 
-            return new BookEntryData(categoryId, parentEntries, x, y, name, description, icon, entryBackgroundUIndex, entryBackgroundVIndex, condition, hideWhileLocked, showWhenAnyParentUnlocked);
+            var sortNumber = buffer.readVarInt();
+
+            return new BookEntryData(categoryId, parentEntries, x, y, name, description, icon, entryBackgroundUIndex, entryBackgroundVIndex, condition, hideWhileLocked, showWhenAnyParentUnlocked, sortNumber);
         }
 
         public void toNetwork(RegistryFriendlyByteBuf buffer) {
@@ -277,8 +284,8 @@ public abstract class BookEntry {
             for (var parent : this.parents) {
                 parent.toNetwork(buffer);
             }
+
+            buffer.writeVarInt(this.sortNumber);
         }
-
     }
-
 }

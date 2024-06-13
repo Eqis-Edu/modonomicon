@@ -4,21 +4,22 @@
  *
  * SPDX-License-Identifier: MIT
  */
-package com.klikli_dev.modonomicon.client.gui.book;
+package com.klikli_dev.modonomicon.client.gui.book.node;
 
-import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.book.BookCategory;
 import com.klikli_dev.modonomicon.book.BookFrameOverlay;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
-import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
+import com.klikli_dev.modonomicon.bookstate.visual.BookVisualState;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.button.CategoryButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.ReadAllButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.SearchButton;
+import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
+import com.klikli_dev.modonomicon.client.gui.book.search.BookSearchScreen;
 import com.klikli_dev.modonomicon.networking.ClickReadAllButtonMessage;
-import com.klikli_dev.modonomicon.networking.SaveBookStateMessage;
 import com.klikli_dev.modonomicon.networking.SyncBookUnlockStatesMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
@@ -32,24 +33,26 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.List;
 
-public class BookOverviewScreen extends Screen {
+public class BookParentNodeScreen extends Screen implements BookParentScreen {
 
     private final Book book;
     private final List<BookCategory> categories;
-    private final List<BookCategoryScreen> categoryScreens;
-
     //TODO: make the frame thickness configurable in the book?
     private final int frameThicknessW = 14;
     private final int frameThicknessH = 14;
-
-    private int currentCategory = 0;
+    private BookCategoryNodeScreen currentCategoryNodeScreen;
     private boolean hasUnreadEntries;
     private boolean hasUnreadUnlockedEntries;
 
-    public BookOverviewScreen(Book book) {
+    //This allows the BookCategoryIndexOnNodeScreen to give us mouseX and Y coordinates when this screen is rendered on a lower layer and does not get  x/y coordinates.
+    public int renderMouseXOverride = -1;
+    public int renderMouseYOverride = -1;
+
+    public BookParentNodeScreen(Book book) {
         super(Component.literal(""));
 
         //somehow there are render calls before init(), leaving minecraft null
@@ -58,20 +61,15 @@ public class BookOverviewScreen extends Screen {
         this.book = book;
 
         this.categories = book.getCategoriesSorted(); //we no longer handle category locking here, is done on init to be able to refresh on unlock
-        this.categoryScreens = this.categories.stream().map(c -> new BookCategoryScreen(this, c)).toList();
     }
 
     public Minecraft getMinecraft() {
         return this.minecraft;
     }
 
+    @Override
     public void onDisplay() {
-        this.loadBookState();
-
         this.updateUnreadEntriesState();
-
-        var currentScreen = this.categoryScreens.get(this.currentCategory);
-        currentScreen.onDisplay();
     }
 
     protected void updateUnreadEntriesState() {
@@ -84,14 +82,15 @@ public class BookOverviewScreen extends Screen {
                         !BookUnlockStateManager.get().isReadFor(this.minecraft.player, e));
     }
 
-    public BookCategoryScreen getCurrentCategoryScreen() {
-        return this.categoryScreens.get(this.currentCategory);
+    public BookCategoryNodeScreen getCurrentCategoryScreen() {
+        return this.currentCategoryNodeScreen;
     }
 
-    public int getCurrentCategory() {
-        return this.currentCategory;
+    public void setCurrentCategoryScreen(BookCategoryNodeScreen currentCategoryNodeScreen) {
+        this.currentCategoryNodeScreen = currentCategoryNodeScreen;
     }
 
+    @Override
     public Book getBook() {
         return this.book;
     }
@@ -136,43 +135,11 @@ public class BookOverviewScreen extends Screen {
         return this.frameThicknessH;
     }
 
-    public void changeCategory(BookCategory category) {
-        if(category == null) {
-            Modonomicon.LOG.warn("Tried to change to a null category in this book ({}).", this.book.getId());
-        }
-        
-        int index = this.categories.indexOf(category);
-        if (index != -1) {
-            this.changeCategory(index);
-        } else {
-            Modonomicon.LOG.warn("Tried to change to a category ({}) that does not exist in this book ({}).", this.book.getId(), category.getId());
-        }
-    }
-
-    public void changeCategory(int categoryIndex) {
-        if(this.currentCategory == categoryIndex) {
-            return; //this is an easy fix for #179, otherwise we have to rethink state tracking
-        }
-
-        var oldIndex = this.currentCategory;
-        this.currentCategory = categoryIndex;
-        this.onCategoryChanged(oldIndex, this.currentCategory);
-    }
-
-    public void onCategoryChanged(int oldIndex, int newIndex) {
-        var oldScreen = this.categoryScreens.get(oldIndex);
-        oldScreen.onClose();
-
-        var newScreen = this.categoryScreens.get(newIndex);
-        newScreen.onDisplay();
-
-        //TODO: SFX for category change?
-    }
 
     /**
      * Gets the outer width of the book frame
      */
-    protected int getFrameWidth() {
+    public int getFrameWidth() {
         //TODO: enable config frame width
         return this.width - 60;
     }
@@ -180,7 +147,7 @@ public class BookOverviewScreen extends Screen {
     /**
      * Gets the outer height of the book frame
      */
-    protected int getFrameHeight() {
+    public int getFrameHeight() {
         //TODO: enable config frame height
         return this.height - 20;
     }
@@ -211,7 +178,7 @@ public class BookOverviewScreen extends Screen {
     }
 
     protected void onBookCategoryButtonClick(CategoryButton button) {
-        this.changeCategory(button.getCategoryIndex());
+        BookGuiManager.get().openCategory(button.getCategory(), BookAddress.defaultFor(button.getCategory().getBook()));
     }
 
     protected void onReadAllButtonClick(ReadAllButton button) {
@@ -226,18 +193,6 @@ public class BookOverviewScreen extends Screen {
 
     protected boolean canSeeReadAllButton() {
         return this.hasUnreadEntries || this.hasUnreadUnlockedEntries;
-    }
-
-    private void loadBookState() {
-        var state = BookVisualStateManager.get().getBookStateFor(this.minecraft.player, this.book);
-        if (state != null) {
-            if (state.openCategory != null) {
-                var openCategory = this.book.getCategory(state.openCategory);
-                if (openCategory != null) {
-                    this.currentCategory = this.categories.indexOf(openCategory);
-                }
-            }
-        }
     }
 
     @Override
@@ -262,6 +217,11 @@ public class BookOverviewScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
+        if(this.renderMouseXOverride != -1 && this.renderMouseYOverride != -1){
+            pMouseX = this.renderMouseXOverride;
+            pMouseY = this.renderMouseYOverride;
+        }
+
         RenderSystem.disableDepthTest(); //guard against depth test being enabled by other rendering code, that would cause ui elements to vanish
 
         this.renderBackground(guiGraphics, pMouseX, pMouseY, pPartialTick);
@@ -275,26 +235,43 @@ public class BookOverviewScreen extends Screen {
         this.getCurrentCategoryScreen().renderEntryTooltips(guiGraphics, pMouseX, pMouseY, pPartialTick);
 
         //manually call the renderables like super does -> otherwise super renders the background again on top of our stuff
-        for(var renderable : this.renderables){
+        for (var renderable : this.renderables) {
             renderable.render(guiGraphics, pMouseX, pMouseY, pPartialTick);
         }
+
+        this.renderMouseXOverride = -1;
+        this.renderMouseYOverride = -1;
     }
 
     @Override
-    public boolean shouldCloseOnEsc() {
-        return true;
+    public boolean keyPressed(int key, int scanCode, int modifiers) {
+        //delegate key handling to the open category
+        //this ensures the open category is saved by calling the right overload of onEsc
+        if(this.getCurrentCategoryScreen().keyPressed(key, scanCode, modifiers)){
+            return true;
+        }
+
+        //This is unlikely to be reached as the category screen will already handle esc
+        if (key == GLFW.GLFW_KEY_ESCAPE) {
+            BookGuiManager.get().closeScreenStack(this);
+            return true;
+        }
+        return super.keyPressed(key, scanCode, modifiers);
     }
 
     @Override
     public void onClose() {
-        this.getCurrentCategoryScreen().onClose();
-        Services.NETWORK.sendToServer(new SaveBookStateMessage(this.book, this.getCurrentCategoryScreen().getCategory().getId()));
+        //do not call super - gui manager should handle gui removal
+    }
 
-        BookGuiManager.get().resetHistory();
+    @Override
+    public void loadState(BookVisualState state) {
+        //currently nothing to save - open category is handled by gui manager
+    }
 
-        BookGuiManager.get().openOverviewScreen = null;
-
-        super.onClose();
+    @Override
+    public void saveState(BookVisualState state) {
+        //currently nothing to save - open category is handled by gui manager
     }
 
     @Override
@@ -302,6 +279,7 @@ public class BookOverviewScreen extends Screen {
         return super.handleComponentClicked(pStyle);
     }
 
+    @Override
     public void onSyncBookUnlockCapabilityMessage(SyncBookUnlockStatesMessage message) {
         //this leads to re-init of the category buttons after a potential unlock
         this.rebuildWidgets();
@@ -312,8 +290,6 @@ public class BookOverviewScreen extends Screen {
     @Override
     protected void init() {
         super.init();
-
-        BookGuiManager.get().openOverviewScreen = this;
 
         int buttonXOffset = -11;
 
@@ -330,7 +306,7 @@ public class BookOverviewScreen extends Screen {
         int buttonCount = 0;
         for (int i = 0, size = this.categories.size(); i < size; i++) {
             if (this.categories.get(i).showCategoryButton() && BookUnlockStateManager.get().isUnlockedFor(this.minecraft.player, this.categories.get(i))) {
-                var button = new CategoryButton(this, this.categories.get(i), i,
+                var button = new CategoryButton(this, this.categories.get(i),
                         buttonX, buttonY + (buttonHeight + buttonSpacing) * buttonCount, buttonWidth, buttonHeight,
                         (b) -> this.onBookCategoryButtonClick((CategoryButton) b),
                         Tooltip.create(Component.translatable(this.categories.get(i).getName())));

@@ -12,8 +12,11 @@ import com.klikli_dev.modonomicon.api.ModonomiconConstants.Nbt;
 import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
+import com.klikli_dev.modonomicon.util.BookGsonHelper;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.Level;
@@ -28,8 +31,10 @@ import java.util.concurrent.ConcurrentMap;
 public class Book {
     protected ResourceLocation id;
     protected String name;
+    protected BookTextHolder description;
     protected String tooltip;
     protected String creativeTab;
+
 
     protected ResourceLocation model;
     protected ResourceLocation bookOverviewTexture;
@@ -57,6 +62,13 @@ public class Book {
     protected ResourceLocation font;
 
     /**
+     * The display mode - node based (thaumonomicon style) or index based (lexica botania / patchouli style)
+     * If the book is in index mode then all categories will also be shown in index mode. If the book is in node mode, then individual categories can be in index mode.
+     * If in index mode, the frame textures will be ignored, instead bookContentTexture will be used.
+     */
+    protected BookDisplayMode displayMode;
+
+    /**
      * When rendering book text holders, add this offset to the x position (basically, create a left margin).
      * Will be automatically subtracted from the width to avoid overflow.
      */
@@ -79,7 +91,7 @@ public class Book {
     protected int searchButtonYOffset;
     protected int readAllButtonYOffset;
 
-    public Book(ResourceLocation id, String name, String tooltip, ResourceLocation model, boolean generateBookItem,
+    public Book(ResourceLocation id, String name, BookTextHolder description, String tooltip, ResourceLocation model, BookDisplayMode displayMode, boolean generateBookItem,
                 ResourceLocation customBookItem, String creativeTab, ResourceLocation font, ResourceLocation bookOverviewTexture, ResourceLocation frameTexture,
                 BookFrameOverlay topFrameOverlay, BookFrameOverlay bottomFrameOverlay, BookFrameOverlay leftFrameOverlay, BookFrameOverlay rightFrameOverlay,
                 ResourceLocation bookContentTexture, ResourceLocation craftingTexture, ResourceLocation turnPageSound,
@@ -88,8 +100,10 @@ public class Book {
     ) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.tooltip = tooltip;
         this.model = model;
+        this.displayMode = displayMode;
         this.generateBookItem = generateBookItem;
         this.customBookItem = customBookItem;
         this.creativeTab = creativeTab;
@@ -122,9 +136,11 @@ public class Book {
 
     public static Book fromJson(ResourceLocation id, JsonObject json, HolderLookup.Provider provider) {
         var name = GsonHelper.getAsString(json, "name");
+        var description = BookGsonHelper.getAsBookTextHolder(json, "description", BookTextHolder.EMPTY, provider);
         var tooltip = GsonHelper.getAsString(json, "tooltip", "");
         var model = ResourceLocation.parse(GsonHelper.getAsString(json, "model", Data.Book.DEFAULT_MODEL));
         var generateBookItem = GsonHelper.getAsBoolean(json, "generate_book_item", true);
+        var displayMode = BookDisplayMode.byName(GsonHelper.getAsString(json, "display_mode", BookDisplayMode.NODE.getSerializedName()));
         var customBookItem = json.has("custom_book_item") ?
                 ResourceLocation.parse(GsonHelper.getAsString(json, "custom_book_item")) :
                 null;
@@ -167,7 +183,7 @@ public class Book {
         var searchButtonYOffset = GsonHelper.getAsInt(json, "search_button_y_offset", 0);
         var readAllButtonYOffset = GsonHelper.getAsInt(json, "read_all_button_y_offset", 0);
 
-        return new Book(id, name, tooltip, model, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
+        return new Book(id, name, description, tooltip, model, displayMode, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
                 frameTexture, topFrameOverlay, bottomFrameOverlay, leftFrameOverlay, rightFrameOverlay,
                 bookContentTexture, craftingTexture, turnPageSound, defaultTitleColor, categoryButtonIconScale, autoAddReadConditions, bookTextOffsetX, bookTextOffsetY, bookTextOffsetWidth, categoryButtonXOffset, categoryButtonYOffset,
                 searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset);
@@ -175,10 +191,13 @@ public class Book {
 
 
     @SuppressWarnings("deprecation")
-    public static Book fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+    public static Book fromNetwork(ResourceLocation id, RegistryFriendlyByteBuf buffer) {
         var name = buffer.readUtf();
+        var description = BookTextHolder.fromNetwork(buffer);
         var tooltip = buffer.readUtf();
         var model = buffer.readResourceLocation();
+        var displayMode = BookDisplayMode.byId(buffer.readByte());
+
         var generateBookItem = buffer.readBoolean();
         var customBookItem = buffer.readBoolean() ? buffer.readResourceLocation() : null;
         var creativeTab = buffer.readUtf();
@@ -210,7 +229,7 @@ public class Book {
         var searchButtonYOffset = (int) buffer.readShort();
         var readAllButtonYOffset = (int) buffer.readShort();
 
-        return new Book(id, name, tooltip, model, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
+        return new Book(id, name, description, tooltip, model, displayMode, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
                 frameTexture, topFrameOverlay, bottomFrameOverlay, leftFrameOverlay, rightFrameOverlay,
                 bookContentTexture, craftingTexture, turnPageSound, defaultTitleColor, categoryButtonIconScale, autoAddReadConditions, bookTextOffsetX, bookTextOffsetY, bookTextOffsetWidth, categoryButtonXOffset, categoryButtonYOffset,
                 searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset);
@@ -243,6 +262,10 @@ public class Book {
      * Called after build() (after loading the book jsons) to render markdown and store any errors
      */
     public void prerenderMarkdown(BookTextRenderer textRenderer) {
+        if (!this.description.hasComponent()) {
+            this.description = new RenderedBookTextHolder(this.description, textRenderer.render(this.description.getString()));
+        }
+
         for (var category : this.categories.values()) {
             BookErrorManager.get().getContextHelper().categoryId = category.getId();
             category.prerenderMarkdown(textRenderer);
@@ -251,10 +274,13 @@ public class Book {
     }
 
     @SuppressWarnings("deprecation")
-    public void toNetwork(FriendlyByteBuf buffer) {
+    public void toNetwork(RegistryFriendlyByteBuf buffer) {
         buffer.writeUtf(this.name);
+        this.description.toNetwork(buffer);
         buffer.writeUtf(this.tooltip);
         buffer.writeResourceLocation(this.model);
+        buffer.writeByte(this.displayMode.ordinal());
+
         buffer.writeBoolean(this.generateBookItem);
         buffer.writeBoolean(this.customBookItem != null);
         if (this.customBookItem != null) {
@@ -354,6 +380,10 @@ public class Book {
         return this.name;
     }
 
+    public BookTextHolder getDescription() {
+        return this.description;
+    }
+
     public String getTooltip() {
         return this.tooltip;
     }
@@ -405,6 +435,10 @@ public class Book {
 
     public ResourceLocation getModel() {
         return this.model;
+    }
+
+    public BookDisplayMode getDisplayMode() {
+        return this.displayMode;
     }
 
     public boolean generateBookItem() {

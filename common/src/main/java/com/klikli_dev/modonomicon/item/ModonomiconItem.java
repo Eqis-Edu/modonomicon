@@ -8,18 +8,16 @@ package com.klikli_dev.modonomicon.item;
 
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Tooltips;
-import com.klikli_dev.modonomicon.api.ModonomiconConstants.Nbt;
 import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import net.minecraft.ChatFormatting;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
@@ -56,7 +54,8 @@ public class ModonomiconItem extends Item {
         if (pLevel.isClientSide) {
             if (itemInHand.get(DataComponentRegistry.BOOK_ID.get()) != null) {
                 var book = getBook(itemInHand);
-                BookGuiManager.get().openBook(book.getId());
+
+                BookGuiManager.get().openBook(BookAddress.defaultFor(book));
             } else {
                 Modonomicon.LOG.error("ModonomiconItem: ItemStack has no tag!");
             }

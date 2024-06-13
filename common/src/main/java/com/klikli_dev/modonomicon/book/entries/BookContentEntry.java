@@ -12,8 +12,8 @@ import com.klikli_dev.modonomicon.book.BookCategory;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.book.page.BookPage;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
-import com.klikli_dev.modonomicon.client.gui.book.BookCategoryScreen;
-import com.klikli_dev.modonomicon.client.gui.book.BookContentScreen;
+import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import net.minecraft.core.HolderLookup;
@@ -27,16 +27,16 @@ import net.minecraft.world.level.Level;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ContentBookEntry extends BookEntry {
+public class BookContentEntry extends BookEntry {
 
     protected List<BookPage> pages;
 
-    public ContentBookEntry(ResourceLocation id, BookEntryData data, ResourceLocation commandToRunOnFirstReadId, List<BookPage> pages) {
+    public BookContentEntry(ResourceLocation id, BookEntryData data, ResourceLocation commandToRunOnFirstReadId, List<BookPage> pages) {
         super(id, data, commandToRunOnFirstReadId);
         this.pages = pages;
     }
 
-    public static ContentBookEntry fromJson(ResourceLocation id, JsonObject json, boolean autoAddReadConditions, HolderLookup.Provider provider) {
+    public static BookContentEntry fromJson(ResourceLocation id, JsonObject json, boolean autoAddReadConditions, HolderLookup.Provider provider) {
         BookEntryData data = BookEntryData.fromJson(json, autoAddReadConditions, provider);
 
         ResourceLocation commandToRunOnFirstReadId = null;
@@ -57,10 +57,10 @@ public class ContentBookEntry extends BookEntry {
             }
         }
 
-        return new ContentBookEntry(id, data, commandToRunOnFirstReadId, pages);
+        return new BookContentEntry(id, data, commandToRunOnFirstReadId, pages);
     }
 
-    public static ContentBookEntry fromNetwork(RegistryFriendlyByteBuf buffer) {
+    public static BookContentEntry fromNetwork(RegistryFriendlyByteBuf buffer) {
         var id = buffer.readResourceLocation();
         BookEntryData data = BookEntryData.fromNetwork(buffer);
         ResourceLocation commandToRunOnFirstReadId = buffer.readNullable(FriendlyByteBuf::readResourceLocation);
@@ -74,7 +74,7 @@ public class ContentBookEntry extends BookEntry {
             pages.add(page);
         }
 
-        return new ContentBookEntry(id, data, commandToRunOnFirstReadId, pages);
+        return new BookContentEntry(id, data, commandToRunOnFirstReadId, pages);
     }
 
     @Override
@@ -160,7 +160,8 @@ public class ContentBookEntry extends BookEntry {
         return false;
     }
 
-    public BookContentScreen openEntry(BookCategoryScreen categoryScreen) {
-        return categoryScreen.openContentEntry(this);
+    @Override
+    public void openEntry(BookAddress address) {
+        BookGuiManager.get().openContentEntry(this, address);
     }
 }
