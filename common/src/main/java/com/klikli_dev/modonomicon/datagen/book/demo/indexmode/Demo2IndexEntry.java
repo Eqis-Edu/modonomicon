@@ -1,8 +1,4 @@
-// SPDX-FileCopyrightText: 2024 klikli-dev
-//
-// SPDX-License-Identifier: MIT
-
-package com.klikli_dev.modonomicon.datagen.book.other;
+package com.klikli_dev.modonomicon.datagen.book.demo.indexmode;
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground;
@@ -12,30 +8,33 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.Items;
 
-public class RootEntry extends EntryProvider {
-    public RootEntry(CategoryProvider parent) {
+public class Demo2IndexEntry extends EntryProvider {
+    public static final String ID = "demo2";
+
+    public Demo2IndexEntry(CategoryProvider parent) {
         super(parent);
     }
 
     @Override
     protected void generatePages() {
-        this.page("intro", () ->
-                BookTextPageModel.create()
-                        .withText(this.context().pageText())
-                        .withTitle(this.context().pageTitle())
+        this.page("intro", () -> BookTextPageModel.create()
+                .withTitle(this.context().pageTitle())
+                .withText(this.context().pageText())
         );
-        this.pageTitle("Entry Root");
-        this.pageText("Root");
+        this.pageTitle("Demo");
+        this.pageText("""
+                Demo
+                """);
     }
 
     @Override
     protected String entryName() {
-        return "Root Entry";
+        return "Demo Entry 2";
     }
 
     @Override
     protected String entryDescription() {
-        return "Used for testing some condition stuff.";
+        return "Just Demo Stuff (tm)";
     }
 
     @Override
@@ -45,11 +44,11 @@ public class RootEntry extends EntryProvider {
 
     @Override
     protected BookIconModel entryIcon() {
-        return BookIconModel.create(Items.SUGAR);
+        return BookIconModel.create(Items.BARREL);
     }
 
     @Override
     protected String entryId() {
-        return "root";
+        return ID;
     }
 }

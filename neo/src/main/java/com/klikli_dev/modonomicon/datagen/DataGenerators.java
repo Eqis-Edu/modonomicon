@@ -20,7 +20,6 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         var registries = event.getLookupProvider();
 
-
         //We use a language cache that the book provider can write into
         var enUsCache = new LanguageProviderCache("en_us");
 

@@ -12,131 +12,54 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookCommandModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
-import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-import org.slf4j.Logger;
+import net.minecraft.util.StringUtil;
 
 import java.nio.file.Path;
-import java.text.MessageFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collector;
-import java.util.stream.Collector.Characteristics;
-import java.util.stream.Stream;
 
-public abstract class BookProvider implements DataProvider {
-
-    public static final Collector<ModonomiconLanguageProvider, ?, Object2ObjectOpenHashMap<String, ModonomiconLanguageProvider>> mapMaker
-            = Collector.<ModonomiconLanguageProvider, Object2ObjectOpenHashMap<String, ModonomiconLanguageProvider>, Object2ObjectOpenHashMap<String, ModonomiconLanguageProvider>>of(
-                    Object2ObjectOpenHashMap::new,
-                    (map, l) -> map.put(l.locale(), l),
-                    (m1, m2) -> { m1.putAll(m2); return m1; },
-                    (map) -> { map.trim(); return map; },
-                    Characteristics.UNORDERED);
+/**
+ * A book provider that can handle multiple books but provides only few convenience methods. Consider using {@link SingleBookProvider} instead!
+ */
+public abstract class BookProvider extends ModonomiconProviderBase implements DataProvider {
 
     protected final CompletableFuture<HolderLookup.Provider> registries;
 
     protected final PackOutput packOutput;
-    protected final ModonomiconLanguageProvider lang;
-    protected final Map<String, ModonomiconLanguageProvider> translations;
+    //This is a bit of a relic, one provider is only supposed to generate one book.
     protected final Map<ResourceLocation, BookModel> bookModels;
-    protected BookModel bookModel;
-    protected final String modid;
-    protected String bookId;
-    protected BookContextHelper context;
 
-    protected Map<String, String> defaultMacros;
-
-    protected ConditionHelper conditionHelper;
-    protected int currentSortIndex;
 
     /**
      * @param defaultLang The LanguageProvider to fill with this book provider. IMPORTANT: the Language Provider needs to be added to the DataGenerator AFTER the BookProvider.
      */
-    public BookProvider(String bookId, PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modid, ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
-        this.modid = modid;
+    public BookProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modId, ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
+        this(packOutput, registries, modId, defaultLang, makeLangMap(defaultLang, translations));
+    }
+
+    /**
+     * @param defaultLang The LanguageProvider to fill with this book provider. IMPORTANT: the Language Provider needs to be added to the DataGenerator AFTER the BookProvider.
+     */
+    public BookProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modId, ModonomiconLanguageProvider defaultLang, Map<String, ModonomiconLanguageProvider> translations) {
+        super(modId, defaultLang, translations, new BookContextHelper(modId), new ConditionHelper());
         this.packOutput = packOutput;
         this.registries = registries;
-        this.lang = defaultLang;
         this.bookModels = new Object2ObjectOpenHashMap<>();
-        this.bookModel = null;
-        this.translations = Stream.concat(Arrays.stream(translations), Stream.of(defaultLang))
-                                  .collect(mapMaker);
-
-        this.bookId = bookId;
-        this.context = new BookContextHelper(this.modid);
-        this.defaultMacros = new Object2ObjectOpenHashMap<>();
-        this.conditionHelper = new ConditionHelper();
-        this.currentSortIndex = 0;
-    }
-
-    protected ModonomiconLanguageProvider lang() {
-        return this.lang;
-    }
-
-    protected ModonomiconLanguageProvider lang(String locale) {
-        return this.translations.get(locale);
-    }
-
-    public String bookId() {
-        return this.bookId;
-    }
-
-    protected BookContextHelper context() {
-        return this.context;
-    }
-
-    protected ConditionHelper condition() {
-        return this.conditionHelper;
     }
 
     /**
      * Register a macro (= simple string.replace() of macro -> value) to be used in all category providers of this book.
      */
     protected void registerDefaultMacro(String macro, String value) {
-        this.defaultMacros.put(macro, value);
-    }
-
-    /**
-     * Get the default macros (= simple string.replace() of macro -> value) to be used in all category providers of this book.
-     */
-    protected Map<String, String> defaultMacros() {
-        return this.defaultMacros;
-    }
-
-    /**
-     * Only override if you know what you are doing.
-     * Generally you should not.
-     */
-    public void generate() {
-        this.context().book(this.bookId);
-        this.bookModel = this.generateBook();
-        this.generateCategories();
-        this.add(this.bookModel);
-    }
-
-    protected ResourceLocation modLoc(String name) {
-        return ResourceLocation.fromNamespaceAndPath(this.modid, name);
-    }
-
-    protected BookCategoryModel add(BookCategoryModel category) {
-        if(category.getSortNumber() == -1){
-            category.withSortNumber(this.currentSortIndex++);
-        }
-        this.bookModel.withCategory(category);
-        return category;
-    }
-
-    protected BookModel add(BookModel bookModel) {
-        if (this.bookModels.containsKey(bookModel.getId()))
-            throw new IllegalStateException("Duplicate book " + bookModel.getId());
-        this.bookModels.put(bookModel.getId(), bookModel);
-        return bookModel;
+        this.registerMacro(macro, value);
     }
 
     protected Path getPath(Path dataFolder, BookModel bookModel) {
@@ -177,59 +100,6 @@ public abstract class BookProvider implements DataProvider {
                 .resolve(id.getPath() + ".json");
     }
 
-    /**
-     * Add translation to the default translation provider.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     */
-    protected void add(String key, String value) {
-        this.lang().add(key, this.macro(value));
-    }
-
-    /**
-     * Adds translation to the default translation provider with a pattern and arguments, internally using MessageFormat to format the pattern.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     */
-    protected void add(String key, String pattern, Object... args) {
-        this.add(key, this.format(pattern, args));
-    }
-
-    /**
-     * Add translation to the given translation provider.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     * <p>
-     * Sample usage: this.add(this.lang("ru_ru"), "category", "Text");
-     */
-    protected void add(ModonomiconLanguageProvider translation, String key, String value) {
-        translation.add(key, this.macro(value));
-    }
-
-    /**
-     * Adds translation to the given translation provider with a pattern and arguments, internally using MessageFormat to format the pattern.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     * <p>
-     * Sample usage: this.add(this.lang("ru_ru"), "category", "pattern", "arg1");
-     */
-    protected void add(ModonomiconLanguageProvider translation, String key, String pattern, Object... args) {
-        this.add(translation, key, this.format(pattern, args));
-    }
-
-    /**
-     * Apply all macros of this book provider to the input string.
-     */
-    protected String macro(String input) {
-        for (var entry : this.defaultMacros().entrySet()) {
-            input = input.replace(entry.getKey(), entry.getValue());
-        }
-        return input;
-    }
-
-    /**
-     * Format a string with the given arguments using MessageFormat.format()
-     */
-    protected String format(String pattern, Object... arguments) {
-        return MessageFormat.format(pattern, arguments);
-    }
-
     @Override
     public CompletableFuture<?> run(CachedOutput cache) {
         return this.registries.thenCompose(registries -> {
@@ -266,7 +136,14 @@ public abstract class BookProvider implements DataProvider {
 
     @Override
     public String getName() {
-        return "Books: " + this.modid;
+        return "Books: " + this.modId();
+    }
+
+    protected BookModel add(BookModel bookModel) {
+        if (this.bookModels.containsKey(bookModel.getId()))
+            throw new IllegalStateException("Duplicate book " + bookModel.getId());
+        this.bookModels.put(bookModel.getId(), bookModel);
+        return bookModel;
     }
 
     /**
@@ -275,16 +152,8 @@ public abstract class BookProvider implements DataProvider {
     protected abstract void registerDefaultMacros();
 
     /**
-     * Implement this and return your book.
-     * Categories should not be added here, instead call .add() in generateCategories().
-     * Context already is set to this book.
+     * Override and generate books in here.
+     * Consider using {@link SingleBookProvider} instead!
      */
-    protected abstract BookModel generateBook();
-
-    /**
-     * Implement this and in it generate and .add() your categories.
-     * Context already is set to this book.
-     */
-    protected abstract void generateCategories();
-
+    protected abstract void generate();
 }

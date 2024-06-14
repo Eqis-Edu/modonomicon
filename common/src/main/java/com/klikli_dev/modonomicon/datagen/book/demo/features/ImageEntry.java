@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package com.klikli_dev.modonomicon.datagen.book.features;
+package com.klikli_dev.modonomicon.datagen.book.demo.features;
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground;
@@ -17,8 +17,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
-public class ImageEntryProvider extends EntryProvider {
-    public ImageEntryProvider(CategoryProvider parent) {
+public class ImageEntry extends EntryProvider {
+    public static final String ID = "image";
+
+    public ImageEntry(CategoryProvider parent) {
         super(parent);
     }
 
@@ -84,6 +86,6 @@ public class ImageEntryProvider extends EntryProvider {
 
     @Override
     protected String entryId() {
-        return "image";
+        return ID;
     }
 }

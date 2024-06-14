@@ -1,8 +1,4 @@
-// SPDX-FileCopyrightText: 2024 klikli-dev
-//
-// SPDX-License-Identifier: MIT
-
-package com.klikli_dev.modonomicon.datagen.book.other;
+package com.klikli_dev.modonomicon.datagen.book.demo.features;
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground;
@@ -12,30 +8,33 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.Items;
 
-public class BEntry extends EntryProvider {
-    public BEntry(CategoryProvider parent) {
+public class TwoParentEntry extends EntryProvider {
+    public static final String ID = "two_parents";
+
+    public TwoParentEntry(CategoryProvider parent) {
         super(parent);
     }
 
     @Override
     protected void generatePages() {
-        this.page("intro", () ->
-                BookTextPageModel.create()
-                        .withText(this.context().pageText())
-                        .withTitle(this.context().pageTitle())
+        this.page("intro", () -> BookTextPageModel.create()
+                .withTitle(this.context().pageTitle())
+                .withText(this.context().pageText())
         );
-        this.pageTitle("Entry B");
-        this.pageText("B");
+        this.pageTitle("Entry with two parents");
+        this.pageText("""
+                It has two parents ...
+                """);
     }
 
     @Override
     protected String entryName() {
-        return "B Entry";
+        return "Entry with two parents";
     }
 
     @Override
     protected String entryDescription() {
-        return "Used for testing some condition stuff.";
+        return "Yup, two parents!";
     }
 
     @Override
@@ -45,11 +44,11 @@ public class BEntry extends EntryProvider {
 
     @Override
     protected BookIconModel entryIcon() {
-        return BookIconModel.create(Items.BAMBOO);
+        return BookIconModel.create(Items.AMETHYST_CLUSTER);
     }
 
     @Override
     protected String entryId() {
-        return "b";
+        return ID;
     }
 }

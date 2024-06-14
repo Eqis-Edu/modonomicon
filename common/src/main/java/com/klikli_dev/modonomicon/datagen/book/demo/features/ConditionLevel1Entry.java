@@ -1,8 +1,4 @@
-// SPDX-FileCopyrightText: 2024 klikli-dev
-//
-// SPDX-License-Identifier: MIT
-
-package com.klikli_dev.modonomicon.datagen.book.other;
+package com.klikli_dev.modonomicon.datagen.book.demo.features;
 
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
 import com.klikli_dev.modonomicon.api.datagen.EntryBackground;
@@ -12,30 +8,33 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.Items;
 
-public class AEntry extends EntryProvider {
-    public AEntry(CategoryProvider parent) {
+public class ConditionLevel1Entry extends EntryProvider {
+    public static final String ID = "condition_level_1";
+
+    public ConditionLevel1Entry(CategoryProvider parent) {
         super(parent);
     }
 
     @Override
     protected void generatePages() {
-        this.page("intro", () ->
-                BookTextPageModel.create()
-                        .withText(this.context().pageText())
-                        .withTitle(this.context().pageTitle())
+        this.page("info", () -> BookTextPageModel.create()
+                .withTitle(this.context().pageTitle())
+                .withText(this.context().pageText())
         );
-        this.pageTitle("Entry A");
-        this.pageText("A");
+        this.pageTitle("Condition Level 1");
+        this.pageText("""
+                This entry depends on Condition Root being read.
+                """);
     }
 
     @Override
     protected String entryName() {
-        return "A Entry";
+        return "Condition Level 1 Entry";
     }
 
     @Override
     protected String entryDescription() {
-        return "Used for testing some condition stuff.";
+        return "Depends on Condition Root being read.";
     }
 
     @Override
@@ -45,11 +44,11 @@ public class AEntry extends EntryProvider {
 
     @Override
     protected BookIconModel entryIcon() {
-        return BookIconModel.create(Items.APPLE);
+        return BookIconModel.create(Items.LEVER);
     }
 
     @Override
     protected String entryId() {
-        return "a";
+        return ID;
     }
 }

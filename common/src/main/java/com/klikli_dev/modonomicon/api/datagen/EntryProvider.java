@@ -12,101 +12,22 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookPageModel;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.phys.Vec2;
 
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.function.Supplier;
 
-public abstract class EntryProvider {
+public abstract class EntryProvider extends ModonomiconProviderBase {
 
-    protected CategoryProvider parent;
+    protected final CategoryProvider parent;
 
     protected BookEntryModel entry;
 
     public EntryProvider(CategoryProvider parent) {
+        super(parent.modId(), parent.lang(), parent.langs(), parent.context(), parent.condition());
         this.parent = parent;
         this.entry = null;
-    }
-
-    protected ModonomiconLanguageProvider lang() {
-        return this.parent.lang();
-    }
-
-    protected ModonomiconLanguageProvider lang(String locale) {
-        return this.parent.lang();
-    }
-
-    protected ResourceLocation modLoc(String name) {
-        return this.parent.modLoc(name);
-    }
-
-    protected BookContextHelper context() {
-        return this.parent.context();
-    }
-
-    /**
-     * Apply all macros of the category provider and its book provider to the input string.
-     */
-    protected String macro(String input) {
-        return this.parent.macro(input);
-    }
-
-    /**
-     * Format a string with the given arguments using MessageFormat.format()
-     */
-    protected String format(String pattern, Object... arguments) {
-        return MessageFormat.format(pattern, arguments);
-    }
-
-    /**
-     * Create a link to an entry in the same book.
-     */
-    protected String entryLink(String text, String category, String entry) {
-        return this.parent.entryLink(text, category, entry);
-    }
-
-    /**
-     * Create a link to a category in the same book.
-     */
-    protected String categoryLink(String text, String category) {
-        return this.parent.categoryLink(text, category);
-    }
-
-    /**
-     * Create an item link with no text (will use item name)
-     */
-    protected String itemLink(ItemLike item) {
-        return this.parent.itemLink(item);
-    }
-
-    /**
-     * Create an item link with a custom text (instead of item name)
-     */
-    protected String itemLink(String text, ItemLike item) {
-        return this.parent.itemLink(text, item);
-    }
-
-    /**
-     * Create a command link for the command with the given id.
-     */
-    protected String commandLink(String text, String commandId) {
-        return this.parent.commandLink(text, commandId);
-    }
-
-    /**
-     * Dummy entry link for use in the book provider, as the linked entry is not available at that point.
-     * Replace with identical call to entryLink once the entry is available.
-     */
-    protected String entryLinkDummy(String text, String category, String entry) {
-        return this.parent.entryLinkDummy(text, category, entry);
-    }
-
-    /**
-     * Dummy category link for use in the book provider, as the linked category is not available at that point.
-     * Replace with identical call to categoryLink once the entry is available.
-     */
-    protected String categoryLinkDummy(String text, String category) {
-        return this.parent.categoryLinkDummy(text, category);
     }
 
     /**
@@ -126,7 +47,7 @@ public abstract class EntryProvider {
     /**
      * Adds a page text for the current context to the underlying language provider.
      */
-    protected void pageText(String text, Object... args){
+    protected void pageText(String text, Object... args) {
         this.add(this.context().pageText(), text, args);
     }
 
@@ -156,42 +77,6 @@ public abstract class EntryProvider {
         return this.add(model);
     }
 
-    /**
-     * Add translation to the default translation provider.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     */
-    protected void add(String key, String value) {
-        this.lang().add(key, this.macro(value));
-    }
-
-    /**
-     * Add translation to the given translation provider.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     * <p>
-     * Sample usage: this.add(this.lang("ru_ru"), "category", "Text");
-     */
-    protected void add(AbstractModonomiconLanguageProvider translation, String key, String value) {
-        translation.add(key, this.macro(value));
-    }
-
-    /**
-     * Adds translation to the default translation provider with a pattern and arguments, internally using MessageFormat to format the pattern.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     */
-    protected void add(String key, String pattern, Object... args) {
-        this.add(key, this.format(pattern, args));
-    }
-
-    /**
-     * Adds translation to the given translation provider with a pattern and arguments, internally using MessageFormat to format the pattern.
-     * This will apply all macros registered in this category provider and its parent book provider.
-     * <p>
-     * Sample usage: this.add(this.lang("ru_ru"), "category", "pattern", "arg1");
-     */
-    protected void add(AbstractModonomiconLanguageProvider translation, String key, String pattern, Object... args) {
-        this.add(translation, key, this.format(pattern, args));
-    }
-
     protected <T extends BookPageModel> T add(T page) {
         this.entry.withPage(page);
         return page;
@@ -206,8 +91,37 @@ public abstract class EntryProvider {
     /**
      * Call this in your CategoryProvider to get the entry.
      * Will automatically add the entry to the parent category.
+     *
+     * This overload should only be used in index mode, where no location is needed.
+     */
+    public BookEntryModel generate() {
+        return this.generate(Vec2.ZERO);
+    }
+
+    /**
+     * Call this in your CategoryProvider to get the entry.
+     * Will automatically add the entry to the parent category.
+     */
+    public BookEntryModel generate(String location) {
+        if(location.length() == 1)
+            return this.generate(location.charAt(0));
+        return this.generate(this.parent.entryMap().get(location));
+    }
+
+
+    /**
+     * Call this in your CategoryProvider to get the entry.
+     * Will automatically add the entry to the parent category.
      */
     public BookEntryModel generate(char location) {
+        return this.generate(this.parent.entryMap().get(location));
+    }
+
+    /**
+     * Call this in your CategoryProvider to get the entry.
+     * Will automatically add the entry to the parent category.
+     */
+    public BookEntryModel generate(Vec2 location){
         this.context().entry(this.entryId());
 
         var entry = BookEntryModel.create(
@@ -219,7 +133,7 @@ public abstract class EntryProvider {
         this.add(this.context().entryName(), this.entryName());
         this.add(this.context().entryDescription(), this.entryDescription());
         entry.withIcon(this.entryIcon());
-        entry.withLocation(this.parent.entryMap().get(location));
+        entry.withLocation(location);
         entry.withEntryBackground(this.entryBackground());
 
         this.entry = this.additionalSetup(entry);
