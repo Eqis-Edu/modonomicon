@@ -184,8 +184,6 @@ jobs:
       - name: Publish
         run: ./gradlew publish
         if: ${{ steps.get_release_type.outputs.result != 'test' }}
-        with:
-          gradle-home-cache-cleanup: true
         env:
           MAVEN_USER: ${{ secrets.MAVEN_USER }}
           MAVEN_PASS: ${{ secrets.MAVEN_PASS }}
