@@ -58,7 +58,7 @@ jobs:
           tag: ${{ github.ref_name }}
           mcVersion: ${{ steps.get_mc_version.outputs.result }}
       - name: Create Neo Release
-        id: create_release
+        id: create_neo_release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
@@ -71,7 +71,7 @@ jobs:
           artifacts: neo/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}.jar,neo/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}-slim.jar,neo/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-neoforge-${{ steps.get_version.outputs.result }}-sources.jar,common/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-common-${{ steps.get_version.outputs.result }}.jar,common/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-common-${{ steps.get_version.outputs.result }}-sources.jar
           artifactContentType: application/java-archive
 #      - name: Create Forge Release
-#        id: create_release
+#        id: create_forge_release
 #        uses: ncipollo/release-action@v1
 #        with:
 #          allowUpdates: true
@@ -84,7 +84,7 @@ jobs:
 #          artifacts: forge/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-forge-${{ steps.get_version.outputs.result }}.jar,forge/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-forge-${{ steps.get_version.outputs.result }}-slim.jar,forge/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-forge-${{ steps.get_version.outputs.result }}-sources.jar,common/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-common-${{ steps.get_version.outputs.result }}.jar,common/build/libs/modonomicon-${{ steps.get_mc_version.outputs.result }}-common-${{ steps.get_version.outputs.result }}-sources.jar
 #          artifactContentType: application/java-archive
       - name: Create Fabric Release
-        id: create_release
+        id: create_fabric_release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
