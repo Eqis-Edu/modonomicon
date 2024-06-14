@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.74.4] - 2024-06-14
+### :bug: Bug Fixes
+- [`e6ebd32`](https://github.com/klikli-dev/modonomicon/commit/e6ebd32608ee3b55b8b35fc23c3dd9d2bab22e85) - github actions invalid field *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`85e2f0c`](https://github.com/klikli-dev/modonomicon/commit/85e2f0c3248584f2bd0afae22fc1c4ec2920fc9c) - update github actions *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.74.3] - 2024-06-14
 ### :bug: Bug Fixes
 - [`3b7fa50`](https://github.com/klikli-dev/modonomicon/commit/3b7fa50023159b99f7be223f71cd8327e7bdd4e7) - attempted fix for yet another github action issue *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -952,3 +960,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.73.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-0.0.0...release/v1.21-1.73.3
 [release/v1.21-1.74.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.73.3...release/v1.21-1.74.0
 [release/v1.21-1.74.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.2...release/v1.21-1.74.3
+[release/v1.21-1.74.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.3...release/v1.21-1.74.4
