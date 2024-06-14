@@ -5,6 +5,7 @@
 package com.klikli_dev.modonomicon.mixin;
 
 import com.klikli_dev.modonomicon.client.render.MultiblockPreviewRenderer;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +20,7 @@ public class MixinGui {
 //    @Inject(method = "render", at = @At(value = "TAIL"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/PlayerListHud;render(Lnet/minecraft/client/gui/DrawContext;ILnet/minecraft/scoreboard/Scoreboard;Lnet/minecraft/scoreboard/ScoreboardObjective;)V")))
 
     @Inject(method = "render", at = @At(value = "TAIL"), slice = @Slice(from = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/PlayerTabOverlay;render(Lnet/minecraft/client/gui/GuiGraphics;ILnet/minecraft/world/scores/Scoreboard;Lnet/minecraft/world/scores/Objective;)V")))
-    public void render(GuiGraphics drawContext, float tickDelta, CallbackInfo callbackInfo) {
-        MultiblockPreviewRenderer.onRenderHUD(drawContext, tickDelta);
+    public void render(GuiGraphics drawContext, DeltaTracker deltaTracker, CallbackInfo callbackInfo) {
+        MultiblockPreviewRenderer.onRenderHUD(drawContext, deltaTracker.getGameTimeDeltaPartialTick(true));
     }
 }

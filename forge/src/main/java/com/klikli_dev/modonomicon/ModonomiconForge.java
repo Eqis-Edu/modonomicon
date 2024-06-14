@@ -153,7 +153,7 @@ public class ModonomiconForge {
             });
             MinecraftForge.EVENT_BUS.addListener((TickEvent.RenderTickEvent e) -> {
                 if (e.phase == TickEvent.Phase.START) {
-                    ClientTicks.renderTickStart(e.renderTickTime);
+                    ClientTicks.renderTickStart(e.getTimer().getGameTimeDeltaPartialTick(true));
                 } else {
                     ClientTicks.renderTickEnd();
                 }

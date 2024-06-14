@@ -2,7 +2,6 @@ plugins {
     id 'idea'
     id 'java'
     id 'maven-publish'
-//    id 'org.spongepowered.gradle.vanilla'
     id 'fabric-loom'
 }
 
