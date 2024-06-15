@@ -9,7 +9,6 @@ package com.klikli_dev.modonomicon.network;
 import com.klikli_dev.modonomicon.networking.Message;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.event.network.CustomPayloadEvent;
-import net.minecraftforge.fml.LogicalSide;
 
 public class MessageHandler {
 
@@ -28,7 +27,7 @@ public class MessageHandler {
         ctx.setPacketHandled(true);
     }
 
-    public static <T extends Message> void handleServer(T message,  CustomPayloadEvent.Context ctx) {
+    public static <T extends Message> void handleServer(T message, CustomPayloadEvent.Context ctx) {
         MinecraftServer server = ctx.getSender().level().getServer();
         message.onServerReceived(server, ctx.getSender());
     }

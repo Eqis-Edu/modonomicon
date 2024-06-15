@@ -8,11 +8,11 @@ package com.klikli_dev.modonomicon.book.page;
 
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Page;
-import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.BookTextHolder;
 import com.klikli_dev.modonomicon.book.RenderedBookTextHolder;
 import com.klikli_dev.modonomicon.book.conditions.BookCondition;
 import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition;
+import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
 import com.klikli_dev.modonomicon.util.EntityUtil;
@@ -64,7 +64,7 @@ public class BookEntityPage extends BookPage {
         return new BookEntityPage(entityName, text, entityId, scale, offset, rotate, defaultRotation, anchor, condition);
     }
 
-    public static BookEntityPage fromNetwork(RegistryFriendlyByteBuf buffer){
+    public static BookEntityPage fromNetwork(RegistryFriendlyByteBuf buffer) {
         var entityName = BookTextHolder.fromNetwork(buffer);
         var text = BookTextHolder.fromNetwork(buffer);
         var entityId = buffer.readUtf();

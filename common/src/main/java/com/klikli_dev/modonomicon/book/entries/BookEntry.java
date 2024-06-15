@@ -185,7 +185,8 @@ public abstract class BookEntry {
      */
     public record BookEntryData(ResourceLocation categoryId, List<BookEntryParent> parents, int x, int y, String name,
                                 String description, BookIcon icon, int entryBackgroundUIndex, int entryBackgroundVIndex,
-                                BookCondition condition, boolean hideWhileLocked, boolean showWhenAnyParentUnlocked, int sortNumber) {
+                                BookCondition condition, boolean hideWhileLocked, boolean showWhenAnyParentUnlocked,
+                                int sortNumber) {
 
         public static BookEntryData fromJson(JsonObject json, boolean autoAddReadConditions, HolderLookup.Provider provider) {
             var categoryId = ResourceLocation.parse(GsonHelper.getAsString(json, "category"));

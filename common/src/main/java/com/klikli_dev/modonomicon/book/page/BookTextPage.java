@@ -47,7 +47,7 @@ public class BookTextPage extends BookPage {
         return new BookTextPage(title, text, useMarkdownInTitle, showTitleSeparator, anchor, condition);
     }
 
-    public static BookTextPage fromNetwork(RegistryFriendlyByteBuf buffer){
+    public static BookTextPage fromNetwork(RegistryFriendlyByteBuf buffer) {
         var title = BookTextHolder.fromNetwork(buffer);
         var useMarkdownInTitle = buffer.readBoolean();
         var showTitleSeparator = buffer.readBoolean();

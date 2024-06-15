@@ -22,19 +22,26 @@ import net.minecraft.world.entity.player.Player;
 import java.util.List;
 
 public class BookCategoryHasEntriesCondition extends BookCondition {
-    
+
     protected ResourceLocation categoryId;
-    
+
     public BookCategoryHasEntriesCondition(Component tooltip, ResourceLocation categoryId) {
         super(tooltip);
         this.categoryId = categoryId;
     }
-    
+
     public static BookCategoryHasEntriesCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
         ResourceLocation categoryId = ResourceLocation.parse(GsonHelper.getAsString(json, "category_id"));
         Component tooltip = Component.translatable(ModonomiconConstants.I18n.Tooltips.CONDITION_CATEGORY_HAS_ENTRIES, categoryId);
         return new BookCategoryHasEntriesCondition(tooltip, categoryId);
     }
+
+    public static BookCategoryHasEntriesCondition fromNetwork(RegistryFriendlyByteBuf buffer) {
+        var tooltip = buffer.readBoolean() ? ComponentSerialization.STREAM_CODEC.decode(buffer) : null;
+        var entryId = buffer.readResourceLocation();
+        return new BookCategoryHasEntriesCondition(tooltip, entryId);
+    }
+
     @Override
     public void toNetwork(RegistryFriendlyByteBuf buffer) {
         buffer.writeBoolean(this.tooltip != null);
@@ -43,18 +50,12 @@ public class BookCategoryHasEntriesCondition extends BookCondition {
         }
         buffer.writeResourceLocation(this.categoryId);
     }
-    
-    public static BookCategoryHasEntriesCondition fromNetwork(RegistryFriendlyByteBuf buffer) {
-        var tooltip = buffer.readBoolean() ? ComponentSerialization.STREAM_CODEC.decode(buffer) : null;
-        var entryId = buffer.readResourceLocation();
-        return new BookCategoryHasEntriesCondition(tooltip, entryId);
-    }
-    
+
     @Override
     public ResourceLocation getType() {
         return ModonomiconConstants.Data.Condition.CATEGORY_HAS_ENTRIES;
     }
-    
+
     @Override
     public boolean test(BookConditionContext context, Player player) {
         BookCategory category = context.book.getCategory(this.categoryId);
@@ -63,7 +64,7 @@ public class BookCategoryHasEntriesCondition extends BookCondition {
         }
         return category.getEntries().size() > 0;
     }
-    
+
     @Override
     public List<Component> getTooltip(Player player, BookConditionContext context) {
         if (this.tooltip == null && context instanceof BookConditionEntryContext entryContext) {

@@ -15,11 +15,7 @@ import com.klikli_dev.modonomicon.datagen.book.demo.FeaturesCategory;
 import com.klikli_dev.modonomicon.datagen.book.demo.FormattingCategory;
 import com.klikli_dev.modonomicon.datagen.book.demo.IndexModeCategory;
 import com.klikli_dev.modonomicon.datagen.book.demo.features.ConditionRootEntry;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.concurrent.CompletableFuture;
 
 public class DemoBook extends SingleBookSubProvider {
 

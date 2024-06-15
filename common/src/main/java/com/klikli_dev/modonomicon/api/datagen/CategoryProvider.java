@@ -137,7 +137,6 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
      * Needs to be called after this.context().entry(<entryId>)
      *
      * @param model the page model
-     *
      * @deprecated use {@link EntryProvider()} instead.
      */
     @Deprecated(forRemoval = true)
@@ -153,7 +152,6 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
      * Needs to be called after this.context().entry(<entryId>)
      *
      * @param modelSupplier A supplier that provides a page model. It is a supplier, because that way you can use this.context() within the supplier and it will correctly use the given page as part of the context.
-     *
      * @deprecated use {@link EntryProvider()} instead.
      */
     @Deprecated(forRemoval = true)

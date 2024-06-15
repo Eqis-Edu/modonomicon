@@ -35,7 +35,7 @@ public class BookCraftingRecipePage extends BookRecipePage<Recipe<?>> {
         return new BookCraftingRecipePage(common.title1(), common.recipeId1(), common.title2(), common.recipeId2(), common.text(), anchor, condition);
     }
 
-    public static BookCraftingRecipePage fromNetwork(RegistryFriendlyByteBuf buffer){
+    public static BookCraftingRecipePage fromNetwork(RegistryFriendlyByteBuf buffer) {
         var common = BookRecipePage.commonFromNetwork(buffer);
         var anchor = buffer.readUtf();
         var condition = BookCondition.fromNetwork(buffer);
@@ -43,7 +43,7 @@ public class BookCraftingRecipePage extends BookRecipePage<Recipe<?>> {
     }
 
     @Override
-    protected ItemStack getRecipeOutput(Level level, RecipeHolder<Recipe<?>>  recipe) {
+    protected ItemStack getRecipeOutput(Level level, RecipeHolder<Recipe<?>> recipe) {
         if (recipe == null) {
             return ItemStack.EMPTY;
         }

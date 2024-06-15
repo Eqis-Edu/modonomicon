@@ -57,7 +57,7 @@ public class DemoMultiblockProvider extends MultiblockProvider {
                                 "       s   "
                         )
                         .block('c', () -> Blocks.BAMBOO)
-                        .block('e', () ->  Blocks.GRANITE)
+                        .block('e', () -> Blocks.GRANITE)
                         .block('s', () -> Blocks.SAND)
                         .block('r', () -> Blocks.ACACIA_WOOD)
                         .block('0', () -> Blocks.BELL)

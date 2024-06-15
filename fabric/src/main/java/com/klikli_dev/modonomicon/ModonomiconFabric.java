@@ -8,7 +8,6 @@ package com.klikli_dev.modonomicon;
 
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
-import com.klikli_dev.modonomicon.config.ClientConfig;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
@@ -16,9 +15,7 @@ import com.klikli_dev.modonomicon.data.ReloadListenerWrapper;
 import com.klikli_dev.modonomicon.network.Networking;
 import com.klikli_dev.modonomicon.registry.CommandRegistry;
 import com.klikli_dev.modonomicon.registry.CreativeModeTabRegistry;
-import com.klikli_dev.modonomicon.registry.FabricClientCommandRegistry;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -84,7 +81,7 @@ public class ModonomiconFabric implements ModInitializer {
         // this ensures that if another world is loaded the save data is taken from file
         // instead of bleeding in from the previous level
         ServerWorldEvents.UNLOAD.register((server, level) -> {
-            if(level.dimension() == Level.OVERWORLD) {
+            if (level.dimension() == Level.OVERWORLD) {
                 BookUnlockStateManager.get().saveData = null;
                 BookVisualStateManager.get().saveData = null;
             }

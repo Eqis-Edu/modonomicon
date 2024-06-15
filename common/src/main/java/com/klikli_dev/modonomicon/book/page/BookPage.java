@@ -7,8 +7,8 @@
 package com.klikli_dev.modonomicon.book.page;
 
 import com.klikli_dev.modonomicon.book.Book;
-import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.conditions.BookCondition;
+import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;

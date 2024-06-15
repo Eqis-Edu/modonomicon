@@ -156,10 +156,10 @@ public abstract class MultiblockProvider implements DataProvider {
          * Creates a block matcher that will match the predicate with the given id.
          * Predicates are registered via {@link com.klikli_dev.modonomicon.data.LoaderRegistry#registerPredicate(ResourceLocation, TriPredicate)}
          *
-         * @param c the character
-         * @param predicateId the id of the predicate to match
+         * @param c                        the character
+         * @param predicateId              the id of the predicate to match
          * @param countsTowardsTotalBlocks whether this block counts towards the total number of blocks in the multiblock, if false behaves like the air matcher.
-         * @param display the block to display in previews
+         * @param display                  the block to display in previews
          */
         public DenseMultiblockBuilder predicate(char c, ResourceLocation predicateId, boolean countsTowardsTotalBlocks, Supplier<? extends Block> display) {
             return this.predicate(c, predicateId, countsTowardsTotalBlocks, display, "");
@@ -169,11 +169,11 @@ public abstract class MultiblockProvider implements DataProvider {
          * Creates a block matcher that will match the predicate with the given id.
          * Predicates are registered via {@link com.klikli_dev.modonomicon.data.LoaderRegistry#registerPredicate(ResourceLocation, TriPredicate)}
          *
-         * @param c the character
-         * @param predicateId the id of the predicate to match
+         * @param c                        the character
+         * @param predicateId              the id of the predicate to match
          * @param countsTowardsTotalBlocks whether this block counts towards the total number of blocks in the multiblock, if false behaves like the air matcher.
-         * @param display the block to display in previews
-         * @param displayState a state string in the minecraft format, e.g. [facing=north]. "" will display the default state.
+         * @param display                  the block to display in previews
+         * @param displayState             a state string in the minecraft format, e.g. [facing=north]. "" will display the default state.
          */
         public DenseMultiblockBuilder predicate(char c, ResourceLocation predicateId, boolean countsTowardsTotalBlocks, Supplier<? extends Block> display, String displayState) {
             JsonObject json = new JsonObject();

@@ -12,9 +12,13 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data;
-import com.klikli_dev.modonomicon.book.*;
-import com.klikli_dev.modonomicon.book.entries.*;
+import com.klikli_dev.modonomicon.book.Book;
+import com.klikli_dev.modonomicon.book.BookCategory;
+import com.klikli_dev.modonomicon.book.BookCommand;
 import com.klikli_dev.modonomicon.book.conditions.BookCondition;
+import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
+import com.klikli_dev.modonomicon.book.entries.BookEntry;
+import com.klikli_dev.modonomicon.book.entries.CategoryLinkBookEntry;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.networking.Message;
@@ -177,15 +181,15 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
     }
 
     private BookEntry loadEntry(ResourceLocation id, JsonObject value, boolean autoAddReadConditions, HolderLookup.Provider provider) {
-        if(value.has("type")) {
+        if (value.has("type")) {
             ResourceLocation typeId = ResourceLocation.tryParse(value.get("type").getAsString());
             return LoaderRegistry.getEntryJsonLoader(typeId).fromJson(id, value, autoAddReadConditions, provider);
         }
-        
+
         // This part here is for backwards compatibility and simplicity
         // If an entry does not have a type specified, ContentEntry is assumed
         // unless it has a property called "category_to_open" (CategoryLinkEntry)
-        if(value.has("category_to_open")) {
+        if (value.has("category_to_open")) {
             return CategoryLinkBookEntry.fromJson(id, value, autoAddReadConditions, provider);
         }
         return BookContentEntry.fromJson(id, value, autoAddReadConditions, provider);
@@ -370,14 +374,12 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
         private static final Client instance = new Client();
 
         private static final ResourceLocation fallbackFont = ResourceLocation.fromNamespaceAndPath("minecraft", "default");
-
-        private boolean isFallbackLocale;
-        private boolean isFontInitialized;
-
         /**
          * Our local advancement cache, because we cannot just store random advancement in ClientAdvancements -> they get rejected
          */
         private final ConcurrentMap<ResourceLocation, AdvancementHolder> advancements = new ConcurrentHashMap<>();
+        private boolean isFallbackLocale;
+        private boolean isFontInitialized;
 
         public Client() {
             super(GSON, FOLDER);

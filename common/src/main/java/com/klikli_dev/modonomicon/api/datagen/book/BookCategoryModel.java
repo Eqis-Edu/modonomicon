@@ -10,7 +10,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Category;
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookConditionModel;
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.klikli_dev.modonomicon.book.BookCategoryBackgroundParallaxLayer;
 import com.klikli_dev.modonomicon.book.BookDisplayMode;
 import com.klikli_dev.modonomicon.registry.ItemRegistry;
@@ -120,7 +119,7 @@ public class BookCategoryModel {
             json.add("condition", this.condition.toJson(provider));
         }
         json.addProperty("show_category_button", this.showCategoryButton);
-        if(this.entryToOpen != null) {
+        if (this.entryToOpen != null) {
             json.addProperty("entry_to_open", this.entryToOpen.toString());
             json.addProperty("open_entry_to_open_only_once", this.openEntryToOpenOnlyOnce);
         }
@@ -189,7 +188,6 @@ public class BookCategoryModel {
 
     /**
      * Sets the category's icon.
-     *
      */
     public BookCategoryModel withIcon(BookIconModel icon) {
         this.icon = icon;
@@ -365,7 +363,7 @@ public class BookCategoryModel {
     /**
      * Sets the entry to open when this category is opened.
      * If null, no entry will be opened.
-     *
+     * <p>
      * By default the entry will only be opened the first time. Specify openEntryToOpenOnlyOnce=false to open it every time.
      */
     public BookCategoryModel withEntryToOpen(ResourceLocation entryToOpen) {
@@ -375,7 +373,7 @@ public class BookCategoryModel {
     /**
      * Sets the entry to open when this category is opened.
      * If null, no entry will be opened.
-     *
+     * <p>
      * By default the entry will only be opened the first time. Specify openEntryToOpenOnlyOnce=false to open it every time.
      */
     public BookCategoryModel withEntryToOpen(ResourceLocation entryToOpen, boolean openEntryToOpenOnlyOnce) {

@@ -9,7 +9,6 @@ package com.klikli_dev.modonomicon.networking;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.data.BookDataManager;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;

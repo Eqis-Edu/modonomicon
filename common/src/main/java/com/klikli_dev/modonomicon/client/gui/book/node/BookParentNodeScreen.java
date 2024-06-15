@@ -14,10 +14,10 @@ import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.visual.BookVisualState;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
+import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.CategoryButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.ReadAllButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.SearchButton;
-import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.search.BookSearchScreen;
 import com.klikli_dev.modonomicon.networking.ClickReadAllButtonMessage;
 import com.klikli_dev.modonomicon.networking.SyncBookUnlockStatesMessage;
@@ -44,13 +44,12 @@ public class BookParentNodeScreen extends Screen implements BookParentScreen {
     //TODO: make the frame thickness configurable in the book?
     private final int frameThicknessW = 14;
     private final int frameThicknessH = 14;
-    private BookCategoryNodeScreen currentCategoryNodeScreen;
-    private boolean hasUnreadEntries;
-    private boolean hasUnreadUnlockedEntries;
-
     //This allows the BookCategoryIndexOnNodeScreen to give us mouseX and Y coordinates when this screen is rendered on a lower layer and does not get  x/y coordinates.
     public int renderMouseXOverride = -1;
     public int renderMouseYOverride = -1;
+    private BookCategoryNodeScreen currentCategoryNodeScreen;
+    private boolean hasUnreadEntries;
+    private boolean hasUnreadUnlockedEntries;
 
     public BookParentNodeScreen(Book book) {
         super(Component.literal(""));
@@ -217,7 +216,7 @@ public class BookParentNodeScreen extends Screen implements BookParentScreen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        if(this.renderMouseXOverride != -1 && this.renderMouseYOverride != -1){
+        if (this.renderMouseXOverride != -1 && this.renderMouseYOverride != -1) {
             pMouseX = this.renderMouseXOverride;
             pMouseY = this.renderMouseYOverride;
         }
@@ -247,7 +246,7 @@ public class BookParentNodeScreen extends Screen implements BookParentScreen {
     public boolean keyPressed(int key, int scanCode, int modifiers) {
         //delegate key handling to the open category
         //this ensures the open category is saved by calling the right overload of onEsc
-        if(this.getCurrentCategoryScreen().keyPressed(key, scanCode, modifiers)){
+        if (this.getCurrentCategoryScreen().keyPressed(key, scanCode, modifiers)) {
             return true;
         }
 

@@ -362,12 +362,12 @@ public class BookUnlockStates {
             for (var i = 0; i < readEntriesSize; i++) {
                 readEntries.add(buf.readResourceLocation());
             }
-            
+
             unlockedCategories.trim();
             unlockedPages.trim();
             unlockedPages.trim();
             readEntries.trim();
-            
+
             this.unlockedCategories.put(bookId, unlockedCategories);
             this.unlockedEntries.put(bookId, unlockedEntries);
             this.unlockedPages.put(bookId, unlockedPages);

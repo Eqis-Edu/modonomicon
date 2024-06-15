@@ -30,6 +30,7 @@ public class ConditionHelper {
     public BookEntryReadConditionModel entryRead(BookEntryModel entry) {
         return BookEntryReadConditionModel.create().withEntry(entry.getId());
     }
+
     public BookEntryReadConditionModel entryReadBuilder(BookEntryModel entry) {
         return BookEntryReadConditionModel.create().withEntry(entry.getId());
     }

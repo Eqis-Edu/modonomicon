@@ -245,7 +245,6 @@ public class BookEntryModel {
 
     /**
      * Sets the entry's icon.
-     *
      */
     public BookEntryModel withIcon(BookIconModel icon) {
         this.icon = icon;
@@ -356,7 +355,7 @@ public class BookEntryModel {
     /**
      * Sets the entry's sort number. Only used if the parent category is in index mode.
      * Entries with a lower sort number will be displayed first in the index list.
-     *
+     * <p>
      * If no sort number is provided the CategoryProvider will add sort numbers in the order the entries are added.
      */
     public BookEntryModel withSortNumber(int sortNumber) {

@@ -38,16 +38,16 @@ public record BookAddress(@NotNull ResourceLocation bookId,
     }
 
     public static BookAddress of(@NotNull ResourceLocation bookId,
-                                         ResourceLocation categoryId,
-                                         ResourceLocation entryId,
-                                         int page) {
+                                 ResourceLocation categoryId,
+                                 ResourceLocation entryId,
+                                 int page) {
         return new BookAddress(bookId, categoryId, false, entryId, false, page, false);
     }
 
     public static BookAddress ignoreSaved(@NotNull ResourceLocation bookId,
-                                 ResourceLocation categoryId,
-                                 ResourceLocation entryId,
-                                 int page) {
+                                          ResourceLocation categoryId,
+                                          ResourceLocation entryId,
+                                          int page) {
         return new BookAddress(bookId, categoryId, true, entryId, true, page, true);
     }
 }

@@ -81,7 +81,7 @@ public class TagMatcher implements StateMatcher {
                 var parserResult = BlockStateParser.parseForTesting(BuiltInRegistries.BLOCK.asLookup(), new StringReader(finalTagString), true).right().orElseThrow();
                 return parserResult.tag().unwrap().left().orElseThrow();
             } catch (CommandSyntaxException e) {
-                Modonomicon.LOG.error("Failed to parse Tag and BlockState properties from json member \"tag\" for TagMatcher: {0}. Will use \"modonomicon:bedrock\" as fallback, Exception: {1}", finalTagString,  e);
+                Modonomicon.LOG.error("Failed to parse Tag and BlockState properties from json member \"tag\" for TagMatcher: {0}. Will use \"modonomicon:bedrock\" as fallback, Exception: {1}", finalTagString, e);
                 return TagKey.create(Registries.BLOCK, Modonomicon.loc("bedrock"));
             }
         });
@@ -91,7 +91,7 @@ public class TagMatcher implements StateMatcher {
                 var parserResult = BlockStateParser.parseForTesting(BuiltInRegistries.BLOCK.asLookup(), new StringReader(finalTagString), true).right().orElseThrow();
                 return parserResult.vagueProperties();
             } catch (CommandSyntaxException e) {
-                Modonomicon.LOG.error("Failed to parse Tag and BlockState properties from json member \"tag\" for TagMatcher: {0}. Will use empty property map as fallback, Exception: {1}", finalTagString,  e);
+                Modonomicon.LOG.error("Failed to parse Tag and BlockState properties from json member \"tag\" for TagMatcher: {0}. Will use empty property map as fallback, Exception: {1}", finalTagString, e);
                 return Map.of();
             }
         });

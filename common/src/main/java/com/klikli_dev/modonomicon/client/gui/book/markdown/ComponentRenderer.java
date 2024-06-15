@@ -7,6 +7,7 @@
 package com.klikli_dev.modonomicon.client.gui.book.markdown;
 
 import com.klikli_dev.modonomicon.book.Book;
+import com.klikli_dev.modonomicon.client.gui.book.markdown.internal.renderer.ListHolder;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.internal.renderer.NodeRendererMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
@@ -15,7 +16,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
 import net.minecraft.network.chat.contents.TranslatableContents;
 import org.commonmark.Extension;
-import com.klikli_dev.modonomicon.client.gui.book.markdown.internal.renderer.ListHolder;
 import org.commonmark.node.Node;
 import org.commonmark.renderer.text.TextContentRenderer;
 

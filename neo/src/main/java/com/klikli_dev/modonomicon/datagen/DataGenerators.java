@@ -11,7 +11,6 @@ import com.klikli_dev.modonomicon.api.datagen.BookProvider;
 import com.klikli_dev.modonomicon.api.datagen.LanguageProviderCache;
 import com.klikli_dev.modonomicon.datagen.book.DemoBook;
 import net.minecraft.data.DataGenerator;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.List;

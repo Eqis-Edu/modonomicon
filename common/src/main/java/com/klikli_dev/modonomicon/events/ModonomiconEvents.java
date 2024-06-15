@@ -26,11 +26,11 @@ public class ModonomiconEvents {
         return server;
     }
 
-    public static class Server{
+    public static class Server {
 
     }
 
-    public static class Client{
+    public static class Client {
 
         private final List<Pair<Consumer<EntryClickedEvent>, EventPriority>> entryClickedCallbacks = new ArrayList<>();
 

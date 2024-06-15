@@ -7,14 +7,14 @@
 package com.klikli_dev.modonomicon.client.gui.book.markdown;
 
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
+import com.klikli_dev.modonomicon.client.gui.book.markdown.internal.renderer.BulletListHolder;
+import com.klikli_dev.modonomicon.client.gui.book.markdown.internal.renderer.OrderedListHolder;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
-import com.klikli_dev.modonomicon.client.gui.book.markdown.internal.renderer.BulletListHolder;
-import com.klikli_dev.modonomicon.client.gui.book.markdown.internal.renderer.OrderedListHolder;
 import org.commonmark.node.*;
 import org.commonmark.renderer.NodeRenderer;
 

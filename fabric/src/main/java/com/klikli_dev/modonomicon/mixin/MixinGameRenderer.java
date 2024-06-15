@@ -8,7 +8,6 @@ package com.klikli_dev.modonomicon.mixin;
 
 import com.klikli_dev.modonomicon.client.ClientTicks;
 import com.klikli_dev.modonomicon.gui.FabricGuiHelper;
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.GameRenderer;
 import org.joml.Matrix4f;
@@ -35,8 +34,7 @@ public abstract class MixinGameRenderer {
     @Redirect(method = "render",
             at = @At(value = "INVOKE",
                     target = "Lorg/joml/Matrix4fStack;translation(FFF)Lorg/joml/Matrix4f;"))
-    public Matrix4f renderMatrix4fStackTranslation(Matrix4fStack matrix4fStack, float x, float y, float z)
-    {
+    public Matrix4f renderMatrix4fStackTranslation(Matrix4fStack matrix4fStack, float x, float y, float z) {
         //Offset the gui far plane, we used the numbers from the uses of net.neoforged.neoforge.client.ClientHooks.getGuiFarPlane()
         return matrix4fStack.translation(0.0F, 0.0F, 10000 - FabricGuiHelper.getGuiFarPlane());
     }
@@ -44,8 +42,7 @@ public abstract class MixinGameRenderer {
     @Redirect(method = "render",
             at = @At(value = "INVOKE",
                     target = "Lorg/joml/Matrix4f;setOrtho(FFFFFF)Lorg/joml/Matrix4f;"))
-    public Matrix4f renderMatrix4fStackTranslation(Matrix4f matrix4f, float left, float right, float bottom, float top, float zNear, float zFar)
-    {
+    public Matrix4f renderMatrix4fStackTranslation(Matrix4f matrix4f, float left, float right, float bottom, float top, float zNear, float zFar) {
         //Offset the gui far plane, we used the numbers from the uses of net.neoforged.neoforge.client.ClientHooks.getGuiFarPlane()
         return matrix4f.ortho(left, right, bottom, top, zNear, FabricGuiHelper.getGuiFarPlane());
     }

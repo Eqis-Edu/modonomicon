@@ -63,7 +63,7 @@ public class ModonomiconConstants {
             public static final int DEFAULT_MAX_USES = 1;
             public static final int DEFAULT_PERMISSION_LEVEL = 0;
         }
-        
+
         public static class EntryType {
             public static final ResourceLocation CONTENT = ResourceLocation.fromNamespaceAndPath(ModonomiconAPI.ID, "content");
             public static final ResourceLocation CATEGORY_LINK = ResourceLocation.fromNamespaceAndPath(ModonomiconAPI.ID, "category_link");
@@ -100,21 +100,9 @@ public class ModonomiconConstants {
             public static final ResourceLocation ENTRY_UNLOCKED = ResourceLocation.fromNamespaceAndPath(ModonomiconAPI.ID, "entry_unlocked");
 
             public static final ResourceLocation ENTRY_READ = ResourceLocation.fromNamespaceAndPath(ModonomiconAPI.ID, "entry_read");
-            
+
             public static final ResourceLocation CATEGORY_HAS_ENTRIES = ResourceLocation.fromNamespaceAndPath(ModonomiconAPI.ID, "category_has_entries");
         }
-    }
-
-    public static class Nbt {
-
-        public static final String VERSION_1_0 = "1.0.0";
-
-        public static final String CURRENT_VERSION = VERSION_1_0;
-        public static final String PREFIX = ModonomiconAPI.ID + ":";
-
-        public static final String VERSION_TAG = PREFIX + "nbt_version";
-
-        public static final String ITEM_BOOK_ID_TAG = PREFIX + "book_id";
     }
 
     public static class I18n {
@@ -211,11 +199,8 @@ public class ModonomiconConstants {
             public static final String SUCCESS_RESET_BOOK = SUCCESS_PREFIX + "reset_book";
             public static final String SUCCESS_SAVE_PROGRESS = SUCCESS_PREFIX + "save_progress";
             public static final String SUCCESS_LOAD_PROGRESS = SUCCESS_PREFIX + "load_progress";
-
-            public static final String RELOAD_REQUESTED =  PREFIX + "reload_requested";
-            public static final String RELOAD_SUCCESS =  SUCCESS_PREFIX + "reload_requested";
-
-
+            public static final String RELOAD_SUCCESS = SUCCESS_PREFIX + "reload_requested";
+            public static final String RELOAD_REQUESTED = PREFIX + "reload_requested";
             public static final String DEFAULT_FAILURE_MESSAGE = PREFIX + "failure";
         }
     }

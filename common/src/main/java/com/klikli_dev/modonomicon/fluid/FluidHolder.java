@@ -8,8 +8,6 @@ package com.klikli_dev.modonomicon.fluid;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.PatchedDataComponentMap;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
 
 public interface FluidHolder {

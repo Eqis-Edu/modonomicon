@@ -18,7 +18,7 @@ public class DemoRedirectEntry extends EntryProvider {
 
     @Override
     protected void generatePages() {
-       //has no pages, clicking this entry redirects to another category
+        //has no pages, clicking this entry redirects to another category
     }
 
     @Override

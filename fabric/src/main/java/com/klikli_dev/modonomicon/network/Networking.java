@@ -7,7 +7,6 @@
 package com.klikli_dev.modonomicon.network;
 
 import com.klikli_dev.modonomicon.networking.*;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
@@ -26,7 +25,7 @@ public class Networking {
         ServerPlayNetworking.registerGlobalReceiver(RequestAdvancementMessage.TYPE, new ServerMessageHandler<>());
     }
 
-    public static void registerMessages(){
+    public static void registerMessages() {
         //to server
         PayloadTypeRegistry.playC2S().register(BookEntryReadMessage.TYPE, BookEntryReadMessage.STREAM_CODEC);
         PayloadTypeRegistry.playC2S().register(ClickCommandLinkMessage.TYPE, ClickCommandLinkMessage.STREAM_CODEC);

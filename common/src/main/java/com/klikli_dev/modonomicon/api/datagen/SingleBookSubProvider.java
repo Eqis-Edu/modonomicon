@@ -9,13 +9,10 @@ package com.klikli_dev.modonomicon.api.datagen;
 
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 /**
@@ -37,7 +34,7 @@ public abstract class SingleBookSubProvider extends ModonomiconProviderBase impl
      * @param defaultLang The LanguageProvider to fill with this book provider. IMPORTANT: the Language Provider needs to be added to the DataGenerator AFTER the BookProvider.
      */
     public SingleBookSubProvider(String bookId, String modId, ModonomiconLanguageProvider defaultLang, Map<String, ModonomiconLanguageProvider> translations) {
-        super(modId,defaultLang, translations, new BookContextHelper(modId), new ConditionHelper());
+        super(modId, defaultLang, translations, new BookContextHelper(modId), new ConditionHelper());
         this.book = null;
 
         this.bookId = bookId;

@@ -133,7 +133,7 @@ public abstract class BookPageRenderer<T extends BookPage> {
             }
 
             this.drawCenteredStringNoShadow(guiGraphics, formattedCharSequence, x, y, 0, scale);
-        } else if(title.hasComponent()) {
+        } else if (title.hasComponent()) {
             //non-markdown title we just render as usual
 
             var font = BookDataManager.Client.get().safeFont(this.page.getBook().getFont());

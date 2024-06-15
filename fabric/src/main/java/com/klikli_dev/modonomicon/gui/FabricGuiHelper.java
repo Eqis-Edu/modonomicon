@@ -57,7 +57,7 @@ public class FabricGuiHelper implements GuiHelper {
             return;
         }
 
-        if(multiLayerScreen.guiLayers.size() == 1){
+        if (multiLayerScreen.guiLayers.size() == 1) {
             //we are at the last layer, so we close the screen
             //we do this here because then the last screen gets the related events from mc / modloader
             minecraft.setScreen(null);

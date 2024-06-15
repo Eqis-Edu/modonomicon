@@ -12,7 +12,6 @@ import com.klikli_dev.modonomicon.data.BookDataManager;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenCustomHashSet;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;

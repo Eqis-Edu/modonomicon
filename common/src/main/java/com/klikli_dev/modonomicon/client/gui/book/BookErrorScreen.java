@@ -79,7 +79,7 @@ public class BookErrorScreen extends Screen {
 
         //do not translate super (= widget rendering) -> otherwise our buttons are messed up
         //manually call the renderables like super does -> otherwise super renders the background again on top of our stuff
-        for(var renderable : this.renderables){
+        for (var renderable : this.renderables) {
             renderable.render(guiGraphics, pMouseX, pMouseY, pPartialTick);
         }
 

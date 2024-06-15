@@ -54,7 +54,7 @@ public class BookImagePage extends BookPage {
         return new BookImagePage(title, text, images, border, anchor, condition);
     }
 
-    public static BookImagePage fromNetwork(RegistryFriendlyByteBuf buffer){
+    public static BookImagePage fromNetwork(RegistryFriendlyByteBuf buffer) {
         var title = BookTextHolder.fromNetwork(buffer);
         var text = BookTextHolder.fromNetwork(buffer);
 

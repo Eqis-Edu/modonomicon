@@ -10,11 +10,8 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookPageModel;
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.phys.Vec2;
 
-import java.text.MessageFormat;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -91,7 +88,7 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
     /**
      * Call this in your CategoryProvider to get the entry.
      * Will automatically add the entry to the parent category.
-     *
+     * <p>
      * This overload should only be used in index mode, where no location is needed.
      */
     public BookEntryModel generate() {
@@ -103,7 +100,7 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
      * Will automatically add the entry to the parent category.
      */
     public BookEntryModel generate(String location) {
-        if(location.length() == 1)
+        if (location.length() == 1)
             return this.generate(location.charAt(0));
         return this.generate(this.parent.entryMap().get(location));
     }
@@ -121,7 +118,7 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
      * Call this in your CategoryProvider to get the entry.
      * Will automatically add the entry to the parent category.
      */
-    public BookEntryModel generate(Vec2 location){
+    public BookEntryModel generate(Vec2 location) {
         this.context().entry(this.entryId());
 
         var entry = BookEntryModel.create(

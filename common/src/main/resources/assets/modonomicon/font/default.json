@@ -1,16 +1,16 @@
 {
-    "providers": [
-        {
-            "type": "reference",
-            "id": "modonomicon:include/space"
-        },
-        {
-            "type": "reference",
-            "id": "modonomicon:include/default"
-        },
-        {
-            "type": "reference",
-            "id": "modonomicon:include/unifont"
-        }
-    ]
+  "providers": [
+    {
+      "type": "reference",
+      "id": "modonomicon:include/space"
+    },
+    {
+      "type": "reference",
+      "id": "modonomicon:include/default"
+    },
+    {
+      "type": "reference",
+      "id": "modonomicon:include/unifont"
+    }
+  ]
 }

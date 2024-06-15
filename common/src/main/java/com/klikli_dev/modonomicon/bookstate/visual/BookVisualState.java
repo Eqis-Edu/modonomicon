@@ -18,10 +18,10 @@ import java.util.Optional;
 
 public class BookVisualState {
     public static final Codec<BookVisualState> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-                    Codecs.mutableMap(ResourceLocation.CODEC, CategoryVisualState.CODEC).fieldOf("categoryStates").forGetter((state) -> state.categoryStates),
-                    ResourceLocation.CODEC.optionalFieldOf("openCategory").forGetter((state) -> Optional.ofNullable(state.openCategory)),
-                    Codec.INT.fieldOf("openPagesIndex").forGetter((state) -> state.openPagesIndex)
-            ).apply(instance, BookVisualState::new));
+            Codecs.mutableMap(ResourceLocation.CODEC, CategoryVisualState.CODEC).fieldOf("categoryStates").forGetter((state) -> state.categoryStates),
+            ResourceLocation.CODEC.optionalFieldOf("openCategory").forGetter((state) -> Optional.ofNullable(state.openCategory)),
+            Codec.INT.fieldOf("openPagesIndex").forGetter((state) -> state.openPagesIndex)
+    ).apply(instance, BookVisualState::new));
 
     public Map<ResourceLocation, CategoryVisualState> categoryStates;
 

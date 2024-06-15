@@ -62,6 +62,7 @@ public class BookCategory {
      * If false, the entryToOpen will be opened every time the category is opened.
      */
     protected boolean openEntryToOpenOnlyOnce;
+
     public BookCategory(ResourceLocation id, String name, BookTextHolder description, int sortNumber, BookCondition condition, boolean showCategoryButton, BookIcon icon, BookDisplayMode displayMode, ResourceLocation background, int backgroundWidth, int backgroundHeight, float backgroundTextureZoomMultiplier, List<BookCategoryBackgroundParallaxLayer> backgroundParallaxLayers, ResourceLocation entryTextures, ResourceLocation entryToOpen, boolean openEntryOnlyOnce) {
         this.id = id;
         this.name = name;

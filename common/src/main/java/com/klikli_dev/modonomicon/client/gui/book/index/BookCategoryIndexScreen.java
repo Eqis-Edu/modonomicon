@@ -14,11 +14,11 @@ import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.visual.CategoryVisualState;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
-import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
-import com.klikli_dev.modonomicon.client.gui.book.button.EntryListButton;
 import com.klikli_dev.modonomicon.client.gui.book.BookCategoryScreen;
-import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
+import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
+import com.klikli_dev.modonomicon.client.gui.book.button.EntryListButton;
+import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
 import com.klikli_dev.modonomicon.util.GuiGraphicsExt;
 import net.minecraft.client.gui.GuiGraphics;
@@ -48,7 +48,7 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
 
 //TODO: Book Category Index screen and Book Parent Index Screen are almost identical and need to be refactored to use a common parent
 
-    public BookCategoryIndexScreen(BookParentScreen parentScreen, BookCategory category){
+    public BookCategoryIndexScreen(BookParentScreen parentScreen, BookCategory category) {
         this(parentScreen, category, true);
     }
 
@@ -110,7 +110,7 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
         this.tooltip = null;
     }
 
-    protected boolean shouldShowDescription(){
+    protected boolean shouldShowDescription() {
         return !this.category.getDescription().isEmpty();
     }
 
@@ -179,7 +179,7 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
 
     @Override
     public void render(GuiGraphics guiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        if(BookGuiManager.get().openBookEntryScreen != null) //do not render self while an entry screen is open to avoid double render effects
+        if (BookGuiManager.get().openBookEntryScreen != null) //do not render self while an entry screen is open to avoid double render effects
             return;
 
         this.resetTooltip();

@@ -9,12 +9,10 @@ package com.klikli_dev.modonomicon.registry;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.data.BookDataManager;
-import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenCustomHashSet;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -43,10 +41,10 @@ public class CreativeModeTabRegistry {
                     BuiltInRegistries.CREATIVE_MODE_TAB.get(ResourceLocation.parse(b.getCreativeTab())) == group) {
                 if (b.generateBookItem()) {
                     ItemStack stack = new ItemStack(ItemRegistry.MODONOMICON.get());
-                    
+
                     stack.set(DataComponentRegistry.BOOK_ID.get(), b.getId());
 
-                    if(searchDupes.add(stack))
+                    if (searchDupes.add(stack))
                         entries.accept(stack, tabKey == CreativeModeTabs.SEARCH ? CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY : CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                 }
             }

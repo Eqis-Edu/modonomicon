@@ -7,7 +7,7 @@
 package com.klikli_dev.modonomicon.networking;
 
 import com.klikli_dev.modonomicon.Modonomicon;
-import com.klikli_dev.modonomicon.book.entries.*;
+import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
 import com.klikli_dev.modonomicon.bookstate.visual.EntryVisualState;
 import com.klikli_dev.modonomicon.data.BookDataManager;

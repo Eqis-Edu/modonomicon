@@ -42,7 +42,7 @@ public class BookMultiblockPageModel extends BookPageModel<BookMultiblockPageMod
     public boolean showVisualizeButton() {
         return this.showVisualizeButton;
     }
-    
+
 
     @Override
     public JsonObject toJson(HolderLookup.Provider provider) {

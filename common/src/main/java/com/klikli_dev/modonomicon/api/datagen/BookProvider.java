@@ -17,9 +17,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.StringUtil;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -50,7 +48,7 @@ public class BookProvider implements DataProvider {
         this.bookModels = new Object2ObjectOpenHashMap<>();
     }
 
-    public String modId(){
+    public String modId() {
         return this.modId;
     }
 

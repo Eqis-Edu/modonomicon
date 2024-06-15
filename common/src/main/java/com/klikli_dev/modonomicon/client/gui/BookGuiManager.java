@@ -18,6 +18,7 @@ import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.BookCategoryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookErrorScreen;
+import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.index.BookCategoryIndexOnNodeScreen;
 import com.klikli_dev.modonomicon.client.gui.book.index.BookCategoryIndexScreen;
@@ -25,7 +26,6 @@ import com.klikli_dev.modonomicon.client.gui.book.index.BookParentIndexScreen;
 import com.klikli_dev.modonomicon.client.gui.book.node.BookCategoryNodeScreen;
 import com.klikli_dev.modonomicon.client.gui.book.node.BookParentNodeScreen;
 import com.klikli_dev.modonomicon.client.gui.book.node.DummyBookCategoryNodeScreen;
-import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.networking.BookEntryReadMessage;
 import com.klikli_dev.modonomicon.networking.SaveBookStateMessage;
@@ -90,7 +90,7 @@ public class BookGuiManager {
         if (address.categoryId() != null)
             return book.getCategory(address.categoryId());
 
-        if(address.ignoreSavedCategory())
+        if (address.ignoreSavedCategory())
             return null;
 
         var state = BookVisualStateManager.get().getBookStateFor(this.player(), book);
@@ -109,10 +109,10 @@ public class BookGuiManager {
     }
 
     protected BookEntry getSavedOrAddressedEntry(BookCategory category, BookAddress address) {
-        if(address.entryId() != null)
+        if (address.entryId() != null)
             return category.getEntry(address.entryId());
 
-        if(address.ignoreSavedEntry())
+        if (address.ignoreSavedEntry())
             return null;
 
         var state = BookVisualStateManager.get().getCategoryStateFor(this.player(), category);
@@ -194,7 +194,7 @@ public class BookGuiManager {
 
         //Index mode does NOT use default categories, so we only get saved/address
         var openCategory = this.getSavedOrAddressedCategory(book, address);
-        if(openCategory == null)
+        if (openCategory == null)
             return;
 
         this.openCategory(openCategory, address);

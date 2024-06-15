@@ -73,7 +73,6 @@ public abstract class BookCondition {
      * If this returns false, the locked content will not be loaded at all.
      * Most conditions should not override this - it was added primarily for the ModLoadedCondition, because
      * content locked behind it may not be present at all if the condition is false and loading would cause errors.
-     *
      */
     public boolean testOnLoad() {
         return true;
@@ -85,7 +84,7 @@ public abstract class BookCondition {
      * Usually that is the case for BookEntryUnlockedCondition, BookAndCondition and BookOrCondition.
      * The latter two because they may contain the former.
      */
-    public boolean requiresMultiPassUnlockTest(){
+    public boolean requiresMultiPassUnlockTest() {
         return false;
     }
 

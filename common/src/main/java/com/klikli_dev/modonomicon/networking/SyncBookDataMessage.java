@@ -7,9 +7,12 @@
 package com.klikli_dev.modonomicon.networking;
 
 import com.klikli_dev.modonomicon.Modonomicon;
-import com.klikli_dev.modonomicon.book.*;
-import com.klikli_dev.modonomicon.book.entries.*;
-import com.klikli_dev.modonomicon.data.*;
+import com.klikli_dev.modonomicon.book.Book;
+import com.klikli_dev.modonomicon.book.BookCategory;
+import com.klikli_dev.modonomicon.book.BookCommand;
+import com.klikli_dev.modonomicon.book.entries.BookEntry;
+import com.klikli_dev.modonomicon.data.BookDataManager;
+import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

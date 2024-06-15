@@ -9,7 +9,6 @@ package com.klikli_dev.modonomicon.network;
 import com.klikli_dev.modonomicon.networking.Message;
 import com.klikli_dev.modonomicon.platform.services.NetworkHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.level.ServerPlayer;
 

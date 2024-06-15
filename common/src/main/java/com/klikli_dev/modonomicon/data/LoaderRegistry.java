@@ -7,14 +7,16 @@
 package com.klikli_dev.modonomicon.data;
 
 import com.klikli_dev.modonomicon.Modonomicon;
-import com.klikli_dev.modonomicon.api.*;
+import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Condition;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Page;
 import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
 import com.klikli_dev.modonomicon.api.multiblock.StateMatcher;
 import com.klikli_dev.modonomicon.api.multiblock.TriPredicate;
 import com.klikli_dev.modonomicon.book.conditions.*;
-import com.klikli_dev.modonomicon.book.entries.*;
+import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
+import com.klikli_dev.modonomicon.book.entries.BookEntry;
+import com.klikli_dev.modonomicon.book.entries.CategoryLinkBookEntry;
 import com.klikli_dev.modonomicon.book.page.*;
 import com.klikli_dev.modonomicon.multiblock.DenseMultiblock;
 import com.klikli_dev.modonomicon.multiblock.SparseMultiblock;
@@ -28,7 +30,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class LoaderRegistry {
-    
+
     private static final Map<ResourceLocation, BookEntryJsonLoader<? extends BookEntry>> entryTypeJsonLoaders = new ConcurrentHashMap<>();
     private static final Map<ResourceLocation, NetworkLoader<? extends BookEntry>> entryTypeNetworkLoaders = new ConcurrentHashMap<>();
 
@@ -58,7 +60,7 @@ public class LoaderRegistry {
         registerDefaultStateMatcherLoaders();
         registerDefaultMultiblockLoaders();
     }
-    
+
     private static void registerDefaultBookEntryTypes() {
         registerEntryType(ModonomiconConstants.Data.EntryType.CONTENT, BookContentEntry::fromJson, BookContentEntry::fromNetwork);
         registerEntryType(ModonomiconConstants.Data.EntryType.CATEGORY_LINK, CategoryLinkBookEntry::fromJson, CategoryLinkBookEntry::fromNetwork);
@@ -113,8 +115,8 @@ public class LoaderRegistry {
         //noinspection deprecation
         registerPredicate(Modonomicon.loc("non_solid"), (getter, pos, state) -> !state.isSolid());
     }
-    
-    
+
+
     /**
      * Call from client setup
      */
@@ -166,7 +168,7 @@ public class LoaderRegistry {
     public static void registerPredicate(ResourceLocation id, TriPredicate<BlockGetter, BlockPos, BlockState> predicate) {
         predicates.put(id, predicate);
     }
-    
+
     public static BookEntryJsonLoader<? extends BookEntry> getEntryJsonLoader(ResourceLocation id) {
         var loader = entryTypeJsonLoaders.get(id);
         if (loader == null) {
@@ -174,7 +176,7 @@ public class LoaderRegistry {
         }
         return loader;
     }
-    
+
     public static NetworkLoader<? extends BookEntry> getEntryNetworkLoader(ResourceLocation id) {
         var loader = entryTypeNetworkLoaders.get(id);
         if (loader == null) {
@@ -182,7 +184,7 @@ public class LoaderRegistry {
         }
         return loader;
     }
-    
+
     public static JsonLoader<? extends StateMatcher> getStateMatcherJsonLoader(ResourceLocation id) {
         var loader = stateMatcherJsonLoaders.get(id);
         if (loader == null) {

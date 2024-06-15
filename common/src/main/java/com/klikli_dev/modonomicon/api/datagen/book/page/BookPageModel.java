@@ -42,12 +42,12 @@ public class BookPageModel<T extends BookPageModel<T>> {
     public T withAnchor(@NotNull String anchor) {
         this.anchor = anchor;
         //noinspection unchecked
-        return (T)this;
+        return (T) this;
     }
 
     public T withCondition(@NotNull BookConditionModel<?> condition) {
         this.condition = condition;
         //noinspection unchecked
-        return (T)this;
+        return (T) this;
     }
 }

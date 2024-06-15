@@ -16,9 +16,11 @@ import com.klikli_dev.modonomicon.bookstate.visual.BookVisualState;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
-import com.klikli_dev.modonomicon.client.gui.book.button.*;
-import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
+import com.klikli_dev.modonomicon.client.gui.book.button.CategoryListButton;
+import com.klikli_dev.modonomicon.client.gui.book.button.ReadAllButton;
+import com.klikli_dev.modonomicon.client.gui.book.button.SearchButton;
+import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.search.BookSearchScreen;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
 import com.klikli_dev.modonomicon.networking.ClickReadAllButtonMessage;
@@ -325,7 +327,7 @@ public class BookParentIndexScreen extends BookPaginatedScreen implements BookPa
 
 
         int readAllButtonX = this.bookLeft + FULL_WIDTH - ReadAllButton.WIDTH / 2;
-        int readAllButtonY =  this.bookTop + ReadAllButton.HEIGHT + 15;
+        int readAllButtonY = this.bookTop + ReadAllButton.HEIGHT + 15;
 
         var readAllButton = new ReadAllButton(this, readAllButtonX, readAllButtonY,
                 () -> this.hasUnreadUnlockedEntries, //if we have unlocked entries that are not read -> blue

@@ -7,8 +7,8 @@
 package com.klikli_dev.modonomicon.util;
 
 import com.mojang.serialization.Codec;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;

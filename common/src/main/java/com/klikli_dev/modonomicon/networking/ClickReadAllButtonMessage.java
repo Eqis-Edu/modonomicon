@@ -9,7 +9,6 @@ package com.klikli_dev.modonomicon.networking;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.data.BookDataManager;
-import com.mojang.serialization.Codec;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -24,7 +23,7 @@ public class ClickReadAllButtonMessage implements Message {
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ClickReadAllButtonMessage> STREAM_CODEC = StreamCodec.composite(
             ResourceLocation.STREAM_CODEC,
-            ( m) -> m.bookId,
+            (m) -> m.bookId,
             ByteBufCodecs.BOOL,
             (m) -> m.readAll,
             ClickReadAllButtonMessage::new

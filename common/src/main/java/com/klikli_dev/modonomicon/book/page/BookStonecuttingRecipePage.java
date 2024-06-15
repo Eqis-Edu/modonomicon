@@ -32,7 +32,7 @@ public class BookStonecuttingRecipePage extends BookProcessingRecipePage<Stonecu
         return new BookStonecuttingRecipePage(common.title1(), common.recipeId1(), common.title2(), common.recipeId2(), common.text(), anchor, condition);
     }
 
-    public static BookStonecuttingRecipePage fromNetwork(RegistryFriendlyByteBuf buffer){
+    public static BookStonecuttingRecipePage fromNetwork(RegistryFriendlyByteBuf buffer) {
         var common = BookRecipePage.commonFromNetwork(buffer);
         var anchor = buffer.readUtf();
         var condition = BookCondition.fromNetwork(buffer);
