@@ -11,7 +11,7 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.Items;
 
 public class LinkFormattingEntry extends EntryProvider {
-    public static final String ID = "advanced";
+    public static final String ID = "link";
 
     public LinkFormattingEntry(CategoryProvider parent) {
         super(parent);

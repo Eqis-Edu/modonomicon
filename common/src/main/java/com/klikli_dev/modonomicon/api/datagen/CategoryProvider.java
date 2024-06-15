@@ -188,8 +188,11 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
      * Call this in your BookProvider to get the category.
      */
     public BookCategoryModel generate() {
-        this.context().entry(this.categoryId());
-        this.entryMap().setMap(this.generateEntryMap());
+        this.context().category(this.categoryId());
+
+        var map = this.generateEntryMap();
+        if(map != null && map.length > 0)
+            this.entryMap().setMap(this.generateEntryMap());
 
         var category = BookCategoryModel.create(
                         this.modLoc(this.context().categoryId()),
