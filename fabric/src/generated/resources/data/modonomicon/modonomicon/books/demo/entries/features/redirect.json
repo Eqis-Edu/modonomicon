@@ -1,8 +1,8 @@
 {
-  "background_u_index": 0,
-  "background_v_index": 0,
+  "background_u_index": 1,
+  "background_v_index": 1,
   "category": "modonomicon:features",
-  "category_to_open": "modonomicon:hidden",
+  "category_to_open": "modonomicon:index_mode",
   "description": "book.modonomicon.demo.features.redirect.description",
   "hide_while_locked": false,
   "icon": {

@@ -19,20 +19,6 @@
       "text": "book.modonomicon.demo.features.empty.intro.text",
       "title": "book.modonomicon.demo.features.empty.intro.title",
       "use_markdown_in_title": false
-    },
-    {
-      "type": "modonomicon:empty",
-      "anchor": "",
-      "condition": {
-        "type": "modonomicon:none"
-      }
-    },
-    {
-      "type": "modonomicon:empty",
-      "anchor": "",
-      "condition": {
-        "type": "modonomicon:none"
-      }
     }
   ],
   "parents": [

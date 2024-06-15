@@ -1,13 +1,13 @@
 {
   "background_u_index": 0,
   "background_v_index": 0,
-  "category": "modonomicon:other",
-  "description": "book.modonomicon.demo.other.root.description",
+  "category": "modonomicon:index_mode",
+  "description": "book.modonomicon.demo.index_mode.demo2.description",
   "hide_while_locked": false,
   "icon": {
-    "item": "minecraft:sugar"
+    "item": "minecraft:barrel"
   },
-  "name": "book.modonomicon.demo.other.root.name",
+  "name": "book.modonomicon.demo.index_mode.demo2.name",
   "pages": [
     {
       "type": "modonomicon:text",
@@ -16,13 +16,13 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "book.modonomicon.demo.other.root.intro.text",
-      "title": "book.modonomicon.demo.other.root.intro.title",
+      "text": "book.modonomicon.demo.index_mode.demo2.intro.text",
+      "title": "book.modonomicon.demo.index_mode.demo2.intro.title",
       "use_markdown_in_title": false
     }
   ],
   "show_when_any_parent_unlocked": false,
-  "sort_number": 0,
+  "sort_number": 1,
   "x": 0,
   "y": 0
 }

@@ -5,9 +5,7 @@
   "description": "book.modonomicon.demo.formatting.basic.description",
   "hide_while_locked": false,
   "icon": {
-    "height": 16,
-    "texture": "minecraft:textures/item/paper.png",
-    "width": 16
+    "item": "minecraft:paper"
   },
   "name": "book.modonomicon.demo.formatting.basic.name",
   "pages": [

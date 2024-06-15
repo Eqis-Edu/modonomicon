@@ -21,7 +21,7 @@
   "creative_tab": "modonomicon:modonomicon",
   "default_title_color": 0,
   "description": "",
-  "display_mode": "index",
+  "display_mode": "node",
   "font": "modonomicon:default",
   "frame_texture": "modonomicon:textures/gui/book_frame.png",
   "generate_book_item": true,
@@ -48,7 +48,7 @@
   },
   "search_button_x_offset": 0,
   "search_button_y_offset": 0,
-  "tooltip": "book.modonomicon.demo.tooltip",
+  "tooltip": "",
   "top_frame_overlay": {
     "frame_height": 7,
     "frame_width": 72,

@@ -16,8 +16,8 @@
         "type": "modonomicon:none"
       },
       "show_title_separator": true,
-      "text": "book.modonomicon.demo.features.entity.intro.text",
-      "title": "book.modonomicon.demo.features.entity.intro.title",
+      "text": "book.modonomicon.demo.features.entity.entity.text",
+      "title": "book.modonomicon.demo.features.entity.entity.title",
       "use_markdown_in_title": false
     },
     {
