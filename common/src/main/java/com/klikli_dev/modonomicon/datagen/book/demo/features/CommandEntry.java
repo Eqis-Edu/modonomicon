@@ -34,9 +34,10 @@ public class CommandEntry extends EntryProvider {
         this.pageTitle("Command Link");
         //See DemoBookProvider#additionalSetup for how the command is added to the book
         this.pageText(
-                STR."""
-                        \{this.commandLink("Click me to run the command!", "test_command2")}
                 """
+                        {0}
+                        """,
+                this.commandLink("Click me to run the command!", "test_command2")
         );
     }
 

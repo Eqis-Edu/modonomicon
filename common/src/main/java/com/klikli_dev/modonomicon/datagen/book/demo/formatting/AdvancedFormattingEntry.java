@@ -23,13 +23,15 @@ public class AdvancedFormattingEntry extends EntryProvider {
                 .withText(this.context().pageText())
         );
         this.pageTitle("Advanced Formatting");
-        this.pageText(STR."""
+        this.pageText("""
                 <t>this.could.be.a.translation.key<t>    \s
                 ***This is bold italics***    \s
                 *++This is italics underlined++*
-                \{this.itemLink(Items.DIAMOND)}
-                \{this.itemLink("TestText", Items.EMERALD)}
-                """
+                {0}
+                {1}
+                """,
+                this.itemLink(Items.DIAMOND),
+                this.itemLink("TestText", Items.EMERALD)
         );
 
         this.page("page2", () -> BookTextPageModel.create()

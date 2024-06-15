@@ -37,18 +37,19 @@ public class LinkFormattingEntry extends EntryProvider {
                 .withText(this.context().pageText())
         );
         this.pageTitle("Book Links");
-        //Note on Java 21 String Templates: They are (as of writing) a preview feature, to use them you need to add the following to your build.gradle:
-        //    tasks.withType(JavaCompile) {
-        //        options.compilerArgs += "--enable-preview"
-        //    }
-        this.pageText(STR."""
-                \{this.entryLink("View a Multiblock", FeaturesCategory.ID, MultiblockEntry.ID)} \\
-                \{this.entryLink("View a Condition", FeaturesCategory.ID, ConditionLevel1Entry.ID)} \\
-                \{this.entryLink("View basic formatting", FeaturesCategory.ID, BasicFormattingEntry.ID)} \\
-                [Link without book id](entry://formatting/basic) \\
-                \{this.entryLink("Always locked", FeaturesCategory.ID, AlwaysLockedEntry.ID)} \\
-                \{this.categoryLink("View Features Category", FeaturesCategory.ID)}
-                """
+        this.pageText("""
+                        {0} \\
+                        {1} \\
+                        {2} \\
+                        [Link without book id](entry://formatting/basic) \\
+                        {3} \\
+                        {4}
+                        """,
+                this.entryLink("View a Multiblock", FeaturesCategory.ID, MultiblockEntry.ID),
+                this.entryLink("View a Condition", FeaturesCategory.ID, ConditionLevel1Entry.ID),
+                this.entryLink("View basic formatting", FeaturesCategory.ID, BasicFormattingEntry.ID),
+                this.entryLink("Always locked", FeaturesCategory.ID, AlwaysLockedEntry.ID),
+                this.categoryLink("View Features Category", FeaturesCategory.ID)
         );
 
 //        this.page("page3", () -> BookTextPageModel.create()

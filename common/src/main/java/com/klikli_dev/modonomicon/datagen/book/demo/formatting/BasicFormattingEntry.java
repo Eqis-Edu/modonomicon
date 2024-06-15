@@ -34,10 +34,11 @@ public class BasicFormattingEntry extends EntryProvider {
         this.page("page2", () -> BookTextPageModel.create()
                 .withText(this.context().pageText())
         );
-        this.pageText(STR."""
+        this.pageText("""
                 ~~This is stricken through~~   \s
-                \{this.color("Colorful Text!", 0x55FF55)}
-                """
+                {0}
+                """,
+                this.color("Colorful Text!", 0x55FF55)
         );
     }
 

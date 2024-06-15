@@ -85,6 +85,7 @@ sourceSets.main.resources.srcDir 'src/generated/resources'
 tasks.withType(JavaCompile).configureEach {
     source(project(":common").sourceSets.main.allSource)
 }
+
 tasks.withType(Javadoc).configureEach {
     source(project(":common").sourceSets.main.allJava)
 }
