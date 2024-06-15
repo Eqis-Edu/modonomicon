@@ -22,17 +22,14 @@ public class DataGenerators {
 
         //We use a language cache that the book provider can write into
         var enUsCache = new LanguageProviderCache("en_us");
-
         generator.addProvider(event.includeServer(), new BookProvider(generator.getPackOutput(), event.getLookupProvider(), Modonomicon.MOD_ID, List.of(
                 //Add our demo book provider to the book provider
                 new DemoBook(Modonomicon.MOD_ID, enUsCache)
         )));
-
-        generator.addProvider(event.includeServer(), new DemoMultiblockProvider(generator.getPackOutput(), Modonomicon.MOD_ID));
-
         //Important: lang provider needs to be added after the book provider, so it can read the texts added by the book provider out of the cache
         generator.addProvider(event.includeClient(), new EnUsProvider(generator.getPackOutput(), enUsCache));
 
+        generator.addProvider(event.includeServer(), new DemoMultiblockProvider(generator.getPackOutput(), Modonomicon.MOD_ID));
         generator.addProvider(event.includeClient(), new ItemModelProvider(generator.getPackOutput(), event.getExistingFileHelper()));
     }
 }
