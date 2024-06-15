@@ -4,14 +4,16 @@
 
 package com.klikli_dev.modonomicon.client.gui.book;
 
-import com.klikli_dev.modonomicon.book.BookProvider;
+import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.bookstate.visual.BookVisualState;
 import com.klikli_dev.modonomicon.networking.SyncBookUnlockStatesMessage;
 
 /**
  * A screen that represents a book. It usually manages other screens for categories and entries.
  */
-public interface BookParentScreen extends BookProvider {
+public interface BookParentScreen {
+
+    Book getBook();
 
     void onDisplay();
 

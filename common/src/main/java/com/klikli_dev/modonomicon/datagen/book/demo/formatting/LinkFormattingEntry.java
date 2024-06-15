@@ -37,6 +37,10 @@ public class LinkFormattingEntry extends EntryProvider {
                 .withText(this.context().pageText())
         );
         this.pageTitle("Book Links");
+        //Note on Java 21 String Templates: They are (as of writing) a preview feature, to use them you need to add the following to your build.gradle:
+        //    tasks.withType(JavaCompile) {
+        //        options.compilerArgs += "--enable-preview"
+        //    }
         this.pageText(STR."""
                 \{this.entryLink("View a Multiblock", FeaturesCategory.ID, MultiblockEntry.ID)} \\
                 \{this.entryLink("View a Condition", FeaturesCategory.ID, ConditionLevel1Entry.ID)} \\

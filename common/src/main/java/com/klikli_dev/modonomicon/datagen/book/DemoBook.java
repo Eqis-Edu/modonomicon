@@ -7,7 +7,7 @@
 package com.klikli_dev.modonomicon.datagen.book;
 
 import com.klikli_dev.modonomicon.api.datagen.ModonomiconLanguageProvider;
-import com.klikli_dev.modonomicon.api.datagen.SingleBookProvider;
+import com.klikli_dev.modonomicon.api.datagen.SingleBookSubProvider;
 import com.klikli_dev.modonomicon.api.datagen.book.BookCommandModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
 import com.klikli_dev.modonomicon.datagen.book.demo.ConditionalCategory;
@@ -21,10 +21,12 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.concurrent.CompletableFuture;
 
-public class DemoBookProvider extends SingleBookProvider {
+public class DemoBook extends SingleBookSubProvider {
 
-    public DemoBookProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modid, ModonomiconLanguageProvider lang, ModonomiconLanguageProvider... translations) {
-        super("demo", packOutput, registries, modid, lang, translations);
+    public static final String ID = "demo";
+
+    public DemoBook(String modid, ModonomiconLanguageProvider lang, ModonomiconLanguageProvider... translations) {
+        super(ID, modid, lang, translations);
     }
 
     @Override
@@ -52,6 +54,11 @@ public class DemoBookProvider extends SingleBookProvider {
     }
 
     @Override
+    protected void registerDefaultMacros() {
+        //currently no macros
+    }
+
+    @Override
     protected void generateCategories() {
         //for the two big categories we use the category provider
         var featuresCategory = this.add(new FeaturesCategory(this).generate());
@@ -71,10 +78,5 @@ public class DemoBookProvider extends SingleBookProvider {
     @Override
     protected String bookTooltip() {
         return "A book to showcase & test Modonomicon features.";
-    }
-
-    @Override
-    protected void registerDefaultMacros() {
-        //none currently
     }
 }

@@ -4,11 +4,13 @@
 
 package com.klikli_dev.modonomicon.client.gui.book;
 
-import com.klikli_dev.modonomicon.book.BookProvider;
+import com.klikli_dev.modonomicon.book.Book;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
 
-public interface BookScreenWithButtons extends BookProvider {
+public interface BookScreenWithButtons {
+    Book getBook();
+
     void setTooltip(List<Component> tooltip);
 }

@@ -17,6 +17,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 
@@ -27,39 +28,30 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * A book provider that can handle multiple books but provides only few convenience methods. Consider using {@link SingleBookProvider} instead!
+ * The main provider class for book datagen. Implement a subprovider and hand it over to this provider to generate the files!
  */
-public abstract class BookProvider extends ModonomiconProviderBase implements DataProvider {
+public class BookProvider implements DataProvider {
 
+    protected final String modId;
     protected final CompletableFuture<HolderLookup.Provider> registries;
 
     protected final PackOutput packOutput;
     //This is a bit of a relic, one provider is only supposed to generate one book.
     protected final Map<ResourceLocation, BookModel> bookModels;
+    protected final List<BookSubProvider> subProviders;
 
 
-    /**
-     * @param defaultLang The LanguageProvider to fill with this book provider. IMPORTANT: the Language Provider needs to be added to the DataGenerator AFTER the BookProvider.
-     */
-    public BookProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modId, ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
-        this(packOutput, registries, modId, defaultLang, makeLangMap(defaultLang, translations));
-    }
-
-    /**
-     * @param defaultLang The LanguageProvider to fill with this book provider. IMPORTANT: the Language Provider needs to be added to the DataGenerator AFTER the BookProvider.
-     */
-    public BookProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modId, ModonomiconLanguageProvider defaultLang, Map<String, ModonomiconLanguageProvider> translations) {
-        super(modId, defaultLang, translations, new BookContextHelper(modId), new ConditionHelper());
+    public BookProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modId,
+                        List<BookSubProvider> subProviders) {
         this.packOutput = packOutput;
         this.registries = registries;
+        this.modId = modId;
+        this.subProviders = subProviders;
         this.bookModels = new Object2ObjectOpenHashMap<>();
     }
 
-    /**
-     * Register a macro (= simple string.replace() of macro -> value) to be used in all category providers of this book.
-     */
-    protected void registerDefaultMacro(String macro, String value) {
-        this.registerMacro(macro, value);
+    public String modId(){
+        return this.modId;
     }
 
     protected Path getPath(Path dataFolder, BookModel bookModel) {
@@ -107,8 +99,7 @@ public abstract class BookProvider extends ModonomiconProviderBase implements Da
 
             Path dataFolder = this.packOutput.getOutputFolder(PackOutput.Target.DATA_PACK);
 
-            this.registerDefaultMacros();
-            this.generate();
+            this.subProviders.forEach(subProvider -> subProvider.generate(this.bookModels::put));
 
             for (var bookModel : this.bookModels.values()) {
                 Path bookPath = this.getPath(dataFolder, bookModel);
@@ -145,15 +136,4 @@ public abstract class BookProvider extends ModonomiconProviderBase implements Da
         this.bookModels.put(bookModel.getId(), bookModel);
         return bookModel;
     }
-
-    /**
-     * Call registerMacro() here to make macros (= simple string.replace() of macro -> value) available to all category providers of this book.
-     */
-    protected abstract void registerDefaultMacros();
-
-    /**
-     * Override and generate books in here.
-     * Consider using {@link SingleBookProvider} instead!
-     */
-    protected abstract void generate();
 }

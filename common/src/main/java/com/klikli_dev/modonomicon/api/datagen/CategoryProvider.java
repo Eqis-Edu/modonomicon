@@ -25,13 +25,13 @@ import java.util.stream.Stream;
 
 public abstract class CategoryProvider extends ModonomiconProviderBase {
 
-    protected final BookProvider parent;
+    protected final ModonomiconProviderBase parent;
     protected final CategoryEntryMap entryMap;
     protected final Map<String, List<BookPageModel>> cachedPages = new Object2ObjectOpenHashMap<>();
     protected BookCategoryModel category;
     protected int currentSortIndex;
 
-    public CategoryProvider(BookProvider parent) {
+    public CategoryProvider(ModonomiconProviderBase parent) {
         super(parent.modId(), parent.lang(), parent.langs(), parent.context(), parent.condition());
         this.parent = parent;
         this.entryMap = new CategoryEntryMap();

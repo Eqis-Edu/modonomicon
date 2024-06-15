@@ -1,7 +1,7 @@
 package com.klikli_dev.modonomicon.datagen.book.demo;
 
-import com.klikli_dev.modonomicon.api.datagen.BookProvider;
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
+import com.klikli_dev.modonomicon.api.datagen.SingleBookSubProvider;
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
 import com.klikli_dev.modonomicon.book.BookDisplayMode;
@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items;
 public class IndexModeCategory extends CategoryProvider {
     public static final String ID = "index_mode";
 
-    public IndexModeCategory(BookProvider parent) {
+    public IndexModeCategory(SingleBookSubProvider parent) {
         super(parent);
     }
 

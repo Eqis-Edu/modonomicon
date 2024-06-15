@@ -11,15 +11,17 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 /**
  * An opinionated book provider with helper methods to generate a single book more easily.
  */
-public abstract class SingleBookProvider extends BookProvider {
+public abstract class SingleBookSubProvider extends ModonomiconProviderBase implements BookSubProvider {
     protected BookModel book;
     protected String bookId;
     protected int currentSortIndex;
@@ -27,15 +29,15 @@ public abstract class SingleBookProvider extends BookProvider {
     /**
      * @param defaultLang The LanguageProvider to fill with this book provider. IMPORTANT: the Language Provider needs to be added to the DataGenerator AFTER the BookProvider.
      */
-    public SingleBookProvider(String bookId, PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modId, ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
-        this(bookId, packOutput, registries, modId, defaultLang, makeLangMap(defaultLang, translations));
+    public SingleBookSubProvider(String bookId, String modId, ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
+        this(bookId, modId, defaultLang, makeLangMap(defaultLang, translations));
     }
 
     /**
      * @param defaultLang The LanguageProvider to fill with this book provider. IMPORTANT: the Language Provider needs to be added to the DataGenerator AFTER the BookProvider.
      */
-    public SingleBookProvider(String bookId, PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, String modId, ModonomiconLanguageProvider defaultLang, Map<String, ModonomiconLanguageProvider> translations) {
-        super(packOutput, registries, modId, defaultLang, translations);
+    public SingleBookSubProvider(String bookId, String modId, ModonomiconLanguageProvider defaultLang, Map<String, ModonomiconLanguageProvider> translations) {
+        super(modId,defaultLang, translations, new BookContextHelper(modId), new ConditionHelper());
         this.book = null;
 
         this.bookId = bookId;
@@ -46,9 +48,11 @@ public abstract class SingleBookProvider extends BookProvider {
         return this.bookId;
     }
 
-    @Override
-    public String getName() {
-        return "Book: " + this.modId() + ":" + this.bookId();
+    /**
+     * Register a macro (= simple string.replace() of macro -> value) to be used in all category providers of this book.
+     */
+    protected void registerDefaultMacro(String macro, String value) {
+        this.registerMacro(macro, value);
     }
 
     protected BookCategoryModel add(BookCategoryModel category) {
@@ -59,13 +63,11 @@ public abstract class SingleBookProvider extends BookProvider {
         return category;
     }
 
-    /**
-     * Only override if you know what you are doing.
-     * Generally you should not.
-     */
-    protected void generate() {
-        this.context().book(this.bookId());
+    @Override
+    public void generate(BiConsumer<ResourceLocation, BookModel> consumer) {
+        this.registerDefaultMacros();
 
+        this.context().book(this.bookId());
         var book = BookModel.create(this.modLoc(this.bookId), this.context().bookName());
 
         this.add(this.context().bookName(), this.bookName());
@@ -80,8 +82,13 @@ public abstract class SingleBookProvider extends BookProvider {
 
         this.generateCategories();
 
-        this.add(book);
+        consumer.accept(this.book.getId(), this.book);
     }
+
+    /**
+     * Call registerMacro() here to make macros (= simple string.replace() of macro -> value) available to all category providers of this book.
+     */
+    protected abstract void registerDefaultMacros();
 
     /**
      * Implement this and in it generate and .add() your categories.

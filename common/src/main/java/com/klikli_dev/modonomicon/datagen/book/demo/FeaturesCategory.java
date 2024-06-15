@@ -4,19 +4,18 @@
 
 package com.klikli_dev.modonomicon.datagen.book.demo;
 
-import com.klikli_dev.modonomicon.api.datagen.BookProvider;
 import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
+import com.klikli_dev.modonomicon.api.datagen.SingleBookSubProvider;
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
 import com.klikli_dev.modonomicon.book.BookCategoryBackgroundParallaxLayer;
-import com.klikli_dev.modonomicon.datagen.book.features.*;
 import com.klikli_dev.modonomicon.datagen.book.demo.features.*;
 import net.minecraft.world.item.Items;
 
 public class FeaturesCategory extends CategoryProvider {
     public static final String ID = "features";
 
-    public FeaturesCategory(BookProvider parent) {
+    public FeaturesCategory(SingleBookSubProvider parent) {
         super(parent);
     }
 
