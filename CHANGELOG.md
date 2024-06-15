@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.75.0] - 2024-06-15
+### :sparkles: New Features
+- [`2a661e7`](https://github.com/klikli-dev/modonomicon/commit/2a661e7369cdb3278b8b945c06e9cf38653ef753) - improve datagen providers and update demo book to latest formats *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`e5ce811`](https://github.com/klikli-dev/modonomicon/commit/e5ce81159ac554ce73952b2224ed78878c020734) - update datagen to use the provider + subprovider pattern vanilla favours *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`abfa77c`](https://github.com/klikli-dev/modonomicon/commit/abfa77c26408ea0bbfb66a32512d6b5cf9c69f27) - datagen minor issues *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`5ccffc5`](https://github.com/klikli-dev/modonomicon/commit/5ccffc593ce5120501bd5afc37756dc9a6a27baa) - book data issues *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`95c76a2`](https://github.com/klikli-dev/modonomicon/commit/95c76a2152fd36225afd26c6882265731376bd13) - code cleanup *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`2311cb9`](https://github.com/klikli-dev/modonomicon/commit/2311cb9f1d66c9094d2f46cf354b54f9dd3c9249) - increase neo version *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`712c7b9`](https://github.com/klikli-dev/modonomicon/commit/712c7b9b62d14f1fb44c3663dc68eb06b3a169da) - stop using java 21 preview features *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`a226eff`](https://github.com/klikli-dev/modonomicon/commit/a226eff22696a2862d5553f5d481a802a2370035) - run datagen *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.74.5] - 2024-06-14
 ### :sparkles: New Features
 - [`d8c77cd`](https://github.com/klikli-dev/modonomicon/commit/d8c77cd275ed701707069984839571b440d7072c) - add forge support *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -967,3 +983,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.74.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.2...release/v1.21-1.74.3
 [release/v1.21-1.74.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.3...release/v1.21-1.74.4
 [release/v1.21-1.74.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.4...release/v1.21-1.74.5
+[release/v1.21-1.75.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.5...release/v1.21-1.75.0
