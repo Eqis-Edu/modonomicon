@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.76.0] - 2024-06-15
+### :sparkles: New Features
+- [`3e18a8c`](https://github.com/klikli-dev/modonomicon/commit/3e18a8ced34aeaeeaa56069fa558b6d70c0966e4) - Leaflets *(PR [#216](https://github.com/klikli-dev/modonomicon/pull/216) by [@klikli-dev](https://github.com/klikli-dev))*
+  - :arrow_lower_right: *addresses issue [#210](https://github.com/klikli-dev/modonomicon/issues/210) opened by [@klikli-dev](https://github.com/klikli-dev)*
+
+### :wrench: Chores
+- [`1dfe022`](https://github.com/klikli-dev/modonomicon/commit/1dfe022fcbdfcf29675fa0ae9f9b856a3adfc46d) - restructure datagen calls *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.75.0] - 2024-06-15
 ### :sparkles: New Features
 - [`2a661e7`](https://github.com/klikli-dev/modonomicon/commit/2a661e7369cdb3278b8b945c06e9cf38653ef753) - improve datagen providers and update demo book to latest formats *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -984,3 +993,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.74.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.3...release/v1.21-1.74.4
 [release/v1.21-1.74.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.4...release/v1.21-1.74.5
 [release/v1.21-1.75.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.74.5...release/v1.21-1.75.0
+[release/v1.21-1.76.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.75.0...release/v1.21-1.76.0
