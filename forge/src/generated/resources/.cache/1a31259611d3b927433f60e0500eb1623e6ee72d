@@ -1,6 +1,6 @@
-// 1.21	2024-06-15T06:55:55.5427227	Books: modonomicon
+// 1.21	2024-06-15T07:59:46.9760097	Books: modonomicon
 bc15203da550327ff9a6e6e0577763f328c044b8 data/modonomicon/modonomicon/books/demo/book.json
-a12849d8b8816b38c17965e8d650dbfd8fefa7d5 data/modonomicon/modonomicon/books/demo/categories/conditional.json
+e6a715f2cfd8e4506f0fc77153a77ee059476a73 data/modonomicon/modonomicon/books/demo/categories/conditional.json
 bb1c01567081f42f09dbbcb4485915f0cb23897b data/modonomicon/modonomicon/books/demo/categories/features.json
 447f3ebb16996ca02562642ead2e57ff8f9b6c86 data/modonomicon/modonomicon/books/demo/categories/formatting.json
 10f44784cb6b4302e5b7c6952f625717d585115b data/modonomicon/modonomicon/books/demo/categories/index_mode.json
