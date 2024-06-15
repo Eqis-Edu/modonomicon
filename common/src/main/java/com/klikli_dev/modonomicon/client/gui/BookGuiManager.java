@@ -150,6 +150,12 @@ public class BookGuiManager {
 
         var book = BookDataManager.get().getBook(address.bookId());
 
+        //if the book is a leaflet, ensure we have an address that directly opens the leaflet entry.
+        if(book.isLeaflet()){
+            //if the address contains a specific page, preserve that. The leaflet might theoretically link within itself!
+            address = address.page() > -1 ? book.getLeafletAddress().withPage(address.page()) : book.getLeafletAddress();
+        }
+
         var displayMode = book.getDisplayMode();
         if (displayMode == BookDisplayMode.INDEX) {
             this.openBookInIndexMode(book, address);
@@ -423,6 +429,12 @@ public class BookGuiManager {
         //for ESC closing we always save the page (see below #onEsc())
         screen.saveState(state, overrideStoreLastOpenPageWhenClosingEntry || ClientServices.CLIENT_CONFIG.storeLastOpenPageWhenClosingEntry());
         Services.NETWORK.sendToServer(new SaveEntryStateMessage(screen.getEntry(), state));
+
+        //leaflets should never show the category or book screen
+        //So we just hand the close down to the parent screen, with the instruction to close the remaining stack.
+        if(screen.getBook().isLeaflet()){
+            this.closeScreenStack(this.openBookCategoryScreen);
+        }
     }
 
     /**
@@ -465,6 +477,12 @@ public class BookGuiManager {
     public void closeScreenStack(BookCategoryScreen screen) {
         this.closeCategoryScreen(screen);
 
+        //if previous screen alreadly cleaned up, we exit early
+        //this should not actually happen.
+        if(this.openBookParentScreen == null)
+            return;
+
+
         //set the open category on the book state, so that closeParentScreen sends it along.
         var bookState = BookVisualStateManager.get().getBookStateFor(this.player(), screen.getCategory().getBook());
         bookState.openCategory = screen.getCategory().getId();
@@ -474,6 +492,11 @@ public class BookGuiManager {
     public void closeScreenStack(BookEntryScreen screen) {
         //close entry screen with forced saving of last page
         this.closeEntryScreen(screen, true);
+
+        //if previous screen alreadly cleaned up, we exit early
+        // -> this is the case for leaflets. That is also why it is safe to lose the "OpenEntry" state
+        if(this.openBookCategoryScreen == null)
+            return;
 
         //set the open entry on the category state, so that closeCategoryScreen sends it along.
         var categoryState = BookVisualStateManager.get().getCategoryStateFor(this.player(), this.openBookCategoryScreen.getCategory());

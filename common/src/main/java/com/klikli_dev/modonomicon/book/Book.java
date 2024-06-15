@@ -10,9 +10,11 @@ import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data;
 import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -88,12 +90,14 @@ public class Book {
     protected int searchButtonYOffset;
     protected int readAllButtonYOffset;
 
+    protected ResourceLocation leafletEntry;
+
     public Book(ResourceLocation id, String name, BookTextHolder description, String tooltip, ResourceLocation model, BookDisplayMode displayMode, boolean generateBookItem,
                 ResourceLocation customBookItem, String creativeTab, ResourceLocation font, ResourceLocation bookOverviewTexture, ResourceLocation frameTexture,
                 BookFrameOverlay topFrameOverlay, BookFrameOverlay bottomFrameOverlay, BookFrameOverlay leftFrameOverlay, BookFrameOverlay rightFrameOverlay,
                 ResourceLocation bookContentTexture, ResourceLocation craftingTexture, ResourceLocation turnPageSound,
                 int defaultTitleColor, float categoryButtonIconScale, boolean autoAddReadConditions, int bookTextOffsetX, int bookTextOffsetY, int bookTextOffsetWidth,
-                int categoryButtonXOffset, int categoryButtonYOffset, int searchButtonXOffset, int searchButtonYOffset, int readAllButtonYOffset
+                int categoryButtonXOffset, int categoryButtonYOffset, int searchButtonXOffset, int searchButtonYOffset, int readAllButtonYOffset, ResourceLocation leafletEntry
     ) {
         this.id = id;
         this.name = name;
@@ -129,6 +133,7 @@ public class Book {
         this.searchButtonXOffset = searchButtonXOffset;
         this.searchButtonYOffset = searchButtonYOffset;
         this.readAllButtonYOffset = readAllButtonYOffset;
+        this.leafletEntry = leafletEntry;
     }
 
     public static Book fromJson(ResourceLocation id, JsonObject json, HolderLookup.Provider provider) {
@@ -180,10 +185,14 @@ public class Book {
         var searchButtonYOffset = GsonHelper.getAsInt(json, "search_button_y_offset", 0);
         var readAllButtonYOffset = GsonHelper.getAsInt(json, "read_all_button_y_offset", 0);
 
+        var leafletEntry = json.has("leaflet_entry") ?
+                ResourceLocation.parse(GsonHelper.getAsString(json, "leaflet_entry")) :
+                null;
+
         return new Book(id, name, description, tooltip, model, displayMode, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
                 frameTexture, topFrameOverlay, bottomFrameOverlay, leftFrameOverlay, rightFrameOverlay,
                 bookContentTexture, craftingTexture, turnPageSound, defaultTitleColor, categoryButtonIconScale, autoAddReadConditions, bookTextOffsetX, bookTextOffsetY, bookTextOffsetWidth, categoryButtonXOffset, categoryButtonYOffset,
-                searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset);
+                searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset, leafletEntry);
     }
 
 
@@ -196,7 +205,7 @@ public class Book {
         var displayMode = BookDisplayMode.byId(buffer.readByte());
 
         var generateBookItem = buffer.readBoolean();
-        var customBookItem = buffer.readBoolean() ? buffer.readResourceLocation() : null;
+        var customBookItem = buffer.readNullable(FriendlyByteBuf::readResourceLocation);
         var creativeTab = buffer.readUtf();
 
         var font = buffer.readResourceLocation();
@@ -226,10 +235,12 @@ public class Book {
         var searchButtonYOffset = (int) buffer.readShort();
         var readAllButtonYOffset = (int) buffer.readShort();
 
+        var leafletEntry = buffer.readNullable(FriendlyByteBuf::readResourceLocation);
+
         return new Book(id, name, description, tooltip, model, displayMode, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
                 frameTexture, topFrameOverlay, bottomFrameOverlay, leftFrameOverlay, rightFrameOverlay,
                 bookContentTexture, craftingTexture, turnPageSound, defaultTitleColor, categoryButtonIconScale, autoAddReadConditions, bookTextOffsetX, bookTextOffsetY, bookTextOffsetWidth, categoryButtonXOffset, categoryButtonYOffset,
-                searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset);
+                searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset, leafletEntry);
     }
 
     /**
@@ -279,10 +290,9 @@ public class Book {
         buffer.writeByte(this.displayMode.ordinal());
 
         buffer.writeBoolean(this.generateBookItem);
-        buffer.writeBoolean(this.customBookItem != null);
-        if (this.customBookItem != null) {
-            buffer.writeResourceLocation(this.customBookItem);
-        }
+
+        buffer.writeNullable(this.customBookItem, FriendlyByteBuf::writeResourceLocation);
+
         buffer.writeUtf(this.creativeTab);
 
         buffer.writeResourceLocation(this.font);
@@ -311,6 +321,8 @@ public class Book {
         buffer.writeShort(this.searchButtonXOffset);
         buffer.writeShort(this.searchButtonYOffset);
         buffer.writeShort(this.readAllButtonYOffset);
+
+        buffer.writeNullable(this.leafletEntry, FriendlyByteBuf::writeResourceLocation);
     }
 
     public boolean autoAddReadConditions() {
@@ -435,6 +447,9 @@ public class Book {
     }
 
     public BookDisplayMode getDisplayMode() {
+        if(this.isLeaflet()) {
+            return BookDisplayMode.INDEX;
+        }
         return this.displayMode;
     }
 
@@ -472,5 +487,18 @@ public class Book {
 
     public int getReadAllButtonYOffset() {
         return this.readAllButtonYOffset;
+    }
+
+    public ResourceLocation getLeafletEntry() {
+        return this.leafletEntry;
+    }
+
+    public boolean isLeaflet() {
+        return this.leafletEntry != null;
+    }
+
+    public BookAddress getLeafletAddress() {
+        var leafletEntry = this.getEntry(this.leafletEntry);
+        return BookAddress.ignoreSavedAndOpen(leafletEntry);
     }
 }
