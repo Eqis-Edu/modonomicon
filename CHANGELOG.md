@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.78.1] - 2024-06-16
+### :wrench: Chores
+- [`f296dc1`](https://github.com/klikli-dev/modonomicon/commit/f296dc1e97d31439f449c83b885107b4765cc367) - expand access to category provider id *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`53f970a`](https://github.com/klikli-dev/modonomicon/commit/53f970a96339f4d89974f5f67cd6f7d781b33197) - allow modifying entrymap in category provider *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.78.0] - 2024-06-16
 ### :sparkles: New Features
 - [`c04ceca`](https://github.com/klikli-dev/modonomicon/commit/c04cecadf8dca3f79be0beab0343e14c9a0ec7cb) - add modonomicon to chiseled bookshelf tag *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1006,3 +1012,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.76.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.75.0...release/v1.21-1.76.0
 [release/v1.21-1.77.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.76.0...release/v1.21-1.77.0
 [release/v1.21-1.78.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.77.0...release/v1.21-1.78.0
+[release/v1.21-1.78.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.78.0...release/v1.21-1.78.1
