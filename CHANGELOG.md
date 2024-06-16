@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.78.2] - 2024-06-16
+### :bug: Bug Fixes
+- [`7460798`](https://github.com/klikli-dev/modonomicon/commit/74607980fcb1798dac9d5ee95599e0e8f3814548) - parent macros are not being used *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.78.1] - 2024-06-16
 ### :wrench: Chores
 - [`f296dc1`](https://github.com/klikli-dev/modonomicon/commit/f296dc1e97d31439f449c83b885107b4765cc367) - expand access to category provider id *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1013,3 +1018,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.77.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.76.0...release/v1.21-1.77.0
 [release/v1.21-1.78.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.77.0...release/v1.21-1.78.0
 [release/v1.21-1.78.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.78.0...release/v1.21-1.78.1
+[release/v1.21-1.78.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.78.1...release/v1.21-1.78.2
