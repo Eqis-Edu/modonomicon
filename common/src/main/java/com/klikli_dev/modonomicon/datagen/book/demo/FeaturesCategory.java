@@ -106,7 +106,7 @@ public class FeaturesCategory extends CategoryProvider {
     }
 
     @Override
-    protected String categoryId() {
+    public String categoryId() {
         return ID;
     }
 }

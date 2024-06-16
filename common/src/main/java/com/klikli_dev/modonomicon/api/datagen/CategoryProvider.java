@@ -254,5 +254,5 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
      * Implement this and return the desired id for the category.
      */
 
-    protected abstract String categoryId();
+    public abstract String categoryId();
 }

@@ -56,7 +56,7 @@ public class IndexModeCategory extends CategoryProvider {
     }
 
     @Override
-    protected String categoryId() {
+    public String categoryId() {
         return ID;
     }
 }
