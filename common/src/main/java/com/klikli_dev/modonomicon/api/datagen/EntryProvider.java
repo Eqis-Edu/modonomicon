@@ -13,7 +13,10 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.phys.Vec2;
 
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class EntryProvider extends ModonomiconProviderBase {
 
@@ -25,6 +28,12 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
         super(parent.modId(), parent.lang(), parent.langs(), parent.context(), parent.condition());
         this.parent = parent;
         this.entry = null;
+    }
+
+    @Override
+    protected Map<String, String> macros() {
+        return Stream.concat(super.macros().entrySet().stream(), this.parent.macros().entrySet().stream())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v1));
     }
 
     /**
