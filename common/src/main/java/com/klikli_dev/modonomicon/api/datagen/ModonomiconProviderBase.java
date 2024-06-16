@@ -108,7 +108,7 @@ public abstract class ModonomiconProviderBase {
      * Apply all macros of this category provider and its book provider to the input string.
      */
     protected String macro(String input) {
-        for (var entry : this.macros.entrySet()) {
+        for (var entry : this.macros().entrySet()) {
             input = input.replace(entry.getKey(), entry.getValue());
         }
         return input;
