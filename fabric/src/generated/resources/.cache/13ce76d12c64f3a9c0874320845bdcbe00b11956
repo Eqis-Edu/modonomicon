@@ -1,4 +1,4 @@
-// 1.21	2024-06-15T21:01:33.6529336	Modonomicon/Books: modonomicon
+// 1.21	2024-06-16T10:11:59.7681571	Modonomicon/Books: modonomicon
 cccca6bb0ab5ae6510bb8a0333426e66e6c62538 data\modonomicon\modonomicon\books\demo\entries\features\multiblock.json
 bb1c01567081f42f09dbbcb4485915f0cb23897b data\modonomicon\modonomicon\books\demo\categories\features.json
 e2cb80ba9c55ac1ffe021e250335522c53df2409 data\modonomicon\modonomicon\books\demo\entries\features\recipe.json
@@ -17,8 +17,8 @@ e6a715f2cfd8e4506f0fc77153a77ee059476a73 data\modonomicon\modonomicon\books\demo
 8d5c900f92888af78e90c20cfffd59c9bb66c462 data\modonomicon\modonomicon\books\demo\entries\features\condition_level_1.json
 13db70c54729d19a0815dbe90b52626a3169e18c data\modonomicon\modonomicon\books\demo\entries\features\entity.json
 df0f65389e81935cede169200a76078be687f45f data\modonomicon\modonomicon\books\demo\entries\formatting\link.json
-1ff9ff29111f0befffc51e68363d00d30243788c data\modonomicon\modonomicon\books\demo\entries\features\custom_icon.json
 74b0b26d3953eb7221f2156b78a035c689ff9e48 data\modonomicon\modonomicon\books\demo\entries\index_mode\demo1.json
+1ff9ff29111f0befffc51e68363d00d30243788c data\modonomicon\modonomicon\books\demo\entries\features\custom_icon.json
 20c110b2a400d413deb1c51ce37a1e7a9c0bd68c data\modonomicon\modonomicon\books\demo_leaflet\book.json
 8a70cb4a1ce959ef735dbd9c051f7b061513f810 data\modonomicon\modonomicon\books\demo\entries\features\condition_root.json
 ad8b5b90af527f79977ef75aace112b568f2b7ab data\modonomicon\modonomicon\books\demo\entries\features\redirect.json

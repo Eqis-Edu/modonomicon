@@ -36,5 +36,7 @@ public class DataGenerators implements DataGeneratorEntrypoint {
 
         pack.addProvider((FabricDataOutput output) -> new DemoMultiblockProvider(output, Modonomicon.MOD_ID));
         pack.addProvider(ItemModelProvider::new);
+
+        pack.addProvider(ItemTagsProvider::new);
     }
 }
