@@ -26,8 +26,8 @@ import java.util.stream.Stream;
 public abstract class CategoryProvider extends ModonomiconProviderBase {
 
     protected final ModonomiconProviderBase parent;
-    protected final CategoryEntryMap entryMap;
     protected final Map<String, List<BookPageModel>> cachedPages = new Object2ObjectOpenHashMap<>();
+    protected CategoryEntryMap entryMap;
     protected BookCategoryModel category;
     protected int currentSortIndex;
 
@@ -191,13 +191,13 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
         this.context().category(this.categoryId());
 
         var map = this.generateEntryMap();
-        if(map != null && map.length > 0)
+        if (map != null && map.length > 0)
             this.entryMap().setMap(this.generateEntryMap());
 
         var category = BookCategoryModel.create(
-                        this.modLoc(this.context().categoryId()),
-                        this.context().categoryName()
-                );
+                this.modLoc(this.context().categoryId()),
+                this.context().categoryName()
+        );
 
         this.add(this.context().categoryName(), this.categoryName());
         var categoryDescription = this.categoryDescription();
