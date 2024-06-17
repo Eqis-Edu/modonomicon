@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.83.0] - 2024-06-17
+### :sparkles: New Features
+- [`bf81ada`](https://github.com/klikli-dev/modonomicon/commit/bf81ada10631f5465494cf802f41fcc644783f72) - enable JEI integration *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.82.0] - 2024-06-17
 ### :sparkles: New Features
 - [`872da1c`](https://github.com/klikli-dev/modonomicon/commit/872da1c0fd4eed05bac688618a66cfaa86b533aa) - Bookmarks *(PR [#219](https://github.com/klikli-dev/modonomicon/pull/219) by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1053,3 +1058,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.80.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.79.0...release/v1.21-1.80.0
 [release/v1.21-1.81.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.80.0...release/v1.21-1.81.0
 [release/v1.21-1.82.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.81.0...release/v1.21-1.82.0
+[release/v1.21-1.83.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.82.0...release/v1.21-1.83.0
