@@ -53,7 +53,7 @@ public class BookCategoryModel {
     protected List<BookEntryModel> entries = new ArrayList<>();
 
     @Nullable
-    protected BookConditionModel condition = null;
+    protected BookConditionModel<?> condition = null;
     protected boolean showCategoryButton = true;
 
     /**
@@ -82,7 +82,7 @@ public class BookCategoryModel {
     }
 
     @Nullable
-    public BookConditionModel getCondition() {
+    public BookConditionModel<?> getCondition() {
         return this.condition;
     }
 
@@ -345,7 +345,7 @@ public class BookCategoryModel {
      * If no condition is set, the category will be unlocked by default.
      * Use {@link com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel} or {@link com.klikli_dev.modonomicon.api.datagen.book.condition.BookOrConditionModel} to combine multiple conditions.
      */
-    public BookCategoryModel withCondition(BookConditionModel condition) {
+    public BookCategoryModel withCondition(BookConditionModel<?> condition) {
         this.condition = condition;
         return this;
     }

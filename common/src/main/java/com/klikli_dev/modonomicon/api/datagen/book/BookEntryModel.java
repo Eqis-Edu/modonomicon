@@ -34,8 +34,8 @@ public class BookEntryModel {
 
     protected boolean hideWhileLocked;
     protected boolean showWhenAnyParentUnlocked;
-    protected List<BookPageModel> pages = new ArrayList<>();
-    protected BookConditionModel condition;
+    protected List<BookPageModel<?>> pages = new ArrayList<>();
+    protected BookConditionModel<?> condition;
     protected ResourceLocation categoryToOpen;
     protected ResourceLocation commandToRunOnFirstRead;
 
@@ -108,7 +108,7 @@ public class BookEntryModel {
         return this.entryBackgroundVIndex;
     }
 
-    public BookConditionModel getCondition() {
+    public BookConditionModel<?> getCondition() {
         return this.condition;
     }
 
@@ -168,7 +168,7 @@ public class BookEntryModel {
         return this.sortNumber;
     }
 
-    public List<BookPageModel> getPages() {
+    public List<BookPageModel<?>> getPages() {
         return this.pages;
     }
 
@@ -366,7 +366,7 @@ public class BookEntryModel {
     /**
      * Replaces the entry's pages with the given list.
      */
-    public BookEntryModel withPages(List<BookPageModel> pages) {
+    public BookEntryModel withPages(List<BookPageModel<?>> pages) {
         this.pages = pages;
         return this;
     }
@@ -374,7 +374,7 @@ public class BookEntryModel {
     /**
      * Adds the given pages to the entry's pages.
      */
-    public BookEntryModel withPages(BookPageModel... pages) {
+    public BookEntryModel withPages(BookPageModel<?>... pages) {
         this.pages.addAll(List.of(pages));
         return this;
     }
@@ -382,7 +382,7 @@ public class BookEntryModel {
     /**
      * Adds the given page to the entry's pages.
      */
-    public BookEntryModel withPage(BookPageModel page) {
+    public BookEntryModel withPage(BookPageModel<?> page) {
         this.pages.add(page);
         return this;
     }
@@ -392,7 +392,7 @@ public class BookEntryModel {
      * If no condition is set, the entry will be unlocked by default.
      * Use {@link com.klikli_dev.modonomicon.api.datagen.book.condition.BookAndConditionModel} or {@link com.klikli_dev.modonomicon.api.datagen.book.condition.BookOrConditionModel} to combine multiple conditions.
      */
-    public BookEntryModel withCondition(BookConditionModel condition) {
+    public BookEntryModel withCondition(BookConditionModel<?> condition) {
         this.condition = condition;
         return this;
     }

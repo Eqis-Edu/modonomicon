@@ -65,7 +65,7 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
      *
      * @param model the page model
      */
-    protected <T extends BookPageModel> T page(T model) {
+    protected <T extends BookPageModel<?>> T page(T model) {
         return this.add(model);
     }
 
@@ -77,20 +77,19 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
      *
      * @param modelSupplier A supplier that provides a page model. It is a supplier, because that way you can use this.context() within the supplier and it will correctly use the given page as part of the context.
      */
-    protected <T extends BookPageModel> T page(String page, Supplier<T> modelSupplier) {
+    protected <T extends BookPageModel<?>> T page(String page, Supplier<T> modelSupplier) {
         this.context().page(page);
         var model = modelSupplier.get();
         return this.add(model);
     }
 
-    protected <T extends BookPageModel> T add(T page) {
+    protected <T extends BookPageModel<?>> T add(T page) {
         this.entry.withPage(page);
         return page;
     }
 
-    protected <T extends BookPageModel> List<T> add(List<T> pages) {
-        //noinspection unchecked
-        this.entry.withPages((List<BookPageModel>) pages);
+    protected List<BookPageModel<?>> add(List<BookPageModel<?>> pages) {
+        this.entry.withPages(pages);
         return pages;
     }
 

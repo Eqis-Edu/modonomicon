@@ -23,19 +23,29 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class CategoryProvider extends ModonomiconProviderBase {
+/**
+ * A category provider that is oriented on the legacy API for easier migration.
+ */
+public abstract class LegacyCategoryProvider extends ModonomiconProviderBase {
 
     protected final ModonomiconProviderBase parent;
+    protected final Map<String, List<BookPageModel<?>>> cachedPages = new Object2ObjectOpenHashMap<>();
     protected CategoryEntryMap entryMap;
     protected BookCategoryModel category;
     protected int currentSortIndex;
+    protected String categoryId;
 
-    public CategoryProvider(ModonomiconProviderBase parent) {
+    public LegacyCategoryProvider(ModonomiconProviderBase parent, String categoryId) {
         super(parent.modId(), parent.lang(), parent.langs(), parent.context(), parent.condition());
         this.parent = parent;
         this.entryMap = new CategoryEntryMap();
         this.category = null;
         this.currentSortIndex = 0;
+        this.categoryId = categoryId;
+    }
+
+    public String categoryId() {
+        return this.categoryId;
     }
 
     protected CategoryEntryMap entryMap() {
@@ -46,6 +56,64 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
     protected Map<String, String> macros() {
         return Stream.concat(super.macros().entrySet().stream(), this.parent.macros().entrySet().stream())
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (v1, v2) -> v1));
+    }
+
+    protected BookEntryModel entry(String location, ResourceLocation texture) {
+        return this.entry(location).withIcon(texture);
+    }
+
+    protected BookEntryModel entry(String location, ResourceLocation texture, int width, int height) {
+        return this.entry(location).withIcon(texture, width, height);
+    }
+
+    protected BookEntryModel entry(String location, ItemLike icon) {
+        return this.entry(location).withIcon(icon);
+    }
+
+    protected BookEntryModel entry(char location, ResourceLocation texture) {
+        return this.entry(location).withIcon(texture);
+    }
+
+    protected BookEntryModel entry(char location, ResourceLocation texture, int width, int height) {
+        return this.entry(location).withIcon(texture, width, height);
+    }
+
+    protected BookEntryModel entry(char location, ItemLike icon) {
+        return this.entry(location).withIcon(icon);
+    }
+
+    protected BookEntryModel entry(char location) {
+        return this.entry().withLocation(this.entryMap().get(location));
+    }
+
+
+    protected BookEntryModel entry(String location) {
+        return this.entry().withLocation(this.entryMap().get(location));
+    }
+
+    protected BookEntryModel entry() {
+        var entry = BookEntryModel.create(
+                        this.modLoc(this.context().categoryId() + "/" + this.context().entryId()),
+                        this.context().entryName()
+                )
+                .withDescription(this.context().entryDescription());
+        if (this.cachedPages.containsKey(this.context().entry())) {
+            entry.withPages(this.cachedPages.get(this.context().entry()));
+            this.cachedPages.remove(this.context().entry());
+        }
+        return entry;
+    }
+
+    protected <T extends BookPageModel<?>> T page(T model) {
+        this.cachedPages.computeIfAbsent(this.context().entry(), k -> new ArrayList<>()).add(model);
+        return model;
+    }
+
+    protected <T extends BookPageModel<?>> T page(String page, Supplier<T> modelSupplier) {
+        this.context().page(page);
+        var model = modelSupplier.get();
+        this.cachedPages.computeIfAbsent(this.context().entry(), k -> new ArrayList<>()).add(model);
+        return model;
     }
 
     protected BookEntryParentModel parent(BookEntryModel parentEntry) {
@@ -74,27 +142,9 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
      * Call this in your BookProvider to get the category.
      */
     public BookCategoryModel generate() {
-        this.context().category(this.categoryId());
-
-        var map = this.generateEntryMap();
-        if (map != null && map.length > 0)
-            this.entryMap().setMap(this.generateEntryMap());
-
-        var category = BookCategoryModel.create(
-                this.modLoc(this.context().categoryId()),
-                this.context().categoryName()
-        );
-
-        this.add(this.context().categoryName(), this.categoryName());
-        var categoryDescription = this.categoryDescription();
-        if (!StringUtil.isNullOrEmpty(categoryDescription)) {
-            this.add(this.context().categoryDescription(), categoryDescription);
-            category.withDescription(this.context().categoryDescription());
-        }
-
-        category.withIcon(this.categoryIcon());
-
-        this.category = this.additionalSetup(category);
+        this.context().category(this.categoryId);
+        this.entryMap().setMap(this.generateEntryMap());
+        this.category = this.generateCategory();
         this.generateEntries();
         return this.category;
     }
@@ -111,34 +161,9 @@ public abstract class CategoryProvider extends ModonomiconProviderBase {
     protected abstract void generateEntries();
 
     /**
-     * Implement this and modify the category as needed for additional config.
+     * Implement this and return your category.
      * Entries should not be added here, instead call .add() in generateEntries().
      * Context already is set to this category.
      */
-    protected BookCategoryModel additionalSetup(BookCategoryModel category) {
-        return category;
-    }
-
-    /**
-     * Implement this and return the category name in the main language.
-     */
-    protected abstract String categoryName();
-
-    /**
-     * Implement this and return the category description in the main language.
-     */
-    protected String categoryDescription() {
-        return "";
-    }
-
-    /**
-     * Implement this and return the desired icon for the category.
-     */
-    protected abstract BookIconModel categoryIcon();
-
-    /**
-     * Implement this and return the desired id for the category.
-     */
-
-    public abstract String categoryId();
+    protected abstract BookCategoryModel generateCategory();
 }

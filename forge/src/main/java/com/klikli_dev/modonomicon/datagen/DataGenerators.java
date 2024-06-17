@@ -8,6 +8,7 @@ package com.klikli_dev.modonomicon.datagen;
 
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.datagen.BookProvider;
+import com.klikli_dev.modonomicon.api.datagen.ForgeBookProvider;
 import com.klikli_dev.modonomicon.api.datagen.LanguageProviderCache;
 import com.klikli_dev.modonomicon.datagen.book.DemoBook;
 import com.klikli_dev.modonomicon.datagen.book.DemoLeaflet;
@@ -23,11 +24,18 @@ public class DataGenerators {
 
         //We use a language cache that the book provider can write into
         var enUsCache = new LanguageProviderCache("en_us");
-        generator.addProvider(event.includeServer(), new BookProvider(generator.getPackOutput(), event.getLookupProvider(), Modonomicon.MOD_ID, List.of(
-                //Add our demo book provider to the book provider
+        generator.addProvider(event.includeServer(), ForgeBookProvider.of(event,
+                //Add our demo book sub provider to the book provider
                 new DemoBook(Modonomicon.MOD_ID, enUsCache),
-                new DemoLeaflet(Modonomicon.MOD_ID, enUsCache)
-        )));
+                //Add our demo leaflet sub provider to the book provider
+                new DemoLeaflet(Modonomicon.MOD_ID, enUsCache))
+        );
+
+        //Sample of a legacy book provider registration
+//        generator.addProvider(event.includeServer(), ForgeBookProvider.of(event,
+//                new MyLegacyBookProvider("bookId", generator.getPackOutput(), "modid", enUsCache)
+//        ));
+
         //Important: lang provider needs to be added after the book provider, so it can read the texts added by the book provider out of the cache
         generator.addProvider(event.includeClient(), new EnUsProvider(generator.getPackOutput(), enUsCache));
 

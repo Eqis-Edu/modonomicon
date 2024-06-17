@@ -38,11 +38,11 @@ public abstract class ModonomiconProviderBase {
                 return map;
             },
             Collector.Characteristics.UNORDERED);
-    private final String modId;
-    private final ModonomiconLanguageProvider lang;
-    private final Map<String, ModonomiconLanguageProvider> translations;
-    private final BookContextHelper context;
-    private final ConditionHelper conditionHelper;
+    protected final String modId;
+    protected final ModonomiconLanguageProvider lang;
+    protected final Map<String, ModonomiconLanguageProvider> translations;
+    protected final BookContextHelper context;
+    protected final ConditionHelper conditionHelper;
     private Map<String, String> macros = new Object2ObjectOpenHashMap<>();
 
     protected ModonomiconProviderBase(String modId, ModonomiconLanguageProvider lang, Map<String, ModonomiconLanguageProvider> translations, BookContextHelper context, ConditionHelper conditionHelper) {
