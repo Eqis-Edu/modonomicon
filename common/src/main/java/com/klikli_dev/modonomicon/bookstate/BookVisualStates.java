@@ -12,34 +12,38 @@ import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.bookstate.visual.BookVisualState;
 import com.klikli_dev.modonomicon.bookstate.visual.CategoryVisualState;
 import com.klikli_dev.modonomicon.bookstate.visual.EntryVisualState;
-import com.klikli_dev.modonomicon.util.Codecs;
+import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.List;
+import java.util.Map;
 
 public class BookVisualStates {
     public static final Codec<BookVisualStates> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codecs.concurrentMap(ResourceLocation.CODEC, BookVisualState.CODEC).fieldOf("bookStates").forGetter((s) -> s.bookStates)
+            Codec.unboundedMap(ResourceLocation.CODEC, BookVisualState.CODEC).fieldOf("bookStates").forGetter((s) -> s.bookStates),
+            Codec.unboundedMap(ResourceLocation.CODEC, BookAddress.CODEC.listOf()).fieldOf("bookBookmarks").forGetter((s) -> s.bookBookmarks)
     ).apply(instance, BookVisualStates::new));
 
-    //TODO: make proper stream codec
     public static final StreamCodec<ByteBuf, BookVisualStates> STREAM_CODEC = ByteBufCodecs.fromCodec(CODEC);
 
+    public Map<ResourceLocation, BookVisualState> bookStates;
 
-    public ConcurrentMap<ResourceLocation, BookVisualState> bookStates;
+    public Map<ResourceLocation, List<BookAddress>> bookBookmarks;
 
     public BookVisualStates() {
-        this(new ConcurrentHashMap<>());
+        this(Object2ObjectMaps.emptyMap(), Object2ObjectMaps.emptyMap());
     }
 
-    public BookVisualStates(ConcurrentMap<ResourceLocation, BookVisualState> bookStates) {
-        this.bookStates = bookStates;
+    public BookVisualStates(Map<ResourceLocation, BookVisualState> bookStates, Map<ResourceLocation, List<BookAddress>> bookBookmarks) {
+        this.bookStates = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(bookStates));
+        this.bookBookmarks = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(bookBookmarks));
     }
 
     public BookVisualState getBookState(Book book) {

@@ -10,6 +10,7 @@ import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -17,8 +18,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 
 public class SyncMultiblockDataMessage implements Message {
 
@@ -26,10 +26,10 @@ public class SyncMultiblockDataMessage implements Message {
     public static final Type<SyncMultiblockDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Modonomicon.MOD_ID, "sync_multiblock_data"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncMultiblockDataMessage> STREAM_CODEC = CustomPacketPayload.codec(SyncMultiblockDataMessage::encode, SyncMultiblockDataMessage::new);
 
-    public ConcurrentMap<ResourceLocation, Multiblock> multiblocks = new ConcurrentHashMap<>();
+    public Map<ResourceLocation, Multiblock> multiblocks = new Object2ObjectOpenHashMap<>();
 
-    public SyncMultiblockDataMessage(ConcurrentMap<ResourceLocation, Multiblock> multiblocks) {
-        this.multiblocks = multiblocks;
+    public SyncMultiblockDataMessage(Map<ResourceLocation, Multiblock> multiblocks) {
+        this.multiblocks = new Object2ObjectOpenHashMap<>(multiblocks);
     }
 
     public SyncMultiblockDataMessage(RegistryFriendlyByteBuf buf) {

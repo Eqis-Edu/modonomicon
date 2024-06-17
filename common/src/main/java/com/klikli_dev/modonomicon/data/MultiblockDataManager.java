@@ -14,6 +14,8 @@ import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
 import com.klikli_dev.modonomicon.networking.Message;
 import com.klikli_dev.modonomicon.networking.SyncMultiblockDataMessage;
 import com.klikli_dev.modonomicon.platform.Services;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,8 +25,6 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 
 public class MultiblockDataManager extends SimpleJsonResourceReloadListener {
@@ -33,7 +33,7 @@ public class MultiblockDataManager extends SimpleJsonResourceReloadListener {
 
     private static final MultiblockDataManager instance = new MultiblockDataManager();
 
-    private ConcurrentMap<ResourceLocation, Multiblock> multiblocks = new ConcurrentHashMap<>();
+    private Map<ResourceLocation, Multiblock> multiblocks = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
     private boolean loaded;
     private HolderLookup.Provider registries;
 
@@ -63,12 +63,12 @@ public class MultiblockDataManager extends SimpleJsonResourceReloadListener {
 
     public Message getSyncMessage() {
         //we hand over a copy of the map, because otherwise in SP scenarios if we clear this.multiblocks to prepare for receiving the message, we also clear the books in the message
-        return new SyncMultiblockDataMessage(new ConcurrentHashMap<>(this.multiblocks));
+        return new SyncMultiblockDataMessage(this.multiblocks);
     }
 
     public void onDatapackSyncPacket(SyncMultiblockDataMessage message) {
         this.preLoad();
-        this.multiblocks = message.multiblocks;
+        this.multiblocks = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(message.multiblocks));
         this.onLoadingComplete();
     }
 

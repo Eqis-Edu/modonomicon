@@ -13,6 +13,8 @@ import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -24,8 +26,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class Book {
     protected ResourceLocation id;
@@ -46,9 +46,9 @@ public class Book {
 
     protected ResourceLocation craftingTexture;
     protected ResourceLocation turnPageSound;
-    protected ConcurrentMap<ResourceLocation, BookCategory> categories;
-    protected ConcurrentMap<ResourceLocation, BookEntry> entries;
-    protected ConcurrentMap<ResourceLocation, BookCommand> commands;
+    protected Map<ResourceLocation, BookCategory> categories;
+    protected Map<ResourceLocation, BookEntry> entries;
+    protected Map<ResourceLocation, BookCommand> commands;
 
 
     protected int defaultTitleColor;
@@ -97,7 +97,7 @@ public class Book {
 
 
     public Book(ResourceLocation id, String name, BookTextHolder description, String tooltip, ResourceLocation model, BookDisplayMode displayMode, boolean generateBookItem,
-                ResourceLocation customBookItem, String creativeTab, ResourceLocation font, ResourceLocation bookOverviewTexture, ResourceLocation frameTexture,
+                @Nullable ResourceLocation customBookItem, String creativeTab, ResourceLocation font, ResourceLocation bookOverviewTexture, ResourceLocation frameTexture,
                 BookFrameOverlay topFrameOverlay, BookFrameOverlay bottomFrameOverlay, BookFrameOverlay leftFrameOverlay, BookFrameOverlay rightFrameOverlay,
                 ResourceLocation bookContentTexture, ResourceLocation craftingTexture, ResourceLocation turnPageSound,
                 int defaultTitleColor, float categoryButtonIconScale, boolean autoAddReadConditions, int bookTextOffsetX, int bookTextOffsetY, int bookTextOffsetWidth,
@@ -125,9 +125,9 @@ public class Book {
         this.defaultTitleColor = defaultTitleColor;
         this.categoryButtonIconScale = categoryButtonIconScale;
         this.autoAddReadConditions = autoAddReadConditions;
-        this.categories = new ConcurrentHashMap<>();
-        this.entries = new ConcurrentHashMap<>();
-        this.commands = new ConcurrentHashMap<>();
+        this.categories = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+        this.entries = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+        this.commands = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
         this.bookTextOffsetX = bookTextOffsetX;
         this.bookTextOffsetY = bookTextOffsetY;
         this.bookTextOffsetWidth = bookTextOffsetWidth;
@@ -394,7 +394,7 @@ public class Book {
         this.commands.putIfAbsent(command.id, command);
     }
 
-    public ConcurrentMap<ResourceLocation, BookCommand> getCommands() {
+    public Map<ResourceLocation, BookCommand> getCommands() {
         return this.commands;
     }
 
@@ -464,7 +464,7 @@ public class Book {
     }
 
     public BookDisplayMode getDisplayMode() {
-        if(this.isLeaflet()) {
+        if (this.isLeaflet()) {
             return BookDisplayMode.INDEX;
         }
         return this.displayMode;

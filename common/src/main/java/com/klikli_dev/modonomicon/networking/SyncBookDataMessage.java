@@ -13,6 +13,7 @@ import com.klikli_dev.modonomicon.book.BookCommand;
 import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -20,8 +21,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 
 public class SyncBookDataMessage implements Message {
 
@@ -29,10 +29,10 @@ public class SyncBookDataMessage implements Message {
     public static final Type<SyncBookDataMessage> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Modonomicon.MOD_ID, "sync_book_data"));
     public static final StreamCodec<RegistryFriendlyByteBuf, SyncBookDataMessage> STREAM_CODEC = CustomPacketPayload.codec(SyncBookDataMessage::encode, SyncBookDataMessage::new);
 
-    public ConcurrentMap<ResourceLocation, Book> books = new ConcurrentHashMap<>();
+    public Map<ResourceLocation, Book> books = new Object2ObjectOpenHashMap<>();
 
-    public SyncBookDataMessage(ConcurrentMap<ResourceLocation, Book> books) {
-        this.books = books;
+    public SyncBookDataMessage(Map<ResourceLocation, Book> books) {
+        this.books = new Object2ObjectOpenHashMap<>(books);
     }
 
     public SyncBookDataMessage(RegistryFriendlyByteBuf buf) {

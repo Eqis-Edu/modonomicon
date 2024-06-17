@@ -22,6 +22,8 @@ import com.klikli_dev.modonomicon.util.Codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.network.FriendlyByteBuf;
@@ -32,16 +34,15 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.stream.Collectors;
 
 public class BookUnlockStates {
     public static final Codec<BookUnlockStates> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            Codecs.concurrentMap(ResourceLocation.CODEC, Codecs.set(ResourceLocation.CODEC)).fieldOf("readEntries").forGetter((s) -> s.readEntries),
-            Codecs.concurrentMap(ResourceLocation.CODEC, Codecs.mutableMap(ResourceLocation.CODEC, Codecs.set(Codec.INT))).fieldOf("unlockedPages").forGetter((s) -> s.unlockedPages),
-            Codecs.concurrentMap(ResourceLocation.CODEC, Codecs.set(ResourceLocation.CODEC)).fieldOf("unlockedEntries").forGetter((s) -> s.unlockedEntries),
-            Codecs.concurrentMap(ResourceLocation.CODEC, Codecs.set(ResourceLocation.CODEC)).fieldOf("unlockedCategories").forGetter((s) -> s.unlockedCategories),
-            Codecs.concurrentMap(ResourceLocation.CODEC, Codecs.mutableMap(ResourceLocation.CODEC, Codec.INT)).fieldOf("usedCommands").forGetter((s) -> s.usedCommands)
+            Codec.unboundedMap(ResourceLocation.CODEC, Codecs.set(ResourceLocation.CODEC)).fieldOf("readEntries").forGetter((s) -> s.readEntries),
+            Codec.unboundedMap(ResourceLocation.CODEC, Codec.unboundedMap(ResourceLocation.CODEC, Codecs.set(Codec.INT))).fieldOf("unlockedPages").forGetter((s) -> s.unlockedPages),
+            Codec.unboundedMap(ResourceLocation.CODEC, Codecs.set(ResourceLocation.CODEC)).fieldOf("unlockedEntries").forGetter((s) -> s.unlockedEntries),
+            Codec.unboundedMap(ResourceLocation.CODEC, Codecs.set(ResourceLocation.CODEC)).fieldOf("unlockedCategories").forGetter((s) -> s.unlockedCategories),
+            Codec.unboundedMap(ResourceLocation.CODEC, Codec.unboundedMap(ResourceLocation.CODEC, Codec.INT)).fieldOf("usedCommands").forGetter((s) -> s.usedCommands)
     ).apply(instance, BookUnlockStates::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, BookUnlockStates> STREAM_CODEC = ByteBufCodecs.fromCodecWithRegistries(CODEC);
@@ -50,42 +51,53 @@ public class BookUnlockStates {
     /**
      * Map Book ID to read entry IDs
      */
-    public ConcurrentMap<ResourceLocation, Set<ResourceLocation>> readEntries;
+    public Map<ResourceLocation, Set<ResourceLocation>> readEntries;
 
     /**
      * Map Book ID to entry IDs to lists of unlocked pages
      */
-    public ConcurrentMap<ResourceLocation, Map<ResourceLocation, Set<Integer>>> unlockedPages;
+    public Map<ResourceLocation, Map<ResourceLocation, Set<Integer>>> unlockedPages;
 
     /**
      * Map Book ID to unlocked entry IDs
      */
-    public ConcurrentMap<ResourceLocation, Set<ResourceLocation>> unlockedEntries;
+    public Map<ResourceLocation, Set<ResourceLocation>> unlockedEntries;
 
     /**
      * Map Book ID to unlocked categories IDs
      */
-    public ConcurrentMap<ResourceLocation, Set<ResourceLocation>> unlockedCategories;
+    public Map<ResourceLocation, Set<ResourceLocation>> unlockedCategories;
 
     /**
      * Map Book ID to commands used. This is never wiped to avoid reusing reward commands.
      */
-    public ConcurrentMap<ResourceLocation, Map<ResourceLocation, Integer>> usedCommands;
+    public Map<ResourceLocation, Map<ResourceLocation, Integer>> usedCommands;
 
     public BookUnlockStates() {
-        this(new ConcurrentHashMap<>(), new ConcurrentHashMap<>(), new ConcurrentHashMap<>(), new ConcurrentHashMap<>(), new ConcurrentHashMap<>());
+        this(Object2ObjectMaps.emptyMap(), Object2ObjectMaps.emptyMap(), Object2ObjectMaps.emptyMap(), Object2ObjectMaps.emptyMap(), Object2ObjectMaps.emptyMap());
     }
 
-    public BookUnlockStates(ConcurrentMap<ResourceLocation, Set<ResourceLocation>> readEntries,
-                            ConcurrentMap<ResourceLocation, Map<ResourceLocation, Set<Integer>>> unlockedPages,
-                            ConcurrentMap<ResourceLocation, Set<ResourceLocation>> unlockedEntries,
-                            ConcurrentMap<ResourceLocation, Set<ResourceLocation>> unlockedCategories,
-                            ConcurrentMap<ResourceLocation, Map<ResourceLocation, Integer>> usedCommands) {
-        this.readEntries = readEntries;
-        this.unlockedPages = unlockedPages;
-        this.unlockedEntries = unlockedEntries;
-        this.unlockedCategories = unlockedCategories;
-        this.usedCommands = usedCommands;
+    public BookUnlockStates(Map<ResourceLocation, Set<ResourceLocation>> readEntries,
+                            Map<ResourceLocation, Map<ResourceLocation, Set<Integer>>> unlockedPages,
+                            Map<ResourceLocation, Set<ResourceLocation>> unlockedEntries,
+                            Map<ResourceLocation, Set<ResourceLocation>> unlockedCategories,
+                            Map<ResourceLocation, Map<ResourceLocation, Integer>> usedCommands) {
+        this.readEntries = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(readEntries));
+
+        this.unlockedPages = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+        unlockedPages.forEach((bookId, entryPagesMap) -> {
+            var innerMap = this.unlockedPages.computeIfAbsent(bookId, k -> Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>()));
+            entryPagesMap.forEach((entryId, pages) -> innerMap.put(entryId, new ObjectOpenHashSet<>(pages)));
+        });
+
+        this.unlockedEntries = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(unlockedEntries));
+        this.unlockedCategories = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(unlockedCategories));
+
+        this.usedCommands = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+        usedCommands.forEach((bookId, commandUsesMap) -> {
+            var innerMap = this.usedCommands.computeIfAbsent(bookId, k -> Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>()));
+            innerMap.putAll(commandUsesMap);
+        });
     }
 
     public void update(ServerPlayer owner) {

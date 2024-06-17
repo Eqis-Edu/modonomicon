@@ -25,6 +25,8 @@ import com.klikli_dev.modonomicon.networking.Message;
 import com.klikli_dev.modonomicon.networking.SyncBookDataMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.HolderLookup;
@@ -38,8 +40,6 @@ import net.minecraft.world.level.Level;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;
 
 
@@ -49,7 +49,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
 
     private static final BookDataManager instance = new BookDataManager();
 
-    private ConcurrentMap<ResourceLocation, Book> books = new ConcurrentHashMap<>();
+    private Map<ResourceLocation, Book> books = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
     private boolean loaded;
     private boolean booksBuilt;
     private HolderLookup.Provider registries;
@@ -70,7 +70,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
         return this.loaded;
     }
 
-    public ConcurrentMap<ResourceLocation, Book> getBooks() {
+    public Map<ResourceLocation, Book> getBooks() {
         return this.books;
     }
 
@@ -80,7 +80,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
 
     public Message getSyncMessage() {
         //we hand over a copy of the map, because otherwise in SP scenarios if we clear this.books to prepare for receiving the message, we also clear the books in the message
-        return new SyncBookDataMessage(new ConcurrentHashMap<>(this.books));
+        return new SyncBookDataMessage(this.books);
     }
 
     public boolean areBooksBuilt() {
@@ -89,7 +89,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
 
     public void onDatapackSyncPacket(SyncBookDataMessage message) {
         this.preLoad();
-        this.books = message.books;
+        this.books = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(message.books));
         this.onLoadingComplete();
     }
 
@@ -324,7 +324,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
                     continue;
                 }
 
-                var bookEntry = this.loadEntry(entryId, entry.getValue(), books.get(bookId).autoAddReadConditions(), this.registries);
+                var bookEntry = this.loadEntry(entryId, entry.getValue(), this.books.get(bookId).autoAddReadConditions(), this.registries);
 
                 //link entry and category
                 var book = this.books.get(bookId);
@@ -377,7 +377,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
         /**
          * Our local advancement cache, because we cannot just store random advancement in ClientAdvancements -> they get rejected
          */
-        private final ConcurrentMap<ResourceLocation, AdvancementHolder> advancements = new ConcurrentHashMap<>();
+        private final Map<ResourceLocation, AdvancementHolder> advancements = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
         private boolean isFallbackLocale;
         private boolean isFontInitialized;
 

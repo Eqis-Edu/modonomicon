@@ -9,6 +9,8 @@ package com.klikli_dev.modonomicon.bookstate.visual;
 import com.klikli_dev.modonomicon.util.Codecs;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 
@@ -18,7 +20,7 @@ import java.util.Optional;
 public class CategoryVisualState {
 
     public static final Codec<CategoryVisualState> CODEC = RecordCodecBuilder.create((instance) -> instance.group(
-            Codecs.mutableMap(ResourceLocation.CODEC, EntryVisualState.CODEC).fieldOf("entryStates").forGetter((state) -> state.entryStates),
+            Codec.unboundedMap(ResourceLocation.CODEC, EntryVisualState.CODEC).fieldOf("entryStates").forGetter((state) -> state.entryStates),
             Codec.FLOAT.fieldOf("scrollX").forGetter((state) -> state.scrollX),
             Codec.FLOAT.fieldOf("scrollY").forGetter((state) -> state.scrollY),
             Codec.FLOAT.fieldOf("targetZoom").forGetter((state) -> state.targetZoom),
@@ -40,12 +42,12 @@ public class CategoryVisualState {
     public int openPagesIndex;
 
     public CategoryVisualState() {
-        this(new Object2ObjectOpenHashMap<>(), 0, 0, 0.7f, Optional.empty(), 0);
+        this(Object2ObjectMaps.emptyMap(), 0, 0, 0.7f, Optional.empty(), 0);
     }
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     public CategoryVisualState(Map<ResourceLocation, EntryVisualState> entryStates, float scrollX, float scrollY, float targetZoom, Optional<ResourceLocation> openEntry, int openPagesIndex) {
-        this.entryStates = entryStates;
+        this.entryStates = new Object2ObjectOpenHashMap<>(entryStates);
         this.scrollX = scrollX;
         this.scrollY = scrollY;
         this.targetZoom = targetZoom;

@@ -14,6 +14,8 @@ import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.util.BookGsonHelper;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -24,8 +26,6 @@ import net.minecraft.world.level.Level;
 import java.text.MessageFormat;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 
 public class BookCategory {
 
@@ -49,7 +49,7 @@ public class BookCategory {
     protected float backgroundTextureZoomMultiplier;
     protected List<BookCategoryBackgroundParallaxLayer> backgroundParallaxLayers;
     protected ResourceLocation entryTextures;
-    protected ConcurrentMap<ResourceLocation, BookEntry> entries;
+    protected Map<ResourceLocation, BookEntry> entries;
     protected BookCondition condition;
     protected boolean showCategoryButton;
     /**
@@ -78,7 +78,7 @@ public class BookCategory {
         this.backgroundTextureZoomMultiplier = backgroundTextureZoomMultiplier;
         this.backgroundParallaxLayers = backgroundParallaxLayers;
         this.entryTextures = entryTextures;
-        this.entries = new ConcurrentHashMap<>();
+        this.entries = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
         this.entryToOpen = entryToOpen;
         this.openEntryToOpenOnlyOnce = openEntryOnlyOnce;
     }

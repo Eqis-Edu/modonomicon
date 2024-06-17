@@ -9,16 +9,17 @@ package com.klikli_dev.modonomicon.book.error;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.page.BookPage;
+import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.helpers.MessageFormatter;
 
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.Map;
 
 public class BookErrorManager {
     private static final BookErrorManager instance = new BookErrorManager();
 
-    private final ConcurrentMap<ResourceLocation, BookErrorHolder> booksErrors = new ConcurrentHashMap<>();
+    private final Map<ResourceLocation, BookErrorHolder> booksErrors = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
     private final BookErrorContextHelper contextHelper = new BookErrorContextHelper();
     private ResourceLocation currentBookId;
     private String currentContext;
