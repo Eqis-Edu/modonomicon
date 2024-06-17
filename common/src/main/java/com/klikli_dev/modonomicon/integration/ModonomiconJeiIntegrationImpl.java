@@ -9,6 +9,7 @@ import com.klikli_dev.modonomicon.api.ModonomiconAPI;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
+import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
 import com.klikli_dev.modonomicon.registry.ItemRegistry;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -89,10 +90,10 @@ public class ModonomiconJeiIntegrationImpl implements ModonomiconJeiIntegration 
         public void registerItemSubtypes(@NotNull ISubtypeRegistration registration) {
 
             registration.registerSubtypeInterpreter(VanillaTypes.ITEM_STACK, ItemRegistry.MODONOMICON.get(), (stack, context) -> {
-                if (!stack.hasTag() || !stack.getTag().contains(ModonomiconConstants.Nbt.ITEM_BOOK_ID_TAG)) {
+                if (!stack.has(DataComponentRegistry.BOOK_ID.get())) {
                     return "";
                 }
-                return stack.getTag().getString(ModonomiconConstants.Nbt.ITEM_BOOK_ID_TAG);
+                return stack.get(DataComponentRegistry.BOOK_ID.get()).toString();
             });
         }
     }
