@@ -18,10 +18,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.netty.buffer.ByteBuf;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +45,8 @@ public class BookVisualStates {
 
     public BookVisualStates(Map<ResourceLocation, BookVisualState> bookStates, Map<ResourceLocation, List<BookAddress>> bookBookmarks) {
         this.bookStates = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(bookStates));
-        this.bookBookmarks = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(bookBookmarks));
+        this.bookBookmarks = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+        bookBookmarks.forEach((bookId, entries) -> this.bookBookmarks.put(bookId, new ArrayList<>(entries)));
     }
 
     public BookVisualState getBookState(Book book) {
@@ -58,6 +61,10 @@ public class BookVisualStates {
         return this.getCategoryState(entry.getCategory()).entryStates.computeIfAbsent(entry.getId(), (id) -> new EntryVisualState());
     }
 
+    public List<BookAddress> getBookmarks(Book book) {
+        return this.bookBookmarks.computeIfAbsent(book.getId(), (id) -> new ArrayList<>());
+    }
+
     public void setBookState(Book book, BookVisualState state) {
         this.bookStates.put(book.getId(), state);
     }
@@ -68,5 +75,17 @@ public class BookVisualStates {
 
     public void setCategoryState(BookCategory category, CategoryVisualState state) {
         this.getBookState(category.getBook()).categoryStates.put(category.getId(), state);
+    }
+
+    public void setBookmarks(Book book, List<BookAddress> bookmarks) {
+        this.bookBookmarks.put(book.getId(), bookmarks);
+    }
+
+    public void addBookmark(Book book, BookAddress bookmark) {
+        this.getBookmarks(book).add(bookmark);
+    }
+
+    public boolean removeBookmark(Book book, BookAddress bookmark) {
+        return this.getBookmarks(book).remove(bookmark);
     }
 }
