@@ -13,4 +13,8 @@ public interface BookScreenWithButtons {
     Book getBook();
 
     void setTooltip(List<Component> tooltip);
+
+    default void setTooltip(Component... strings) {
+        this.setTooltip(List.of(strings));
+    }
 }

@@ -114,7 +114,7 @@ public class BookMultiblockPageRenderer extends BookPageRenderer<BookMultiblockP
         float offX = (float) -sizeX / 2;
         float offZ = (float) -sizeZ / 2 + 1;
 
-        float time = this.parentScreen.ticksInBook * 0.5F;
+        float time = this.parentScreen.getTicksInBook() * 0.5F;
         if (!Screen.hasShiftDown()) {
             time += ClientTicks.partialTicks;
         }
@@ -157,6 +157,7 @@ public class BookMultiblockPageRenderer extends BookPageRenderer<BookMultiblockP
                     be.setLevel(mc.level);
 
                     // fake cached state in case the renderer checks it as we don't want to query the actual world
+                    //noinspection deprecation
                     be.setBlockState(renderState);
 
                     guiGraphics.pose().pushPose();

@@ -200,7 +200,7 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
 
 
     private EntryDisplayState getEntryDisplayState(BookEntry entry) {
-        var player = this.bookParentScreen.getMinecraft().player;
+        var player = Minecraft.getInstance().player;
 
         var isEntryUnlocked = BookUnlockStateManager.get().isUnlockedFor(player, entry);
 
@@ -277,7 +277,7 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
             guiGraphics.pose().popPose();
 
             //render unread icon
-            if (displayState == EntryDisplayState.UNLOCKED && !BookUnlockStateManager.get().isReadFor(this.bookParentScreen.getMinecraft().player, entry)) {
+            if (displayState == EntryDisplayState.UNLOCKED && !BookUnlockStateManager.get().isReadFor(Minecraft.getInstance().player, entry)) {
                 final int U = 350;
                 final int V = 19;
                 final int width = 11;
@@ -344,7 +344,7 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
             var tooltip = new ArrayList<Component>();
 
             if (displayState == EntryDisplayState.LOCKED) {
-                tooltip.addAll(entry.getCondition().getTooltip(this.bookParentScreen.getMinecraft().player, BookConditionEntryContext.of(this.bookParentScreen.getBook(), entry)));
+                tooltip.addAll(entry.getCondition().getTooltip(Minecraft.getInstance().player, BookConditionEntryContext.of(this.bookParentScreen.getBook(), entry)));
             } else if (displayState == EntryDisplayState.UNLOCKED) {
                 //add name in bold
                 tooltip.add(Component.translatable(entry.getName()).withStyle(ChatFormatting.BOLD));

@@ -75,7 +75,7 @@ public abstract class BookPageRenderer<T extends BookPage> {
     public void onBeginDisplayPage(BookEntryScreen parentScreen, int left, int top) {
         this.parentScreen = parentScreen;
 
-        this.mc = parentScreen.getMinecraft();
+        this.mc = Minecraft.getInstance();
         this.font = this.mc.font;
         this.left = left;
         this.top = top;

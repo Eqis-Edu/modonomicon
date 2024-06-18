@@ -9,6 +9,7 @@ package com.klikli_dev.modonomicon.client.render.page;
 import com.klikli_dev.modonomicon.book.page.BookSmithingRecipePage;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.crafting.*;
 
@@ -60,6 +61,6 @@ public class BookSmithingRecipePageRenderer extends BookRecipePageRenderer<Smith
         this.parentScreen.renderIngredient(guiGraphics, recipeX + 4, recipeY + 23, mouseX, mouseY, base);
         this.parentScreen.renderIngredient(guiGraphics, recipeX + 4, recipeY + 42, mouseX, mouseY, addition);
         this.parentScreen.renderItemStack(guiGraphics, recipeX + 40, recipeY + 23, mouseX, mouseY, recipe.value().getToastSymbol());
-        this.parentScreen.renderItemStack(guiGraphics, recipeX + 76, recipeY + 23, mouseX, mouseY, recipe.value().getResultItem(this.parentScreen.getMinecraft().level.registryAccess()));
+        this.parentScreen.renderItemStack(guiGraphics, recipeX + 76, recipeY + 23, mouseX, mouseY, recipe.value().getResultItem(Minecraft.getInstance().level.registryAccess()));
     }
 }

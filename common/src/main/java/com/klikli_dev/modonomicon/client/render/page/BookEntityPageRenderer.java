@@ -75,7 +75,7 @@ public class BookEntityPageRenderer extends BookPageRenderer<BookEntityPage> imp
     public void onBeginDisplayPage(BookEntryScreen parentScreen, int left, int top) {
         super.onBeginDisplayPage(parentScreen, left, top);
 
-        this.loadEntity(parentScreen.getMinecraft().level);
+        this.loadEntity(Minecraft.getInstance().level);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class BookEntityPageRenderer extends BookPageRenderer<BookEntityPage> imp
 
         if (this.entity != null) {
             float rotation = this.page.doesRotate() ? ClientTicks.total : this.page.getDefaultRotation();
-            renderEntity(guiGraphics, this.entity, this.parentScreen.getMinecraft().level, 58, 60, rotation, this.renderScale, this.renderOffset);
+            renderEntity(guiGraphics, this.entity, Minecraft.getInstance().level, 58, 60, rotation, this.renderScale, this.renderOffset);
         }
 
         var style = this.getClickedComponentStyleAt(mouseX, mouseY);
