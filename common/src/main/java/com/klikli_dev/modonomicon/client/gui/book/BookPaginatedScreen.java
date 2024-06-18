@@ -46,7 +46,7 @@ public abstract class BookPaginatedScreen extends Screen implements BookScreenWi
         this.initNavigationButtons();
     }
 
-    protected void initNavigationButtons(){
+    protected void initNavigationButtons() {
         this.addRenderableWidget(new ArrowButton(this, this.bookLeft - 4, this.bookTop + FULL_HEIGHT - 6, true, () -> this.canSeeArrowButton(true), this::handleArrowButton));
         this.addRenderableWidget(new ArrowButton(this, this.bookLeft + FULL_WIDTH - 14, this.bookTop + FULL_HEIGHT - 6, false, () -> this.canSeeArrowButton(false), this::handleArrowButton));
         if (this.addExitButton) {

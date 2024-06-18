@@ -11,6 +11,7 @@ import com.klikli_dev.modonomicon.book.BookTextHolder;
 import com.klikli_dev.modonomicon.book.RenderedBookTextHolder;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.book.page.BookPage;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.MarkdownComponentRenderUtils;
 import com.klikli_dev.modonomicon.data.BookDataManager;
@@ -161,7 +162,7 @@ public abstract class BookPageRenderer<T extends BookPage> {
         guiGraphics.pose().popPose();
 
         if (showTitleSeparator)
-            BookEntryScreen.drawTitleSeparator(guiGraphics, this.page.getBook(), x, y + 12);
+            BookContentRenderer.drawTitleSeparator(guiGraphics, this.page.getBook(), x, y + 12);
     }
 
     public abstract void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float ticks);

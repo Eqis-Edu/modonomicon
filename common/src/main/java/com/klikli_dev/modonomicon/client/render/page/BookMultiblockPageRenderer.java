@@ -12,6 +12,7 @@ import com.klikli_dev.modonomicon.api.multiblock.Multiblock.SimulateResult;
 import com.klikli_dev.modonomicon.book.page.BookMultiblockPage;
 import com.klikli_dev.modonomicon.client.ClientTicks;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.button.VisualizeButton;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.render.MultiblockPreviewRenderer;
@@ -217,7 +218,7 @@ public class BookMultiblockPageRenderer extends BookPageRenderer<BookMultiblockP
         int y = 7;
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-        BookEntryScreen.drawFromTexture(guiGraphics, this.page.getBook(), x, y, 405, 149, 106, 106);
+       BookContentRenderer.drawFromContentTexture(guiGraphics, this.page.getBook(), x, y, 405, 149, 106, 106);
 
         //render multiblock name in place of title
         if (!this.page.getMultiblockName().isEmpty()) {

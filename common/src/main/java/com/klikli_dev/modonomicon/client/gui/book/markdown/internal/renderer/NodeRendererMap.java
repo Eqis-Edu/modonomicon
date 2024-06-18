@@ -19,12 +19,12 @@ public class NodeRendererMap {
     public void add(NodeRenderer nodeRenderer) {
         for (Class<? extends Node> nodeType : nodeRenderer.getNodeTypes()) {
             // Overwrite existing renderer
-            renderers.put(nodeType, nodeRenderer);
+            this.renderers.put(nodeType, nodeRenderer);
         }
     }
 
     public void render(Node node) {
-        NodeRenderer nodeRenderer = renderers.get(node.getClass());
+        NodeRenderer nodeRenderer = this.renderers.get(node.getClass());
         if (nodeRenderer != null) {
             nodeRenderer.render(node);
         }

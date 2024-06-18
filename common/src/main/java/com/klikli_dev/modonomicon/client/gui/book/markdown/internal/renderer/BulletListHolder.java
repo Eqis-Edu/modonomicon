@@ -13,10 +13,10 @@ public class BulletListHolder extends ListHolder {
 
     public BulletListHolder(ListHolder parent, BulletList list) {
         super(parent);
-        marker = list.getMarker();
+        this.marker = list.getMarker();
     }
 
     public String getMarker() {
-        return marker;
+        return this.marker;
     }
 }

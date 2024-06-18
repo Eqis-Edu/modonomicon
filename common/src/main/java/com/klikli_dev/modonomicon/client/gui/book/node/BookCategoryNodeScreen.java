@@ -16,7 +16,7 @@ import com.klikli_dev.modonomicon.bookstate.visual.CategoryVisualState;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.BookCategoryScreen;
-import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.entry.EntryConnectionRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.entry.EntryDisplayState;
 import com.klikli_dev.modonomicon.events.ModonomiconEvents;
@@ -294,7 +294,7 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
                 guiGraphics.pose().pushPose();
                 guiGraphics.pose().translate(0, 0, 11); //and push the unread icon in front of the background and icon (they are at Z 10)
                 //if focused we go to the right of our normal button (instead of down, like mc buttons do)
-                BookEntryScreen.drawFromTexture(guiGraphics, this.bookParentScreen.getBook(),
+                BookContentRenderer.drawFromContentTexture(guiGraphics, this.bookParentScreen.getBook(),
                         entry.getX() * ENTRY_GRID_SCALE + ENTRY_GAP + 16 + 2,
                         entry.getY() * ENTRY_GRID_SCALE + ENTRY_GAP - 2, U + (isHovered ? width : 0), V, width, height);
                 guiGraphics.pose().popPose();

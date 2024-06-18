@@ -6,7 +6,6 @@
 
 package com.klikli_dev.modonomicon.client.gui.book.button;
 
-import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
@@ -40,7 +39,7 @@ public class RemoveBookmarkButton extends Button {
 
             int renderX = this.getX();
             int scissorWidth = this.width + (this.getX() - this.scissorX);
-            int scissorY = (((Screen) this.parent).height - this.getY() - this.height - 1); //from the bottom up
+            int scissorY = (this.parent.height - this.getY() - this.height - 1); //from the bottom up
 
             if (this.isHovered()) {
                 renderX += 1;

@@ -20,7 +20,7 @@ public class BookLinkHandler extends LinkHandler {
         if (event == null)
             return ClickResult.UNHANDLED;
 
-        if(event.getAction() != ClickEvent.Action.CHANGE_PAGE)
+        if (event.getAction() != ClickEvent.Action.CHANGE_PAGE)
             return ClickResult.UNHANDLED;
 
         if (!BookLink.isBookLink(event.getValue()))

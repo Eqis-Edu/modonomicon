@@ -6,8 +6,8 @@
 
 package com.klikli_dev.modonomicon.client.gui.book.button;
 
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.BookScreenWithButtons;
-import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -53,7 +53,7 @@ public class BookButton extends Button {
         RenderSystem.enableDepthTest();
 
         //if focused we go to the right of our normal button (instead of down, like mc buttons do)
-        BookEntryScreen.drawFromTexture(guiGraphics, this.parent.getBook(), this.getX(), this.getY(), this.u + (this.isHovered() ? this.width : 0), this.v, this.width, this.height);
+        BookContentRenderer.drawFromContentTexture(guiGraphics, this.parent.getBook(), this.getX(), this.getY(), this.u + (this.isHovered() ? this.width : 0), this.v, this.width, this.height);
         if (this.isHovered()) {
             this.parent.setTooltip(this.tooltip);
         }

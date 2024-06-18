@@ -14,19 +14,19 @@ public class OrderedListHolder extends ListHolder {
 
     public OrderedListHolder(ListHolder parent, OrderedList list) {
         super(parent);
-        delimiter = list.getMarkerDelimiter() != null ? list.getMarkerDelimiter() : ".";
-        counter = list.getMarkerStartNumber() != null ? list.getMarkerStartNumber() : 1;
+        this.delimiter = list.getMarkerDelimiter() != null ? list.getMarkerDelimiter() : ".";
+        this.counter = list.getMarkerStartNumber() != null ? list.getMarkerStartNumber() : 1;
     }
 
     public String getDelimiter() {
-        return delimiter;
+        return this.delimiter;
     }
 
     public int getCounter() {
-        return counter;
+        return this.counter;
     }
 
     public void increaseCounter() {
-        counter++;
+        this.counter++;
     }
 }

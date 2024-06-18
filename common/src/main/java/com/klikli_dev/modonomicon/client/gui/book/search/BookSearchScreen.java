@@ -14,6 +14,7 @@ import com.klikli_dev.modonomicon.book.RenderedBookTextHolder;
 import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.EntryListButton;
@@ -97,7 +98,7 @@ public class BookSearchScreen extends BookPaginatedScreen {
 
             this.onPageChanged();
             if (playSound) {
-                BookEntryScreen.playTurnPageSound(this.parentScreen.getBook());
+                BookContentRenderer.playTurnPageSound(this.parentScreen.getBook());
             }
         }
     }
@@ -196,7 +197,7 @@ public class BookSearchScreen extends BookPaginatedScreen {
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(this.bookLeft, this.bookTop, 0);
 
-        BookEntryScreen.renderBookBackground(guiGraphics, this.getBook().getBookContentTexture());
+        BookContentRenderer.renderBookBackground(guiGraphics, this.getBook().getBookContentTexture());
 
 
         if (this.openPagesIndex == 0) {
@@ -207,9 +208,9 @@ public class BookSearchScreen extends BookPaginatedScreen {
                     BookEntryScreen.RIGHT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING,
                     this.parentScreen.getBook().getDefaultTitleColor());
 
-            BookEntryScreen.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
+            BookContentRenderer.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
                     BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
-            BookEntryScreen.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
+            BookContentRenderer.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
                     BookEntryScreen.RIGHT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
 
             BookPageRenderer.renderBookTextHolder(guiGraphics, this.infoText, this.font,
@@ -220,7 +221,7 @@ public class BookSearchScreen extends BookPaginatedScreen {
         if (!this.searchField.getValue().isEmpty()) {
             RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
             //draw search field bg
-            BookEntryScreen.drawFromTexture(guiGraphics, this.parentScreen.getBook(), this.searchField.getX() - 8, this.searchField.getY(), 140, 183, 99, 14);
+            BookContentRenderer.drawFromContentTexture(guiGraphics, this.parentScreen.getBook(), this.searchField.getX() - 8, this.searchField.getY(), 140, 183, 99, 14);
             var searchComponent = Component.literal(this.searchField.getValue());
             guiGraphics.drawString(this.font, searchComponent, this.searchField.getX() + 7, this.searchField.getY() + 1, 0, false);
         }

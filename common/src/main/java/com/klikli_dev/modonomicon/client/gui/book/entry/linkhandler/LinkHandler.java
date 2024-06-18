@@ -39,7 +39,7 @@ public abstract class LinkHandler {
 
     public abstract ClickResult handleClick(@NotNull Style pStyle);
 
-    public enum ClickResult{
+    public enum ClickResult {
         SUCCESS,
         FAILURE,
         UNHANDLED

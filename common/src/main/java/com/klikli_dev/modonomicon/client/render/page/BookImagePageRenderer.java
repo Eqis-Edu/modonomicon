@@ -7,6 +7,7 @@
 package com.klikli_dev.modonomicon.client.render.page;
 
 import com.klikli_dev.modonomicon.book.page.BookImagePage;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.button.SmallArrowButton;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -62,7 +63,7 @@ public class BookImagePageRenderer extends BookPageRenderer<BookImagePage> imple
         guiGraphics.pose().popPose();
 
         if (this.page.hasBorder()) {
-            BookEntryScreen.drawFromTexture(guiGraphics, this.getPage().getBook(), x, y, 405, 149, 106, 106);
+           BookContentRenderer.drawFromContentTexture(guiGraphics, this.getPage().getBook(), x, y, 405, 149, 106, 106);
         }
 
         if (this.page.getImages().length > 1 && this.page.hasBorder()) {

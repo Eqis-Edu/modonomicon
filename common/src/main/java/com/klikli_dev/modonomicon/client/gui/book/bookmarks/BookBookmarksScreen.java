@@ -15,6 +15,7 @@ import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.EntryListButton;
@@ -56,7 +57,7 @@ public class BookBookmarksScreen extends BookPaginatedScreen {
 
     public void handleButtonEntry(Button button) {
         if (button instanceof EntryListButton entry) {
-            if(!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry.getEntry())){
+            if (!BookUnlockStateManager.get().isUnlockedFor(Minecraft.getInstance().player, entry.getEntry())) {
                 return;
             }
 
@@ -102,7 +103,7 @@ public class BookBookmarksScreen extends BookPaginatedScreen {
 
             this.onPageChanged();
             if (playSound) {
-                BookEntryScreen.playTurnPageSound(this.parentScreen.getBook());
+                BookContentRenderer.playTurnPageSound(this.parentScreen.getBook());
             }
         }
     }
@@ -190,7 +191,7 @@ public class BookBookmarksScreen extends BookPaginatedScreen {
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(this.bookLeft, this.bookTop, 0);
 
-        BookEntryScreen.renderBookBackground(guiGraphics, this.getBook().getBookContentTexture());
+        BookContentRenderer.renderBookBackground(guiGraphics, this.getBook().getBookContentTexture());
 
 
         if (this.openPagesIndex == 0) {
@@ -201,9 +202,9 @@ public class BookBookmarksScreen extends BookPaginatedScreen {
                     BookEntryScreen.RIGHT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING,
                     this.parentScreen.getBook().getDefaultTitleColor());
 
-            BookEntryScreen.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
+            BookContentRenderer.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
                     BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
-            BookEntryScreen.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
+            BookContentRenderer.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
                     BookEntryScreen.RIGHT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
 
             BookPageRenderer.renderBookTextHolder(guiGraphics, this.infoText, this.font,

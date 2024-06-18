@@ -13,6 +13,7 @@ import com.klikli_dev.modonomicon.book.entries.BookEntry;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.client.ClientTicks;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -73,7 +74,7 @@ public class EntryListButton extends Button {
 
             if (locked) {
                 RenderSystem.setShaderColor(1F, 1F, 1F, 0.7F);
-                BookEntryScreen.drawLock(guiGraphics, this.entry.getBook(), this.getX() * 2 + 2, this.getY() * 2 + 2);
+                BookContentRenderer.drawLock(guiGraphics, this.entry.getBook(), this.getX() * 2 + 2, this.getY() * 2 + 2);
             } else {
                 this.entry.getIcon().render(guiGraphics, this.getX() * 2 + 2, this.getY() * 2 + 2);
             }

@@ -12,6 +12,7 @@ import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
 import com.klikli_dev.modonomicon.book.BookCategory;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.client.ClientTicks;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -61,7 +62,7 @@ public class CategoryListButton extends Button {
 
             if (locked) {
                 RenderSystem.setShaderColor(1F, 1F, 1F, 0.7F);
-                BookEntryScreen.drawLock(guiGraphics, this.category.getBook(), this.getX() * 2 + 2, this.getY() * 2 + 2);
+                BookContentRenderer.drawLock(guiGraphics, this.category.getBook(), this.getX() * 2 + 2, this.getY() * 2 + 2);
             } else {
                 this.category.getIcon().render(guiGraphics, this.getX() * 2 + 2, this.getY() * 2 + 2);
             }

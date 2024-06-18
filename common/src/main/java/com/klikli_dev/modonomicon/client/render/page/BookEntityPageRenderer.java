@@ -10,6 +10,7 @@ import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
 import com.klikli_dev.modonomicon.book.page.BookEntityPage;
 import com.klikli_dev.modonomicon.client.ClientTicks;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.util.EntityUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -89,7 +90,7 @@ public class BookEntityPageRenderer extends BookPageRenderer<BookEntityPage> imp
         int y = 7;
         RenderSystem.enableBlend();
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-        BookEntryScreen.drawFromTexture(guiGraphics, this.getPage().getBook(), x, y, 405, 149, 106, 106);
+       BookContentRenderer.drawFromContentTexture(guiGraphics, this.getPage().getBook(), x, y, 405, 149, 106, 106);
 
         if (this.errored) {
             guiGraphics.drawString(this.font, Component.translatable(Gui.PAGE_ENTITY_LOADING_ERROR), 58, 60, 0xFF0000, true);

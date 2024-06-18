@@ -18,6 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class ItemLinkHandler extends LinkHandler {
 
     private final ItemParser itemParser;
+
     public ItemLinkHandler(BookEntryScreen screen) {
         super(screen);
         this.itemParser = new ItemParser(Minecraft.getInstance().level.registryAccess());

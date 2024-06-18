@@ -2,6 +2,7 @@ package com.klikli_dev.modonomicon.client.gui.book.entry;
 
 import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.page.BookPage;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.ArrowButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.BackButton;
@@ -18,17 +19,22 @@ public class BookEntrySinglePageScreen extends BookEntryScreen {
 
     public static final int SINGLE_PAGE_BOOK_BACKGROUND_WIDTH = 145;
     public static final int SINGLE_PAGE_BOOK_BACKGROUND_HEIGHT = 178;
-
-    private BookPage page;
-
-    private BookPageRenderer<?> pageRenderer;
-
     protected final ResourceLocation singlePageTexture;
+    private BookPage page;
+    private BookPageRenderer<?> pageRenderer;
 
     public BookEntrySinglePageScreen(BookParentScreen parentScreen, BookContentEntry entry) {
         super(parentScreen, entry);
 
         this.singlePageTexture = entry.getBook().getSinglePageTexture();
+    }
+
+    public static void renderSinglePageBookBackground(GuiGraphics guiGraphics, ResourceLocation bookContentTexture) {
+        int x = 0; // (this.width - BOOK_BACKGROUND_WIDTH) / 2;
+        int y = 0; // (this.height - BOOK_BACKGROUND_HEIGHT) / 2;
+
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        guiGraphics.blit(bookContentTexture, x, y, 0, 0, 145, 178, 256, 256);
     }
 
     @Override
@@ -76,7 +82,7 @@ public class BookEntrySinglePageScreen extends BookEntryScreen {
 
             this.onPageChanged();
             if (playSound) {
-                playTurnPageSound(this.getBook());
+                BookContentRenderer.playTurnPageSound(this.getBook());
             }
         }
     }
@@ -142,13 +148,5 @@ public class BookEntrySinglePageScreen extends BookEntryScreen {
 
         //do not translate tooltip, would mess up location
         this.drawTooltip(guiGraphics, pMouseX, pMouseY);
-    }
-
-    public static void renderSinglePageBookBackground(GuiGraphics guiGraphics, ResourceLocation bookContentTexture) {
-        int x = 0; // (this.width - BOOK_BACKGROUND_WIDTH) / 2;
-        int y = 0; // (this.height - BOOK_BACKGROUND_HEIGHT) / 2;
-
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        guiGraphics.blit(bookContentTexture, x, y, 0, 0, 145, 178, 256, 256);
     }
 }

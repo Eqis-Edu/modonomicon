@@ -16,9 +16,9 @@ import com.klikli_dev.modonomicon.book.page.BookPage;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
 import com.klikli_dev.modonomicon.bookstate.visual.EntryVisualState;
-import com.klikli_dev.modonomicon.client.ClientTicks;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.AddBookmarkButton;
@@ -36,7 +36,6 @@ import com.klikli_dev.modonomicon.networking.SyncBookVisualStatesMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
 import com.klikli_dev.modonomicon.platform.services.FluidHelper;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -44,8 +43,6 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
@@ -75,7 +72,6 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
 
     public static final int CLICK_SAFETY_MARGIN = 20;
 
-    private static long lastTurnPageSoundTime;
     protected final BookParentScreen parentScreen;
     protected final BookContentEntry entry;
     protected final ResourceLocation bookContentTexture;
@@ -116,42 +112,6 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
         );
     }
 
-    public static void drawFromTexture(GuiGraphics guiGraphics, Book book, int x, int y, int u, int v, int w, int h) {
-        guiGraphics.blit(book.getBookContentTexture(), x, y, u, v, w, h, 512, 256);
-    }
-
-    public static void drawTitleSeparator(GuiGraphics guiGraphics, Book book, int x, int y) {
-        int w = 110;
-        int h = 3;
-        int rx = x - w / 2;
-
-        RenderSystem.enableBlend();
-        RenderSystem.setShaderColor(1F, 1F, 1F, 0.8F);
-        //u and v are the pixel coordinates in our book_content_texture
-        drawFromTexture(guiGraphics, book, rx, y, 0, 253, w, h);
-        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
-    }
-
-    public static void drawLock(GuiGraphics guiGraphics, Book book, int x, int y) {
-        drawFromTexture(guiGraphics, book, x, y, 496, 0, 16, 16);
-    }
-
-    public static void playTurnPageSound(Book book) {
-        if (ClientTicks.ticks - lastTurnPageSoundTime > 6) {
-            var sound = BuiltInRegistries.SOUND_EVENT.get(book.getTurnPageSound());
-            Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(sound, (float) (0.7 + Math.random() * 0.3)));
-            lastTurnPageSoundTime = ClientTicks.ticks;
-        }
-    }
-
-    public static void renderBookBackground(GuiGraphics guiGraphics, ResourceLocation bookContentTexture) {
-        int x = 0; // (this.width - BOOK_BACKGROUND_WIDTH) / 2;
-        int y = 0; // (this.height - BOOK_BACKGROUND_HEIGHT) / 2;
-
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        guiGraphics.blit(bookContentTexture, x, y, 0, 0, 272, 178, 512, 256);
-    }
-
     public int getCurrentPageNumber() {
         return this.unlockedPages.get(this.openPagesIndex).getPageNumber();
     }
@@ -179,6 +139,7 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
         this.tooltip = tooltip;
     }
 
+    //TODO: not sure if content renderer should call this on a parent screen it is handed over, or if it should call it on the top most screen?
     public void setTooltipStack(ItemStack stack) {
         this.resetTooltip();
         this.tooltipStack = stack;
@@ -188,6 +149,8 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
         this.resetTooltip();
         this.tooltipFluidStack = stack;
     }
+
+    //TODO should no longer be called in relative range .. and can probably move the book content renderer to reduce dependency on screen
 
     /**
      * Doesn't actually translate, as it's not necessary, just checks if mouse is in given area
@@ -199,20 +162,8 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
         return mx > x && my > y && mx <= (x + w) && my <= (y + h);
     }
 
-    /**
-     * Convert the given argument from global screen coordinates to local coordinates
-     */
-    public double getRelativeX(double absX) {
-        return absX - this.bookLeft;
-    }
 
-    /**
-     * Convert the given argument from global screen coordinates to local coordinates
-     */
-    public double getRelativeY(double absY) {
-        return absY - this.bookTop;
-    }
-
+    //TODO move to book content renderer
     public void renderItemStack(GuiGraphics guiGraphics, int x, int y, int mouseX, int mouseY, ItemStack stack) {
         if (stack.isEmpty() || !PageRendererRegistry.isRenderable(stack)) {
             return;
@@ -291,7 +242,7 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
 
                 this.onPageChanged();
                 if (playSound) {
-                    playTurnPageSound(this.getBook());
+                    BookContentRenderer.playTurnPageSound(this.getBook());
                 }
             }
         } else {
@@ -352,7 +303,6 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
         page.render(guiGraphics, pMouseX - this.bookLeft - page.left, pMouseY - this.bookTop - page.top, pPartialTick);
         guiGraphics.pose().popPose();
     }
-
 
     protected void onPageChanged() {
         this.beginDisplayPages();

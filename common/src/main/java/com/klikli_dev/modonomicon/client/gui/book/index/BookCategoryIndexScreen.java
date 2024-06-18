@@ -15,6 +15,7 @@ import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.visual.CategoryVisualState;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookCategoryScreen;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.EntryListButton;
@@ -90,7 +91,7 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
 
             this.onPageChanged();
             if (playSound) {
-                BookEntryScreen.playTurnPageSound(this.parentScreen.getBook());
+                BookContentRenderer.playTurnPageSound(this.parentScreen.getBook());
             }
         }
     }
@@ -193,7 +194,7 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(this.bookLeft, this.bookTop, 0);
 
-        BookEntryScreen.renderBookBackground(guiGraphics, this.getBook().getBookContentTexture());
+        BookContentRenderer.renderBookBackground(guiGraphics, this.getBook().getBookContentTexture());
 
 
         if (this.openPagesIndex == 0) {
@@ -202,7 +203,7 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
                         BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING,
                         this.parentScreen.getBook().getDefaultTitleColor());
 
-                BookEntryScreen.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
+                BookContentRenderer.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
                         BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
             } else {
                 this.drawCenteredStringNoShadow(guiGraphics, this.getTitle(),
@@ -212,9 +213,9 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
                         BookEntryScreen.RIGHT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING,
                         this.parentScreen.getBook().getDefaultTitleColor());
 
-                BookEntryScreen.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
+                BookContentRenderer.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
                         BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
-                BookEntryScreen.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
+                BookContentRenderer.drawTitleSeparator(guiGraphics, this.parentScreen.getBook(),
                         BookEntryScreen.RIGHT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
 
                 BookPageRenderer.renderBookTextHolder(guiGraphics, this.category.getDescription(), this.font,

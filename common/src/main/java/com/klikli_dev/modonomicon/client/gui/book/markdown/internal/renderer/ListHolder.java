@@ -17,17 +17,17 @@ public abstract class ListHolder {
         this.parent = parent;
 
         if (parent != null) {
-            indent = parent.indent + INDENT_DEFAULT;
+            this.indent = parent.indent + INDENT_DEFAULT;
         } else {
-            indent = INDENT_EMPTY;
+            this.indent = INDENT_EMPTY;
         }
     }
 
     public ListHolder getParent() {
-        return parent;
+        return this.parent;
     }
 
     public String getIndent() {
-        return indent;
+        return this.indent;
     }
 }

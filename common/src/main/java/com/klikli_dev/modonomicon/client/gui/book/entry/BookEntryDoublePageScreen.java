@@ -2,6 +2,7 @@ package com.klikli_dev.modonomicon.client.gui.book.entry;
 
 import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.page.BookPage;
+import com.klikli_dev.modonomicon.client.gui.book.BookContentRenderer;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
@@ -58,7 +59,7 @@ public class BookEntryDoublePageScreen extends BookEntryScreen {
 
             this.onPageChanged();
             if (playSound) {
-                playTurnPageSound(this.getBook());
+                BookContentRenderer.playTurnPageSound(this.getBook());
             }
         }
     }
@@ -125,7 +126,7 @@ public class BookEntryDoublePageScreen extends BookEntryScreen {
 
         guiGraphics.pose().pushPose();
         guiGraphics.pose().translate(this.bookLeft, this.bookTop, 0);
-        renderBookBackground(guiGraphics, this.bookContentTexture);
+        BookContentRenderer.renderBookBackground(guiGraphics, this.bookContentTexture);
         guiGraphics.pose().popPose();
 
         guiGraphics.pose().pushPose();
