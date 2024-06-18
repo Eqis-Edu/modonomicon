@@ -11,7 +11,6 @@ import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
 import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.book.BookLink;
 import com.klikli_dev.modonomicon.book.CommandLink;
-import com.klikli_dev.modonomicon.book.PatchouliLink;
 import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.page.BookPage;
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
@@ -26,20 +25,18 @@ import com.klikli_dev.modonomicon.client.gui.book.button.AddBookmarkButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.BackButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.RemoveBookmarkButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.SearchButton;
-import com.klikli_dev.modonomicon.client.gui.book.markdown.ItemLinkRenderer;
+import com.klikli_dev.modonomicon.client.gui.book.entry.linkhandler.*;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
 import com.klikli_dev.modonomicon.client.render.page.PageRendererRegistry;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.fluid.FluidHolder;
 import com.klikli_dev.modonomicon.integration.ModonomiconJeiIntegration;
 import com.klikli_dev.modonomicon.networking.AddBookmarkMessage;
-import com.klikli_dev.modonomicon.networking.ClickCommandLinkMessage;
 import com.klikli_dev.modonomicon.networking.SyncBookVisualStatesMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
 import com.klikli_dev.modonomicon.platform.services.FluidHelper;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.brigadier.StringReader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -47,10 +44,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.commands.arguments.item.ItemInput;
-import net.minecraft.commands.arguments.item.ItemParser;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
@@ -85,7 +79,7 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
     protected final BookParentScreen parentScreen;
     protected final BookContentEntry entry;
     protected final ResourceLocation bookContentTexture;
-    private final ItemParser itemParser;
+
     public int ticksInBook;
     protected List<BookPage> unlockedPages;
 
@@ -93,6 +87,7 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
      * The index of the leftmost unlocked page being displayed.
      */
     protected int openPagesIndex;
+    protected List<LinkHandler> linkHandlers;
     private List<Component> tooltip;
     private ItemStack tooltipStack;
     private FluidHolder tooltipFluidStack;
@@ -104,7 +99,7 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
         this.parentScreen = parentScreen;
 
         this.minecraft = Minecraft.getInstance();
-        this.itemParser = new ItemParser(this.minecraft.level.registryAccess());
+
 
         this.entry = entry;
 
@@ -112,6 +107,13 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
 
         //We're doing that here to ensure unlockedPages is available for state modification during loading
         this.unlockedPages = this.entry.getUnlockedPagesFor(this.minecraft.player);
+
+        this.linkHandlers = List.of(
+                new BookLinkHandler(this),
+                new PatchouliLinkHandler(this),
+                new ItemLinkHandler(this),
+                new CommandLinkHandler(this)
+        );
     }
 
     public static void drawFromTexture(GuiGraphics guiGraphics, Book book, int x, int y, int u, int v, int w, int h) {
@@ -148,6 +150,10 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
 
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         guiGraphics.blit(bookContentTexture, x, y, 0, 0, 272, 178, 512, 256);
+    }
+
+    public int getCurrentPageNumber() {
+        return this.unlockedPages.get(this.openPagesIndex).getPageNumber();
     }
 
     public Minecraft getMinecraft() {
@@ -568,117 +574,20 @@ public abstract class BookEntryScreen extends BookPaginatedScreen {
 
     @Override
     public boolean handleComponentClicked(@Nullable Style pStyle) {
-
-        //TODO: Refactor: this needs to be at least separate methods per action, or even some sort of handler class with a dispatcher
         if (pStyle != null) {
-            var event = pStyle.getClickEvent();
-            if (event != null) {
-                if (event.getAction() == Action.CHANGE_PAGE) {
+            for (LinkHandler handler : this.linkHandlers) {
+                var result = handler.handleClick(pStyle);
 
-                    //handle book links
-                    if (BookLink.isBookLink(event.getValue())) {
-                        var link = BookLink.from(this.getBook(), event.getValue());
-                        var book = BookDataManager.get().getBook(link.bookId);
-                        if (link.entryId != null) {
-                            var entry = book.getEntry(link.entryId);
+                //before the command pattern was implemented we returned false for failures
+                //however, I believe failure should also be treated as "handled" to avoid vanilla code doing fun stuff.
+                //We retain the failure result in case that turns out to be wrong
+                if (result == LinkHandler.ClickResult.FAILURE)
+                    return true;
 
-                            if (!BookUnlockStateManager.get().isUnlockedFor(this.minecraft.player, entry)) {
-                                //renderComponentHoverEffect will render a warning that it is locked so it is fine to exit here
-                                return false;
-                            }
+                if (result == LinkHandler.ClickResult.SUCCESS)
+                    return true;
 
-                            Integer page = link.pageNumber;
-                            if (link.pageAnchor != null) {
-                                page = entry.getPageNumberForAnchor(link.pageAnchor);
-                            }
-
-                            if (page != null && !BookUnlockStateManager.get().isUnlockedFor(this.minecraft.player, entry.getPages().get(page))) {
-                                return false;
-                            } else if (page == null) {
-                                page = 0;
-                            }
-
-                            //we push the page we are currently on to the history
-                            var currentPageIndex = this.unlockedPages.get(this.openPagesIndex).getPageNumber();
-                            BookGuiManager.get().pushHistory(this.entry.getBook().getId(), this.entry.getCategory().getId(), this.entry.getId(), currentPageIndex);
-                            BookGuiManager.get().openEntry(link.bookId, link.entryId, page);
-                        } else if (link.categoryId != null) {
-                            BookGuiManager.get().openEntry(link.bookId, link.categoryId, null, 0);
-                            //Currently we do not push categories to history
-                        } else {
-                            BookGuiManager.get().openEntry(link.bookId, null, null, 0);
-                            //Currently we do not push categories to history
-                        }
-                        return true;
-                    }
-
-                    //handle patchouli link clicks
-                    if (PatchouliLink.isPatchouliLink(event.getValue())) {
-                        var link = PatchouliLink.from(event.getValue());
-                        if (link.bookId != null) {
-                            BookGuiManager.get().closeScreenStack(this.parentScreen); //will cause the book to close entirely, and save the open page
-                            //the integration class handles class loading guards if patchouli is not present
-                            Services.PATCHOULI.openEntry(link.bookId, link.entryId, link.pageNumber);
-                            return true;
-                        }
-                    }
-
-                    if (ItemLinkRenderer.isItemLink(event.getValue())) {
-
-                        if (ModonomiconJeiIntegration.get().isJeiLoaded()) {
-
-                            var itemStack = ItemStack.EMPTY;
-                            try {
-                                var itemId = event.getValue().substring(ItemLinkRenderer.PROTOCOL_ITEM_LENGTH);
-                                var reader = new StringReader(itemId);
-                                var itemResult = this.itemParser.parse(reader);
-                                var itemInput = new ItemInput(itemResult.item(), itemResult.components());
-                                itemStack = itemInput.createItemStack(1, false);
-                            } catch (Exception e) {
-                                Modonomicon.LOG.error("Failed to parse item link: {}", event.getValue(), e);
-                                return true;
-                            }
-
-                            BookGuiManager.get().closeScreenStack(this); //will cause the book to close entirely, and save the open page
-
-                            if (Screen.hasShiftDown()) {
-                                ModonomiconJeiIntegration.get().showUses(itemStack);
-                            } else {
-                                ModonomiconJeiIntegration.get().showRecipe(itemStack);
-                            }
-
-                            //TODO: Consider adding logic to restore content screen after JEI gui close
-                            //      currently only the overview screen is restored (because JEI does not use Forges Gui Stack, only vanilla screen, thus only saves one parent screen)
-                            //      we could fix that by listening to the Closing event from forge, and in that set the closing time
-                            //      -> then on init of overview screen, if closing time is < delta, push last content screen from gui manager
-                        }
-
-                        return true;
-                    }
-                }
-                if (event.getAction() == Action.RUN_COMMAND) {
-                    //handle command link clicks
-                    if (CommandLink.isCommandLink(event.getValue())) {
-                        var link = CommandLink.from(this.getBook(), event.getValue());
-                        var book = BookDataManager.get().getBook(link.bookId);
-                        if (link.commandId != null) {
-                            var command = book.getCommand(link.commandId);
-
-                            if (BookUnlockStateManager.get().canRunFor(this.minecraft.player, command)) {
-                                Services.NETWORK.sendToServer(new ClickCommandLinkMessage(link.bookId, link.commandId));
-
-                                //we immediately count up the usage client side -> to avoid spamming the server
-                                //if the server ends up not counting up the usage, it will sync the correct info back down to us
-                                //We should only do that on the client connected to a dedicated server, because on the integrated server we would count usage twice
-                                //that means, for singleplayer clients OR clients that share to lan we dont call the setRunFor
-                                if (this.minecraft.getSingleplayerServer() == null)
-                                    BookUnlockStateManager.get().setRunFor(this.minecraft.player, command);
-                            }
-
-                            return true;
-                        }
-                    }
-                }
+                //unhandled -> continue to next
             }
         }
         return super.handleComponentClicked(pStyle);
