@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.86.0] - 2024-06-22
+### :sparkles: New Features
+- [`b96a3b6`](https://github.com/klikli-dev/modonomicon/commit/b96a3b647faa9d3424d77963e9e471b4d73b5ebf) - add index mode entry provider as convenient parent *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`4494a04`](https://github.com/klikli-dev/modonomicon/commit/4494a04a18468d97ca3144624096d6b7ff6819cd) - rework lang datagen to accept a biconsumer<string,string> *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.85.0] - 2024-06-22
 ### :sparkles: New Features
 - [`9d2699e`](https://github.com/klikli-dev/modonomicon/commit/9d2699e6e06f40ae0b33600deb1e8f83d3cd9363) - add index mode category provider as convenient parent *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1079,3 +1085,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.83.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.82.0...release/v1.21-1.83.0
 [release/v1.21-1.84.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.83.0...release/v1.21-1.84.0
 [release/v1.21-1.85.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.84.0...release/v1.21-1.85.0
+[release/v1.21-1.86.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.85.0...release/v1.21-1.86.0
