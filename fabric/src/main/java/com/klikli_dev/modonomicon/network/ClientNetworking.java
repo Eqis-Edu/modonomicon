@@ -19,5 +19,6 @@ public class ClientNetworking {
         ClientPlayNetworking.registerGlobalReceiver(SyncMultiblockDataMessage.TYPE, new ClientMessageHandler<>());
         ClientPlayNetworking.registerGlobalReceiver(ReloadResourcesOnClientMessage.TYPE, new ClientMessageHandler<>());
         ClientPlayNetworking.registerGlobalReceiver(SendAdvancementToClientMessage.TYPE, new ClientMessageHandler<>());
+        ClientPlayNetworking.registerGlobalReceiver(OpenBookOnClientMessage.TYPE, new ClientMessageHandler<>());
     }
 }

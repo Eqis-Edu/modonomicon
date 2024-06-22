@@ -43,7 +43,7 @@ public class ModonomiconItem extends Item {
         return BookDataManager.get().getBook(res);
     }
 
-    private static ResourceLocation getBookId(ItemStack stack) {
+    public static ResourceLocation getBookId(ItemStack stack) {
         return stack.get(DataComponentRegistry.BOOK_ID.get());
     }
 

@@ -24,5 +24,6 @@ public class ItemTagsProvider extends FabricTagProvider<Item> {
     protected void addTags(HolderLookup.Provider pProvider) {
         //item tag provider is per modloader because forge and neo modify the constructor
         this.tag(ItemTags.BOOKSHELF_BOOKS).add(ItemRegistry.MODONOMICON.getResourceKey());
+        this.tag(ItemTags.LECTERN_BOOKS).add(ItemRegistry.MODONOMICON.getResourceKey());
     }
 }

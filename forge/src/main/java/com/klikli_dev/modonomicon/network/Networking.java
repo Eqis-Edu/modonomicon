@@ -105,6 +105,12 @@ public class Networking {
                 .consumerNetworkThread((BiConsumer<SendUnlockCodeToClientMessage, CustomPayloadEvent.Context>) MessageHandler::handle)
                 .add();
 
+        INSTANCE.messageBuilder(OpenBookOnClientMessage.class)
+                .encoder(encoder(OpenBookOnClientMessage.STREAM_CODEC))
+                .decoder(decoder(OpenBookOnClientMessage.STREAM_CODEC))
+                .consumerNetworkThread((BiConsumer<OpenBookOnClientMessage, CustomPayloadEvent.Context>) MessageHandler::handle)
+                .add();
+
         INSTANCE.messageBuilder(SendUnlockCodeToServerMessage.class)
                 .encoder(encoder(SendUnlockCodeToServerMessage.STREAM_CODEC))
                 .decoder(decoder(SendUnlockCodeToServerMessage.STREAM_CODEC))

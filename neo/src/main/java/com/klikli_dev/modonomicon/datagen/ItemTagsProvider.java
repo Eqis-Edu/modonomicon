@@ -24,5 +24,6 @@ public class ItemTagsProvider extends net.minecraft.data.tags.ItemTagsProvider {
     protected void addTags(HolderLookup.Provider pProvider) {
         //item tag provider is per modloader because forge and neo modify the constructor
         this.tag(ItemTags.BOOKSHELF_BOOKS).add(ItemRegistry.MODONOMICON.get());
+        this.tag(ItemTags.LECTERN_BOOKS).add(ItemRegistry.MODONOMICON.get());
     }
 }

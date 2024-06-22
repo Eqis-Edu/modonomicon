@@ -37,6 +37,7 @@ public class Networking {
         registrar.playToClient(SyncBookVisualStatesMessage.TYPE, SyncBookVisualStatesMessage.STREAM_CODEC, MessageHandler::handle);
         registrar.playToClient(SyncMultiblockDataMessage.TYPE, SyncMultiblockDataMessage.STREAM_CODEC, MessageHandler::handle);
         registrar.playToClient(ReloadResourcesOnClientMessage.TYPE, ReloadResourcesOnClientMessage.STREAM_CODEC, MessageHandler::handle);
+        registrar.playToClient(OpenBookOnClientMessage.TYPE, OpenBookOnClientMessage.STREAM_CODEC, MessageHandler::handle);
 
 
     }

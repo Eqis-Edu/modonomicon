@@ -50,5 +50,6 @@ public class Networking {
         PayloadTypeRegistry.playS2C().register(SyncMultiblockDataMessage.TYPE, SyncMultiblockDataMessage.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(ReloadResourcesOnClientMessage.TYPE, ReloadResourcesOnClientMessage.STREAM_CODEC);
         PayloadTypeRegistry.playS2C().register(SendAdvancementToClientMessage.TYPE, SendAdvancementToClientMessage.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(OpenBookOnClientMessage.TYPE, OpenBookOnClientMessage.STREAM_CODEC);
     }
 }
