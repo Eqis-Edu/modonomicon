@@ -342,7 +342,7 @@ public class BookParentIndexScreen extends BookPaginatedScreen implements BookPa
         int buttonHeight = 20;
         int searchButtonX = this.bookLeft + FULL_WIDTH - 5;
         int searchButtonY = this.bookTop + FULL_HEIGHT - 30;
-        int searchButtonWidth = 44; //width in png
+        int searchButtonWidth = 44-10; //width in png
         int scissorX = this.bookLeft + FULL_WIDTH;//this is the render location of our frame so our search button never overlaps
 
         var searchButton = new SearchButton(this, searchButtonX, searchButtonY,
