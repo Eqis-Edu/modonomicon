@@ -88,7 +88,18 @@ public class EntryListButton extends Button {
                 name = Component.translatable(this.entry.getName());
             }
 
-            guiGraphics.drawString(Minecraft.getInstance().font, name, this.getX() + 12, this.getY(), this.getEntryColor(), false);
+            int x = this.getX() + 12; //shift right to make space for the icon
+            int y = this.getY() + 2;
+            int maxWidth = BookEntryScreen.PAGE_WIDTH - 12; //make space for the icon and margin
+            guiGraphics.pose().pushPose();
+            var scale = Math.min(1.0f, (float) maxWidth / (float) Minecraft.getInstance().font.width(name));
+            if (scale < 1) {
+                guiGraphics.pose().translate(x - x * scale, y - y * scale, 0);
+                guiGraphics.pose().scale(scale, scale, scale);
+            }
+            guiGraphics.drawString(Minecraft.getInstance().font, name, x, y, this.getEntryColor(), false);
+
+            guiGraphics.pose().popPose();
         }
     }
 
