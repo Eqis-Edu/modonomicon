@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.84.0] - 2024-06-22
+### :sparkles: New Features
+- [`0d17337`](https://github.com/klikli-dev/modonomicon/commit/0d173379fcb792d2c1a276872c4d059e0dbc8bbd) - streamline datagen api for language *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`1efea3d`](https://github.com/klikli-dev/modonomicon/commit/1efea3d93bd2ae216a111b88f8ab299f64b6631c) - refactor entry click handling *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`814567b`](https://github.com/klikli-dev/modonomicon/commit/814567b4eeb9a093fd7cb06817f40b250340a0c7) - move static render helpers into helper class *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`d1d75c1`](https://github.com/klikli-dev/modonomicon/commit/d1d75c18072933ca079f5b971332481dee2e74f8) - move non-static render helpers into interface *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.83.0] - 2024-06-17
 ### :sparkles: New Features
 - [`bf81ada`](https://github.com/klikli-dev/modonomicon/commit/bf81ada10631f5465494cf802f41fcc644783f72) - enable JEI integration *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1059,3 +1069,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.81.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.80.0...release/v1.21-1.81.0
 [release/v1.21-1.82.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.81.0...release/v1.21-1.82.0
 [release/v1.21-1.83.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.82.0...release/v1.21-1.83.0
+[release/v1.21-1.84.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.83.0...release/v1.21-1.84.0
