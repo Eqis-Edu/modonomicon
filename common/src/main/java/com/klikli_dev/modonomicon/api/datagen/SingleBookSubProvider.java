@@ -68,7 +68,13 @@ public abstract class SingleBookSubProvider extends ModonomiconProviderBase impl
         var book = BookModel.create(this.modLoc(this.bookId), this.context().bookName());
 
         this.add(this.context().bookName(), this.bookName());
-        this.add(this.context().bookTooltip(), this.bookTooltip());
+
+        var bookTooltip = this.bookTooltip();
+        if(!StringUtil.isNullOrEmpty(bookTooltip)) {
+            this.add(this.context().bookTooltip(), bookTooltip);
+            book.withTooltip(this.context().bookTooltip());
+        }
+
         var bookDescription = this.bookDescription();
         if (!StringUtil.isNullOrEmpty(bookDescription)) {
             this.add(this.context().bookDescription(), bookDescription);
