@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.Map;
@@ -58,7 +59,7 @@ public abstract class AbstractModonomiconLanguageProvider implements Modonomicon
     protected abstract void addTranslations();
 
     @Override
-    public Map<String, String> data() {
+    public @NotNull Map<String, String> data() {
         return this.data;
     }
 
@@ -66,8 +67,9 @@ public abstract class AbstractModonomiconLanguageProvider implements Modonomicon
     public CompletableFuture<?> run(CachedOutput cache) {
         this.addTranslations();
 
-        if (this.cachedProvider != null && !this.cachedProvider.data().isEmpty())
-            this.data.putAll(this.cachedProvider.data());
+        if (this.cachedProvider != null){
+            this.cachedProvider.data(this.data::put);
+        }
 
         if (!this.data.isEmpty())
             return this.save(cache, this.output.getOutputFolder(PackOutput.Target.RESOURCE_PACK).resolve(this.modid).resolve("lang").resolve(this.locale + ".json"));

@@ -10,8 +10,10 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public interface ModonomiconLanguageProvider {
@@ -32,10 +34,6 @@ public interface ModonomiconLanguageProvider {
 
     void add(ItemStack key, String name);
 
-    void addEnchantment(Supplier<? extends Enchantment> key, String name);
-
-    void add(Enchantment key, String name);
-
     void addEffect(Supplier<? extends MobEffect> key, String name);
 
     void add(MobEffect key, String name);
@@ -44,5 +42,15 @@ public interface ModonomiconLanguageProvider {
 
     void add(EntityType<?> key, String name);
 
-    Map<String, String> data();
+    /**
+     * Return a map containing all translation keys and their values.
+     * Alternatively override the second overload to provide the data one-by-one to a bi-consumer.
+     */
+    default @NotNull Map<String, String> data(){
+       return Map.of();
+    }
+
+    default void data(BiConsumer<String, String> consumer){
+        this.data().forEach(consumer);
+    }
 }

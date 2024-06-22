@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.level.block.Block;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.function.Supplier;
@@ -30,7 +31,7 @@ public class LanguageProviderCache implements ModonomiconLanguageProvider {
         return this.locale;
     }
 
-    public Map<String, String> data() {
+    public @NotNull Map<String, String> data() {
         return this.data;
     }
 
@@ -56,18 +57,6 @@ public class LanguageProviderCache implements ModonomiconLanguageProvider {
 
     public void add(ItemStack key, String name) {
         this.add(key.getDescriptionId(), name);
-    }
-
-    public void addEnchantment(Supplier<? extends Enchantment> key, String name) {
-        this.add(key.get(), name);
-    }
-
-    public void add(Enchantment key, String name) {
-        if (key.description() != null && key.description().getContents() instanceof TranslatableContents translatableContents) {
-            this.add(translatableContents.getKey(), name);
-        } else {
-            throw new IllegalArgumentException("Enchantment " + key + " does not have a description that is a component with translatable contents - cannot get translation key.");
-        }
     }
 
     public void addEffect(Supplier<? extends MobEffect> key, String name) {
