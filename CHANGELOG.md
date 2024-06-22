@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.87.0] - 2024-06-22
+### :sparkles: New Features
+- [`34f17b2`](https://github.com/klikli-dev/modonomicon/commit/34f17b23cfe1c5b48eeea127736e678c0d7bddc4) - scale down too-long entries in index screens *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`9073223`](https://github.com/klikli-dev/modonomicon/commit/90732231fcb7791f1a5200014233c383beca943b) - book tooltip does not show *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`6166590`](https://github.com/klikli-dev/modonomicon/commit/6166590100550a58cb1dfb3aee7e1fcb59029322) - search button shows extra bar *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`4970d79`](https://github.com/klikli-dev/modonomicon/commit/4970d79494aec134870456d4336c15002530df32) - increase mod version *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`235bef9`](https://github.com/klikli-dev/modonomicon/commit/235bef92738d97188bde4c4463f9b8292ee9da2a) - run datagen *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`0c9a759`](https://github.com/klikli-dev/modonomicon/commit/0c9a759e4595b134099749e2ef1383b13d0f5200) - increase mod version *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.86.0] - 2024-06-22
 ### :sparkles: New Features
 - [`b96a3b6`](https://github.com/klikli-dev/modonomicon/commit/b96a3b647faa9d3424d77963e9e471b4d73b5ebf) - add index mode entry provider as convenient parent *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1086,3 +1100,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.84.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.83.0...release/v1.21-1.84.0
 [release/v1.21-1.85.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.84.0...release/v1.21-1.85.0
 [release/v1.21-1.86.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.85.0...release/v1.21-1.86.0
+[release/v1.21-1.87.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.86.0...release/v1.21-1.87.0
