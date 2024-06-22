@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.88.0] - 2024-06-22
+### :sparkles: New Features
+- [`ee6c0d7`](https://github.com/klikli-dev/modonomicon/commit/ee6c0d79f6ee58d247a896b50e83a66ba3aa9957) - add lectern compatibility for modonomicon books *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.87.0] - 2024-06-22
 ### :sparkles: New Features
 - [`34f17b2`](https://github.com/klikli-dev/modonomicon/commit/34f17b23cfe1c5b48eeea127736e678c0d7bddc4) - scale down too-long entries in index screens *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1101,3 +1106,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.85.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.84.0...release/v1.21-1.85.0
 [release/v1.21-1.86.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.85.0...release/v1.21-1.86.0
 [release/v1.21-1.87.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.86.0...release/v1.21-1.87.0
+[release/v1.21-1.88.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.87.0...release/v1.21-1.88.0
