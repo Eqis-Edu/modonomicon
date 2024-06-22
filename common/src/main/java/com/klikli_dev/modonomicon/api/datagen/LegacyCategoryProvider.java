@@ -35,7 +35,7 @@ public abstract class LegacyCategoryProvider extends CategoryProviderBase {
     protected String categoryId;
 
     public LegacyCategoryProvider(ModonomiconProviderBase parent, String categoryId) {
-        super(parent, parent.modId(), parent.lang(), parent.langs(), parent.context(), parent.condition());
+        super(parent, parent.modId(), parent.lang(), parent.langsAsMapOfBiConsumers(), parent.context(), parent.condition());
         this.entryMap = new CategoryEntryMap();
         this.category = null;
         this.currentSortIndex = 0;

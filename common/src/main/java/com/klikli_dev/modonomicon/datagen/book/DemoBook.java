@@ -21,8 +21,8 @@ public class DemoBook extends SingleBookSubProvider {
 
     public static final String ID = "demo";
 
-    public DemoBook(String modid, ModonomiconLanguageProvider lang, ModonomiconLanguageProvider... translations) {
-        super(ID, modid, lang, translations);
+    public DemoBook(String modid, ModonomiconLanguageProvider lang) {
+        super(ID, modid, lang);
     }
 
     @Override

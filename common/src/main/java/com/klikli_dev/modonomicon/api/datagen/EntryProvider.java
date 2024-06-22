@@ -25,7 +25,7 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
     protected BookEntryModel entry;
 
     public EntryProvider(CategoryProviderBase parent) {
-        super(parent.modId(), parent.lang(), parent.langs(), parent.context(), parent.condition());
+        super(parent.modId(), parent.lang(), parent.langsAsMapOfBiConsumers(), parent.context(), parent.condition());
         this.parent = parent;
         this.entry = null;
     }

@@ -10,16 +10,10 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryParentModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
-import com.klikli_dev.modonomicon.api.datagen.book.page.BookPageModel;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
-import net.minecraft.world.level.ItemLike;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,7 +24,7 @@ public abstract class CategoryProvider extends CategoryProviderBase {
     protected int currentSortIndex;
 
     public CategoryProvider(ModonomiconProviderBase parent) {
-        super(parent, parent.modId(), parent.lang(), parent.langs(), parent.context(), parent.condition());
+        super(parent, parent.modId(), parent.lang(), parent.langsAsMapOfBiConsumers(), parent.context(), parent.condition());
         this.entryMap = new CategoryEntryMap();
         this.category = null;
         this.currentSortIndex = 0;

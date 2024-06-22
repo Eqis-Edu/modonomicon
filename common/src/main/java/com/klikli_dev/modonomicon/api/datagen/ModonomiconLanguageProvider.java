@@ -16,31 +16,51 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-public interface ModonomiconLanguageProvider {
+public interface ModonomiconLanguageProvider extends BiConsumer<String, String> {
 
-    String locale();
+    default void add(String key, String name){
+        this.accept(key, name);
+    }
 
-    void add(String key, String name);
+    default void addBlock(Supplier<? extends Block> key, String name) {
+        this.add(key.get(), name);
+    }
 
-    void addBlock(Supplier<? extends Block> key, String name);
+    default void add(Block key, String name) {
+        this.add(key.getDescriptionId(), name);
+    }
 
-    void add(Block key, String name);
+    default void addItem(Supplier<? extends Item> key, String name) {
+        this.add(key.get(), name);
+    }
 
-    void addItem(Supplier<? extends Item> key, String name);
+    default void add(Item key, String name) {
+        this.add(key.getDescriptionId(), name);
+    }
 
-    void add(Item key, String name);
+    default void addItemStack(Supplier<ItemStack> key, String name) {
+        this.add(key.get(), name);
+    }
 
-    void addItemStack(Supplier<ItemStack> key, String name);
+    default void add(ItemStack key, String name) {
+        this.add(key.getDescriptionId(), name);
+    }
 
-    void add(ItemStack key, String name);
+    default void addEffect(Supplier<? extends MobEffect> key, String name) {
+        this.add(key.get(), name);
+    }
 
-    void addEffect(Supplier<? extends MobEffect> key, String name);
+    default void add(MobEffect key, String name) {
+        this.add(key.getDescriptionId(), name);
+    }
 
-    void add(MobEffect key, String name);
+    default void addEntityType(Supplier<? extends EntityType<?>> key, String name) {
+        this.add(key.get(), name);
+    }
 
-    void addEntityType(Supplier<? extends EntityType<?>> key, String name);
-
-    void add(EntityType<?> key, String name);
+    default void add(EntityType<?> key, String name) {
+        this.add(key.getDescriptionId(), name);
+    }
 
     /**
      * Return a map containing all translation keys and their values.

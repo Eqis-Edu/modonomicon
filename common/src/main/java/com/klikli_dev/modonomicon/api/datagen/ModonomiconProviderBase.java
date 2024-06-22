@@ -15,47 +15,43 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
-import org.jetbrains.annotations.ApiStatus;
 
 import java.text.MessageFormat;
 import java.util.Map;
-import java.util.stream.Collector;
-import java.util.stream.Stream;
+import java.util.function.BiConsumer;
 
-@ApiStatus.Internal
 public abstract class ModonomiconProviderBase {
-
-    protected static final Collector<ModonomiconLanguageProvider, ?, Object2ObjectOpenHashMap<String, ModonomiconLanguageProvider>> mapMaker
-            = Collector.<ModonomiconLanguageProvider, Object2ObjectOpenHashMap<String, ModonomiconLanguageProvider>, Object2ObjectOpenHashMap<String, ModonomiconLanguageProvider>>of(
-            Object2ObjectOpenHashMap::new,
-            (map, l) -> map.put(l.locale(), l),
-            (m1, m2) -> {
-                m1.putAll(m2);
-                return m1;
-            },
-            (map) -> {
-                map.trim();
-                return map;
-            },
-            Collector.Characteristics.UNORDERED);
     protected final String modId;
     protected final ModonomiconLanguageProvider lang;
-    protected final Map<String, ModonomiconLanguageProvider> translations;
+    protected final Map<String, ModonomiconLanguageProvider> langs;
+    protected final Map<String, BiConsumer<String, String>> langsAsBiConsumers;
     protected final BookContextHelper context;
     protected final ConditionHelper conditionHelper;
     private final Map<String, String> macros = new Object2ObjectOpenHashMap<>();
 
-    protected ModonomiconProviderBase(String modId, ModonomiconLanguageProvider lang, Map<String, ModonomiconLanguageProvider> translations, BookContextHelper context, ConditionHelper conditionHelper) {
+    protected ModonomiconProviderBase(String modId, BiConsumer<String, String> lang, Map<String, BiConsumer<String, String>> langs, BookContextHelper context, ConditionHelper conditionHelper) {
         this.modId = modId;
-        this.lang = lang;
-        this.translations = translations;
+        //Convert biconsumers to language provider to keep backwards compatibility
+        this.lang = toLanguageProvider(lang);
+        this.langs = toLanguageProvider(langs);
+        this.langsAsBiConsumers = langs;
         this.context = context;
         this.conditionHelper = conditionHelper;
     }
 
-    public static Map<String, ModonomiconLanguageProvider> makeLangMap(ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
-        return Stream.concat(Stream.of(defaultLang), Stream.of(translations))
-                .collect(mapMaker);
+    public static Map<String, ModonomiconLanguageProvider> toLanguageProvider(Map<String, BiConsumer<String, String>> translations) {
+        var result = new Object2ObjectOpenHashMap<String, ModonomiconLanguageProvider>();
+        translations.forEach((locale, consumer) -> result.put(locale, toLanguageProvider(consumer)));
+        return result;
+    }
+
+    public static ModonomiconLanguageProvider toLanguageProvider(BiConsumer<String, String> consumer) {
+        return new ModonomiconLanguageProvider() {
+            @Override
+            public void accept(String s, String s2) {
+                consumer.accept(s, s2);
+            }
+        };
     }
 
     protected String modId() {
@@ -67,11 +63,15 @@ public abstract class ModonomiconProviderBase {
     }
 
     protected ModonomiconLanguageProvider lang(String locale) {
-        return this.translations.get(locale);
+        return this.langs.get(locale);
     }
 
     protected Map<String, ModonomiconLanguageProvider> langs() {
-        return this.translations;
+        return this.langs;
+    }
+
+    protected Map<String, BiConsumer<String, String>> langsAsMapOfBiConsumers() {
+        return this.langsAsBiConsumers;
     }
 
     protected ConditionHelper condition() {

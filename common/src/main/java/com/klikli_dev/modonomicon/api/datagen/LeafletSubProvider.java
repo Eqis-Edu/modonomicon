@@ -11,17 +11,18 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
 import com.klikli_dev.modonomicon.registry.ItemRegistry;
 
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 /**
  * An opinionated book leaflet sub provider with helper methods to generate a leaflet more easily.
  */
 public abstract class LeafletSubProvider extends SingleBookSubProvider {
 
-    public LeafletSubProvider(String bookId, String modId, ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
-        super(bookId, modId, defaultLang, translations);
+    public LeafletSubProvider(String bookId, String modId, ModonomiconLanguageProvider defaultLang) {
+        super(bookId, modId, defaultLang);
     }
 
-    public LeafletSubProvider(String bookId, String modId, ModonomiconLanguageProvider defaultLang, Map<String, ModonomiconLanguageProvider> translations) {
+    public LeafletSubProvider(String bookId, String modId, BiConsumer<String, String> defaultLang, Map<String, BiConsumer<String, String>> translations) {
         super(bookId, modId, defaultLang, translations);
     }
 

@@ -17,8 +17,8 @@ import com.klikli_dev.modonomicon.book.PageDisplayMode;
 public class DemoLeaflet extends LeafletSubProvider {
     public static final String ID = "demo_leaflet";
 
-    public DemoLeaflet(String modId, ModonomiconLanguageProvider defaultLang, ModonomiconLanguageProvider... translations) {
-        super(ID, modId, defaultLang, translations);
+    public DemoLeaflet(String modId, ModonomiconLanguageProvider defaultLang) {
+        super(ID, modId, defaultLang);
     }
 
     @Override

@@ -26,56 +26,17 @@ public class LanguageProviderCache implements ModonomiconLanguageProvider {
         this.locale = locale;
     }
 
-    @Override
     public String locale() {
         return this.locale;
     }
 
+    @Override
     public @NotNull Map<String, String> data() {
         return this.data;
     }
 
-    public void addBlock(Supplier<? extends Block> key, String name) {
-        this.add(key.get(), name);
-    }
-
-    public void add(Block key, String name) {
-        this.add(key.getDescriptionId(), name);
-    }
-
-    public void addItem(Supplier<? extends Item> key, String name) {
-        this.add(key.get(), name);
-    }
-
-    public void add(Item key, String name) {
-        this.add(key.getDescriptionId(), name);
-    }
-
-    public void addItemStack(Supplier<ItemStack> key, String name) {
-        this.add(key.get(), name);
-    }
-
-    public void add(ItemStack key, String name) {
-        this.add(key.getDescriptionId(), name);
-    }
-
-    public void addEffect(Supplier<? extends MobEffect> key, String name) {
-        this.add(key.get(), name);
-    }
-
-    public void add(MobEffect key, String name) {
-        this.add(key.getDescriptionId(), name);
-    }
-
-    public void addEntityType(Supplier<? extends EntityType<?>> key, String name) {
-        this.add(key.get(), name);
-    }
-
-    public void add(EntityType<?> key, String name) {
-        this.add(key.getDescriptionId(), name);
-    }
-
-    public void add(String key, String value) {
+    @Override
+    public void accept(String key, String value) {
         if (this.data.put(key, value) != null)
             throw new IllegalStateException("Duplicate translation key " + key);
     }
