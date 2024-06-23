@@ -16,17 +16,21 @@ import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.MarkdownComponentRenderUtils;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.util.GuiGraphicsExt;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ComponentRenderUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public abstract class BookPageRenderer<T extends BookPage> {
     public int left;
@@ -43,10 +47,51 @@ public abstract class BookPageRenderer<T extends BookPage> {
         this.page = page;
     }
 
+
+
+    public static float getBookTextHolderScaleForRenderSize(BookTextHolder text, Font font, int width, int height) {
+        if (!(text instanceof RenderedBookTextHolder renderedText))
+            return 1.0f;
+
+        var cachedScale = BookDataManager.Client.get().getScale(text, width, height);
+        if(cachedScale > -1f)
+            return cachedScale;
+
+        var components = renderedText.getRenderedText();
+
+        float granularity = 0.01F;
+        float scale = 1.0F;
+        float totalHeight = 0;
+        do {
+            //calculate total height by simulating rendering with the current scale.
+            //this iterative approach is necessary because when scaling down we fit more words per line, resulting in less lines after wrapping.
+
+            //first scale the width and calculate how many lines we have at this scale
+            int totalLines = 0;
+            for (var component : components) {
+                var wrapped = MarkdownComponentRenderUtils.wrapComponents(component, (int) (width / scale), (int) ((width - 10) / scale), font);
+                totalLines += wrapped.size();
+            }
+
+            //then calculate how high the amount of lines would be at this scale
+            totalHeight = totalLines * font.lineHeight * scale;
+
+            //now reduce scale for the next iteration
+            //it is important to iterate with a fine granularity, otherwise the text will be downscaled way too much
+            scale -= granularity;
+
+            //repeat until we have a scale that fits the height
+        } while(totalHeight > height);
+
+        BookDataManager.Client.get().putScale(text, width, height, scale);
+
+        return scale;
+    }
+
     /**
      * Will render the given BookTextHolder as (left-aligned) content text. Will automatically handle markdown.
      */
-    public static void renderBookTextHolder(GuiGraphics guiGraphics, BookTextHolder text, Font font, int x, int y, int width) {
+    public static void renderBookTextHolder(GuiGraphics guiGraphics, BookTextHolder text, Font font, int x, int y, int width, int height) {
         if (text.hasComponent()) {
             //if it is a component, we draw it directly
             for (FormattedCharSequence formattedcharsequence : font.split(text.getComponent(), width)) {
@@ -54,16 +99,32 @@ public abstract class BookPageRenderer<T extends BookPage> {
                 y += font.lineHeight;
             }
         } else if (text instanceof RenderedBookTextHolder renderedText) {
-            //if it is not a component it was sent through the markdown renderer
             var components = renderedText.getRenderedText();
 
+            //DEBUG: draw the upper and lower boundary to see if our scaled text fits into it
+//            guiGraphics.hLine(x, x + width, y + height, 0xFF0000FF);
+//            guiGraphics.hLine(x, x + width, y, 0xFF0000FF);
+
+            float scale = getBookTextHolderScaleForRenderSize(text, font, width, height);
+
+            guiGraphics.pose().pushPose();
+
+            if (scale < 1) {
+                guiGraphics.pose().translate(x - x * scale, y - y * scale, 0);
+                guiGraphics.pose().scale(scale, scale, scale);
+            }
+
+            float renderY = y;
             for (var component : components) {
-                var wrapped = MarkdownComponentRenderUtils.wrapComponents(component, width, width - 10, font);
+                var wrapped = MarkdownComponentRenderUtils.wrapComponents(component, (int) (width / scale), (int) ((width - 10) / scale), font);
                 for (FormattedCharSequence formattedcharsequence : wrapped) {
-                    guiGraphics.drawString(font, formattedcharsequence, x, y, 0, false);
-                    y += font.lineHeight;
+                    GuiGraphicsExt.drawString(guiGraphics, font, formattedcharsequence, x, renderY, 0, false);
+                    renderY += font.lineHeight;
                 }
             }
+
+            guiGraphics.pose().popPose();
+
         } else {
             Modonomicon.LOG.warn("BookTextHolder with String {} has no component, but is not rendered to markdown either.", text.getString());
         }
@@ -104,14 +165,32 @@ public abstract class BookPageRenderer<T extends BookPage> {
 
     /**
      * Will render the given BookTextHolder as (left-aligned) content text. Will automatically handle markdown.
+     * @deprecated use {@link #renderBookTextHolder(GuiGraphics, BookTextHolder, Font, int, int, int, int)} instead and provide the desired height.
+     * This exists only for backwards compatibility of custom pages and may estimate the wrong height.
      */
+    @Deprecated
     public void renderBookTextHolder(GuiGraphics guiGraphics, BookTextHolder text, int x, int y, int width) {
+        var textY = 0;
+        if(this instanceof PageWithTextRenderer pageWithTextRenderer)
+            textY = pageWithTextRenderer.getTextY();
+
+        renderBookTextHolder(guiGraphics, text, this.font, x, y, width, BookEntryScreen.PAGE_HEIGHT - textY);
+    }
+
+    /**
+     * Will render the given BookTextHolder as (left-aligned) content text. Will automatically handle markdown.
+     */
+    public void renderBookTextHolder(GuiGraphics guiGraphics, BookTextHolder text, int x, int y, int width, int height) {
         x += this.parentScreen.getBook().getBookTextOffsetX();
         y += this.parentScreen.getBook().getBookTextOffsetY();
+
+        height += this.parentScreen.getBook().getBookTextOffsetHeight();
+        height -= this.parentScreen.getBook().getBookTextOffsetY(); //always remove the offset y from the height to avoid overflow
+
         width += this.parentScreen.getBook().getBookTextOffsetWidth();
         width -= this.parentScreen.getBook().getBookTextOffsetX(); //always remove the offset x from the width to avoid overflow
 
-        renderBookTextHolder(guiGraphics, text, this.font, x, y, width);
+        renderBookTextHolder(guiGraphics, text, this.font, x, y, width, height);
     }
 
     /**
@@ -233,8 +312,21 @@ public abstract class BookPageRenderer<T extends BookPage> {
         return null;
     }
 
+    /**
+     * @deprecated use {@link #getClickedComponentStyleAtForTextHolder(BookTextHolder, int, int, int, int, double, double)} and provide the desired height.
+     * This exists only for backwards compatibility of custom pages and may estimate the wrong height.
+     */
     @Nullable
+    @Deprecated
     protected Style getClickedComponentStyleAtForTextHolder(BookTextHolder text, int x, int y, int width, double pMouseX, double pMouseY) {
+        var textY = 0;
+        if(this instanceof PageWithTextRenderer pageWithTextRenderer)
+            textY = pageWithTextRenderer.getTextY();
+        return this.getClickedComponentStyleAtForTextHolder(text, x, y, width, BookEntryScreen.PAGE_HEIGHT - textY, pMouseX, pMouseY);
+    }
+
+    @Nullable
+    protected Style getClickedComponentStyleAtForTextHolder(BookTextHolder text, int x, int y, int width, int height, double pMouseX, double pMouseY) {
         if (text.hasComponent()) {
             //we don't do math to get the current line, we just split and iterate.
             //why? Because performance should not matter (significantly enough to bother)
@@ -247,14 +339,18 @@ public abstract class BookPageRenderer<T extends BookPage> {
                 y += this.font.lineHeight;
             }
         } else if (text instanceof RenderedBookTextHolder renderedText) {
+            var scale = getBookTextHolderScaleForRenderSize(text, this.font, width, height);
+
             var components = renderedText.getRenderedText();
             for (var component : components) {
-                var wrapped = MarkdownComponentRenderUtils.wrapComponents(component, width, width - 10, this.font);
+                var wrapped = MarkdownComponentRenderUtils.wrapComponents(component, (int) (width / scale), (int) ((width - 10) / scale), this.font);
                 for (FormattedCharSequence formattedcharsequence : wrapped) {
-                    if (pMouseY > y && pMouseY < y + this.font.lineHeight) {
+                    float minY =  y * scale;
+                    float maxY = (y + this.font.lineHeight) * scale;
+                    if (pMouseY > minY && pMouseY < maxY) {
                         //check if we are vertically over the title line
                         //horizontally over and right of the title is handled by font splitter
-                        return this.font.getSplitter().componentStyleAtWidth(formattedcharsequence, (int) pMouseX - x);
+                        return this.font.getSplitter().componentStyleAtWidth(formattedcharsequence, (int) ((pMouseX - x) / scale));
                     }
                     y += this.font.lineHeight;
                 }
