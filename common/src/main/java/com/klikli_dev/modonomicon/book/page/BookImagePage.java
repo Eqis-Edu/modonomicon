@@ -26,13 +26,15 @@ public class BookImagePage extends BookPage {
     protected BookTextHolder text;
     protected ResourceLocation[] images;
     protected boolean border;
+    protected boolean useLegacyRendering;
 
-    public BookImagePage(BookTextHolder title, BookTextHolder text, ResourceLocation[] images, boolean border, String anchor, BookCondition condition) {
+    public BookImagePage(BookTextHolder title, BookTextHolder text, ResourceLocation[] images, boolean border, boolean useLegacyRendering, String anchor, BookCondition condition) {
         super(anchor, condition);
         this.title = title;
         this.text = text;
         this.images = images;
         this.border = border;
+        this.useLegacyRendering = useLegacyRendering;
     }
 
     public static BookImagePage fromJson(JsonObject json, HolderLookup.Provider provider) {
@@ -46,12 +48,13 @@ public class BookImagePage extends BookPage {
         }
 
         var border = GsonHelper.getAsBoolean(json, "border", true);
+        var useLegacyRendering = GsonHelper.getAsBoolean(json, "use_legacy_rendering", false);
 
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")
                 ? BookCondition.fromJson(json.getAsJsonObject("condition"), provider)
                 : new BookNoneCondition();
-        return new BookImagePage(title, text, images, border, anchor, condition);
+        return new BookImagePage(title, text, images, border, useLegacyRendering, anchor, condition);
     }
 
     public static BookImagePage fromNetwork(RegistryFriendlyByteBuf buffer) {
@@ -65,10 +68,11 @@ public class BookImagePage extends BookPage {
         }
 
         var border = buffer.readBoolean();
+        var useLegacyRendering = buffer.readBoolean();
 
         var anchor = buffer.readUtf();
         var condition = BookCondition.fromNetwork(buffer);
-        return new BookImagePage(title, text, images, border, anchor, condition);
+        return new BookImagePage(title, text, images, border, useLegacyRendering, anchor, condition);
     }
 
     public ResourceLocation[] getImages() {
@@ -77,6 +81,10 @@ public class BookImagePage extends BookPage {
 
     public boolean hasBorder() {
         return this.border;
+    }
+
+    public boolean useLegacyRendering() {
+        return this.useLegacyRendering;
     }
 
     public BookTextHolder getTitle() {
@@ -122,6 +130,7 @@ public class BookImagePage extends BookPage {
         }
 
         buffer.writeBoolean(this.border);
+        buffer.writeBoolean(this.useLegacyRendering);
         super.toNetwork(buffer);
     }
 

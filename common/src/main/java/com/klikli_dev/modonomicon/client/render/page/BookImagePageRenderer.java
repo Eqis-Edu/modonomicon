@@ -58,12 +58,15 @@ public class BookImagePageRenderer extends BookPageRenderer<BookImagePage> imple
         RenderSystem.enableBlend();
         guiGraphics.pose().pushPose();
         guiGraphics.pose().scale(0.5F, 0.5F, 1);
-        guiGraphics.blit(this.page.getImages()[this.index], x * 2 + 6, y * 2 + 6, 0, 0, 200, 200);
+        if (this.page.useLegacyRendering())
+            guiGraphics.blit(this.page.getImages()[this.index], x * 2 + 6, y * 2 + 6, 0, 0, 200, 200);
+        else
+            guiGraphics.blit(this.page.getImages()[this.index], x * 2 + 6, y * 2 + 6, 0, 0, 0, 200, 200, 200, 200);
         guiGraphics.pose().scale(2F, 2F, 1);
         guiGraphics.pose().popPose();
 
         if (this.page.hasBorder()) {
-           BookContentRenderer.drawFromContentTexture(guiGraphics, this.getPage().getBook(), x, y, 405, 149, 106, 106);
+            BookContentRenderer.drawFromContentTexture(guiGraphics, this.getPage().getBook(), x, y, 405, 149, 106, 106);
         }
 
         if (this.page.getImages().length > 1 && this.page.hasBorder()) {

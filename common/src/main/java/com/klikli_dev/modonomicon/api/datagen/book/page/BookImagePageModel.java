@@ -20,6 +20,11 @@ public class BookImagePageModel extends BookPageModel<BookImagePageModel> {
 
     protected ResourceLocation[] images = new ResourceLocation[0];
     protected boolean border = true;
+    /**
+     * If true then the image will render only the top left 200x200px out of a 256x256px image.
+     * If false the full image of any size will be rendered and scaled accordingly.
+     */
+    protected boolean useLegacyRendering = false;
 
     protected BookImagePageModel() {
         super(Page.IMAGE);
@@ -51,6 +56,7 @@ public class BookImagePageModel extends BookPageModel<BookImagePageModel> {
         json.add("title", this.title.toJson(provider));
         json.add("text", this.text.toJson(provider));
         json.addProperty("border", this.border);
+        json.addProperty("use_legacy_rendering", this.useLegacyRendering);
 
         var imagesArray = new JsonArray();
         for (int i = 0; i < this.images.length; i++) {
@@ -73,6 +79,15 @@ public class BookImagePageModel extends BookPageModel<BookImagePageModel> {
 
     public BookImagePageModel withBorder(boolean border) {
         this.border = border;
+        return this;
+    }
+
+    /**
+     * If true then the image will render only the top left 200x200px out of a 256x256px image.
+     * If false the full image of any size will be rendered and scaled accordingly.
+     */
+    public BookImagePageModel withLegacyRendering(boolean useLegacyRendering) {
+        this.useLegacyRendering = useLegacyRendering;
         return this;
     }
 
