@@ -131,6 +131,6 @@ public abstract class CategoryProvider extends CategoryProviderBase {
     /**
      * Implement this and return the desired id for the category.
      */
-
+    @Override
     public abstract String categoryId();
 }

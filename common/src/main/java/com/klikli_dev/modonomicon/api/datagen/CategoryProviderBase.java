@@ -18,6 +18,8 @@ public abstract class CategoryProviderBase extends ModonomiconProviderBase {
         this.parent = parent;
     }
 
+    public abstract String categoryId();
+
     public abstract CategoryEntryMap entryMap();
 
     public abstract BookEntryModel add(BookEntryModel entry);

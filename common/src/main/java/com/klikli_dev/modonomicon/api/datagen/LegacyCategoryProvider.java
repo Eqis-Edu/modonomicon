@@ -42,6 +42,7 @@ public abstract class LegacyCategoryProvider extends CategoryProviderBase {
         this.categoryId = categoryId;
     }
 
+    @Override
     public String categoryId() {
         return this.categoryId;
     }
