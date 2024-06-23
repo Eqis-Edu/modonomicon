@@ -86,6 +86,20 @@ public class BookParentIndexScreen extends BookPaginatedScreen implements BookPa
         }
     }
 
+    protected void drawTitle(GuiGraphics guiGraphics, int x, int y){
+        guiGraphics.pose().pushPose();
+        var scale = Math.min(1.0f, (float) BookEntryScreen.MAX_TITLE_WIDTH / (float) this.font.width(this.getTitle()));
+        if (scale < 1) {
+            guiGraphics.pose().translate(x - x * scale, y - y * scale, 0);
+            guiGraphics.pose().scale(scale, scale, scale);
+        }
+
+        //we use scale 1 because our scale translation handling in there is off a bit. the above translation code is better
+        this.drawCenteredStringNoShadow(guiGraphics, this.getTitle(), x, y, this.getBook().getDefaultTitleColor(), 1);
+
+        guiGraphics.pose().popPose();
+    }
+
     public void drawCenteredStringNoShadow(GuiGraphics guiGraphics, Component s, int x, int y, int color) {
         this.drawCenteredStringNoShadow(guiGraphics, s, x, y, color, 1.0f);
     }
@@ -216,16 +230,15 @@ public class BookParentIndexScreen extends BookPaginatedScreen implements BookPa
 
         if (this.openPagesIndex == 0) {
             if (!this.shouldShowDescription()) {
-                this.drawCenteredStringNoShadow(guiGraphics, this.getTitle(),
-                        BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING,
-                        this.getBook().getDefaultTitleColor());
+
+                this.drawTitle(guiGraphics, BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING);
 
                 BookContentRenderer.drawTitleSeparator(guiGraphics, this.getBook(),
                         BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING + 12);
             } else {
-                this.drawCenteredStringNoShadow(guiGraphics, this.getTitle(),
-                        BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING,
-                        this.getBook().getDefaultTitleColor());
+
+                this.drawTitle(guiGraphics, BookEntryScreen.LEFT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING);
+
                 this.drawCenteredStringNoShadow(guiGraphics, Component.translatable(Gui.CATEGORY_INDEX_LIST_TITLE),
                         BookEntryScreen.RIGHT_PAGE_X + BookEntryScreen.PAGE_WIDTH / 2, BookEntryScreen.TOP_PADDING,
                         this.getBook().getDefaultTitleColor());
