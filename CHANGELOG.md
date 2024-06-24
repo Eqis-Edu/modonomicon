@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.90.2] - 2024-06-24
+### :bug: Bug Fixes
+- [`f3d71d9`](https://github.com/klikli-dev/modonomicon/commit/f3d71d94b85ab392424376e3d5c4650c73f58cb5) - scale category index entries if they are too long *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.90.1] - 2024-06-23
 ### :bug: Bug Fixes
 - [`3db0f38`](https://github.com/klikli-dev/modonomicon/commit/3db0f38bbadd0062748fd8104bc638d4d691e327) - re-add categoryId() to categoryproviderbase *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1128,3 +1133,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.89.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.88.0...release/v1.21-1.89.0
 [release/v1.21-1.90.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.89.0...release/v1.21-1.90.0
 [release/v1.21-1.90.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.0...release/v1.21-1.90.1
+[release/v1.21-1.90.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.1...release/v1.21-1.90.2
