@@ -91,7 +91,9 @@ public class EntryListButton extends Button {
             int x = this.getX() + 12; //shift right to make space for the icon
             int y = this.getY() + 2;
             int maxWidth = BookEntryScreen.PAGE_WIDTH - 12; //make space for the icon and margin
+
             guiGraphics.pose().pushPose();
+
             var scale = Math.min(1.0f, (float) maxWidth / (float) Minecraft.getInstance().font.width(name));
             if (scale < 1) {
                 guiGraphics.pose().translate(x - x * scale, y - y * scale, 0);
