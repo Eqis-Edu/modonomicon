@@ -59,7 +59,7 @@ public abstract class LegacyBookProvider extends ModonomiconProviderBase impleme
     protected void registerDefaultMacro(String macro, String value) {
         this.registerMacro(macro, value);
     }
-    
+
     @Override
     public void generate(BiConsumer<ResourceLocation, BookModel> consumer) {
         this.registerDefaultMacros();
