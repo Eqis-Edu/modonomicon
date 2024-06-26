@@ -59,21 +59,13 @@ public abstract class LegacyBookProvider extends ModonomiconProviderBase impleme
     protected void registerDefaultMacro(String macro, String value) {
         this.registerMacro(macro, value);
     }
-
-    protected BookCategoryModel add(BookCategoryModel category) {
-        if (category.getSortNumber() == -1) {
-            category.withSortNumber(this.currentSortIndex++);
-        }
-        this.book.withCategory(category);
-        return category;
-    }
-
+    
     @Override
     public void generate(BiConsumer<ResourceLocation, BookModel> consumer) {
         this.registerDefaultMacros();
 
         this.context().book(this.bookId());
-        var book = this.generateBook();
+        this.book = this.generateBook();
 
         consumer.accept(this.book.getId(), this.book);
     }
