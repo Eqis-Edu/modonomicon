@@ -43,7 +43,7 @@ public class BookStatesSaveData extends SavedData {
     }
 
     public static BookStatesSaveData load(CompoundTag pCompoundTag, HolderLookup.Provider pHolderProvider) {
-        return CODEC.parse(NbtOps.INSTANCE, pCompoundTag.get("bookStates")).result().orElseThrow();
+        return CODEC.parse(NbtOps.INSTANCE, pCompoundTag.get("bookStates")).result().orElse(new BookStatesSaveData());
     }
 
     public BookUnlockStates getUnlockStates(UUID playerUUID) {
