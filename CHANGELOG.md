@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.90.4] - 2024-06-26
+### :bug: Bug Fixes
+- [`0cf925d`](https://github.com/klikli-dev/modonomicon/commit/0cf925d5b71ead74537393646f27b12c50e1c84d) - npe in legacy book provider *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`737c90e`](https://github.com/klikli-dev/modonomicon/commit/737c90e4d5f1727a2db9435ab93cf86fc4b92be0) - increase mod version *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.90.3] - 2024-06-26
 ### :bug: Bug Fixes
 - [`9325cf7`](https://github.com/klikli-dev/modonomicon/commit/9325cf7ca2dc3b3b3122eb7356a596d5d4f8fa50) - re-add pack.mcmeta, unlike other loaders forge needs it *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1141,3 +1149,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.90.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.0...release/v1.21-1.90.1
 [release/v1.21-1.90.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.1...release/v1.21-1.90.2
 [release/v1.21-1.90.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.2...release/v1.21-1.90.3
+[release/v1.21-1.90.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.3...release/v1.21-1.90.4
