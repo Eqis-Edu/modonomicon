@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.90.3] - 2024-06-26
+### :bug: Bug Fixes
+- [`9325cf7`](https://github.com/klikli-dev/modonomicon/commit/9325cf7ca2dc3b3b3122eb7356a596d5d4f8fa50) - re-add pack.mcmeta, unlike other loaders forge needs it *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`f4c48c3`](https://github.com/klikli-dev/modonomicon/commit/f4c48c34ad36f5fbc4a42a18f38597d3702d2146) - prevent error if no book save data is found on level load *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.90.2] - 2024-06-24
 ### :bug: Bug Fixes
 - [`f3d71d9`](https://github.com/klikli-dev/modonomicon/commit/f3d71d94b85ab392424376e3d5c4650c73f58cb5) - scale category index entries if they are too long *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1134,3 +1140,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.90.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.89.0...release/v1.21-1.90.0
 [release/v1.21-1.90.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.0...release/v1.21-1.90.1
 [release/v1.21-1.90.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.1...release/v1.21-1.90.2
+[release/v1.21-1.90.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.2...release/v1.21-1.90.3
