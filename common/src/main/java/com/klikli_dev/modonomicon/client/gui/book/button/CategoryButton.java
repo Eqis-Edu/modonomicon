@@ -47,13 +47,17 @@ public class CategoryButton extends Button {
             if (BookGuiManager.get().openBookCategoryScreen != null && this.category == BookGuiManager.get().openBookCategoryScreen.getCategory()) {
                 renderX -= 3;
                 renderWidth += 3;
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             } else if (this.isHovered()) {
                 renderX -= 1;
                 renderWidth += 1;
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            } else {
+                RenderSystem.setShaderColor(0.8f, 0.8f, 0.8f, 1.0F);
             }
 
             //draw category button background
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+//            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             guiGraphics.blit(this.parent.getBookOverviewTexture(), renderX, this.getY(), texX, texY, renderWidth, this.height, 256, 256);
 
             //then draw icon
