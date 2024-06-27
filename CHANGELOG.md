@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.92.0] - 2024-06-27
+### :sparkles: New Features
+- [`1e9221d`](https://github.com/klikli-dev/modonomicon/commit/1e9221d1fee9d43f1060427c348bf4a1faedba2c) - add EntryType.ENTRY_LINK ([#227](https://github.com/klikli-dev/modonomicon/pull/227)) - thanks @DaFuqs *(commit by [@DaFuqs](https://github.com/DaFuqs))*
+- [`9b352b3`](https://github.com/klikli-dev/modonomicon/commit/9b352b3c7104663e7b0d47d529305eeb7dd553f6) - add datamodel for entry link entry type *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.91.0] - 2024-06-27
 ### :sparkles: New Features
 - [`e9df55f`](https://github.com/klikli-dev/modonomicon/commit/e9df55f63a9c8d12ee66f1d8abbba4aa7cab300a) - make inactive category buttons slightly darker to highlight the active one better *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1165,3 +1171,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.90.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.3...release/v1.21-1.90.4
 [release/v1.21-1.90.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.4...release/v1.21-1.90.5
 [release/v1.21-1.91.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.5...release/v1.21-1.91.0
+[release/v1.21-1.92.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.91.0...release/v1.21-1.92.0
