@@ -38,6 +38,7 @@ public class BookEntryModel {
     protected BookConditionModel<?> condition;
     protected ResourceLocation categoryToOpen;
     protected ResourceLocation commandToRunOnFirstRead;
+    protected ResourceLocation entryToOpen;
 
     protected int sortNumber = -1;
 
@@ -94,6 +95,9 @@ public class BookEntryModel {
         if (this.commandToRunOnFirstRead != null) {
             json.addProperty("command_to_run_on_first_read", this.commandToRunOnFirstRead.toString());
         }
+        if (this.entryToOpen != null) {
+            json.addProperty("entry_to_open", this.entryToOpen.toString());
+        }
 
         json.addProperty("sort_number", this.sortNumber);
 
@@ -118,6 +122,10 @@ public class BookEntryModel {
 
     public ResourceLocation getCommandToRunOnFirstRead() {
         return this.commandToRunOnFirstRead;
+    }
+
+    public ResourceLocation getEntryToOpen() {
+        return this.entryToOpen;
     }
 
     public ResourceLocation getId() {
@@ -414,12 +422,21 @@ public class BookEntryModel {
         return this.withCommandToRunOnFirstRead(bookCommandModel.getId());
     }
 
-
     /**
      * The command to run when this entry is first read.
      */
     public BookEntryModel withCommandToRunOnFirstRead(ResourceLocation bookCommandModel) {
         this.commandToRunOnFirstRead = bookCommandModel;
+        return this;
+    }
+
+    /**
+     * If you provide an entry resource location, this entry will not show book pages, but instead act as a link to that entry.
+     *
+     * @param entryToOpen The entry to open when this entry is clicked. Should be a resource location (e.g.: "modonomicon:features/image").
+     */
+    public BookEntryModel withEntryToOpen(ResourceLocation entryToOpen) {
+        this.entryToOpen = entryToOpen;
         return this;
     }
 }

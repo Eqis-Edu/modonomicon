@@ -325,9 +325,8 @@ public class BookGuiManager {
     @ApiStatus.Internal
     public void openCategoryLinkEntry(CategoryLinkBookEntry entry) {
         var category = entry.getCategoryToOpen();
-
-
-        //Opening a category link means we already opened a book, and a category. These all need tob e closed before reopening, so we just use our default opening method
+        
+        //Opening a category link means we already opened a book, and a category. These all need to be closed before reopening, so we just use our default opening method
         this.openBook(BookAddress.defaultFor(category));
     }
 
