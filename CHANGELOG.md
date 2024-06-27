@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.91.0] - 2024-06-27
+### :sparkles: New Features
+- [`e9df55f`](https://github.com/klikli-dev/modonomicon/commit/e9df55f63a9c8d12ee66f1d8abbba4aa7cab300a) - make inactive category buttons slightly darker to highlight the active one better *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.90.5] - 2024-06-27
 ### :bug: Bug Fixes
 - [`f2ee1f4`](https://github.com/klikli-dev/modonomicon/commit/f2ee1f43ec908fae8859880f9b5ea2cb5049d002) - unify pause behaviour for all book screens *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1159,3 +1164,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.90.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.2...release/v1.21-1.90.3
 [release/v1.21-1.90.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.3...release/v1.21-1.90.4
 [release/v1.21-1.90.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.4...release/v1.21-1.90.5
+[release/v1.21-1.91.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.5...release/v1.21-1.91.0
