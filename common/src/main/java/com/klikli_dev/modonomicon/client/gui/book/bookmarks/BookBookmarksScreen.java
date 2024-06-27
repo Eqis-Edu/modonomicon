@@ -267,4 +267,9 @@ public class BookBookmarksScreen extends BookPaginatedScreen {
             this.entryButtons.add(button);
         }
     }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
 }

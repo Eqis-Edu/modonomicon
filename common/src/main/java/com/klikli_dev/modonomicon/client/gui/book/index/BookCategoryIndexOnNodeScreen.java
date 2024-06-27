@@ -58,5 +58,4 @@ public class BookCategoryIndexOnNodeScreen extends BookCategoryIndexScreen {
         //with the "outside closing" prevented we can let our parents do the rest
         return super.mouseClicked(pMouseX, pMouseY, pButton);
     }
-
 }

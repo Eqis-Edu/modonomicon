@@ -432,6 +432,11 @@ public abstract class BookEntryScreen extends BookPaginatedScreen implements Con
         return this.mouseClickedPage(pMouseX, pMouseY, pButton);
     }
 
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
+
     public void onSyncBookVisualStatesMessage(SyncBookVisualStatesMessage message) {
         this.updateBookmarksButton();
     }

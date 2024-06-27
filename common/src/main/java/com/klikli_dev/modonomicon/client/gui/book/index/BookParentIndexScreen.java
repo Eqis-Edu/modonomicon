@@ -108,10 +108,12 @@ public class BookParentIndexScreen extends BookPaginatedScreen implements BookPa
         GuiGraphicsExt.drawString(guiGraphics, this.font, s, x - this.font.width(s) * scale / 2.0F, y + (this.font.lineHeight * (1 - scale)), color, false);
     }
 
+    @Override
     public boolean canSeeArrowButton(boolean left) {
         return left ? this.openPagesIndex > 0 : (this.openPagesIndex + 1) < this.maxOpenPagesIndex;
     }
 
+    @Override
     protected void flipPage(boolean left, boolean playSound) {
         if (this.canSeeArrowButton(left)) {
 
@@ -398,5 +400,10 @@ public class BookParentIndexScreen extends BookPaginatedScreen implements BookPa
                 || pMouseX > this.bookLeft + BookEntryScreen.FULL_WIDTH + BookEntryScreen.CLICK_SAFETY_MARGIN + 20
                 || pMouseY < this.bookTop - BookEntryScreen.CLICK_SAFETY_MARGIN
                 || pMouseY > this.bookTop + BookEntryScreen.FULL_HEIGHT + BookEntryScreen.CLICK_SAFETY_MARGIN;
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

@@ -388,6 +388,7 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
     /**
      * Sets the visual elements of the state, but not the open entry (handled by Gui Manager)
      */
+    @Override
     public void loadState(CategoryVisualState state) {
         this.scrollX = state.scrollX;
         this.scrollY = state.scrollY;
@@ -395,12 +396,14 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
         this.currentZoom = state.targetZoom;
     }
 
+    @Override
     public void saveState(CategoryVisualState state) {
         state.scrollX = this.scrollX;
         state.scrollY = this.scrollY;
         state.targetZoom = this.targetZoom;
     }
 
+    @Override
     public void onDisplay() {
 
     }

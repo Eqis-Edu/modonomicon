@@ -83,10 +83,12 @@ public class BookSearchScreen extends BookPaginatedScreen {
         return this.parentScreen;
     }
 
+    @Override
     public boolean canSeeArrowButton(boolean left) {
         return left ? this.openPagesIndex > 0 : (this.openPagesIndex + 1) < this.maxOpenPagesIndex;
     }
 
+    @Override
     protected void flipPage(boolean left, boolean playSound) {
         if (this.canSeeArrowButton(left)) {
 
@@ -323,5 +325,10 @@ public class BookSearchScreen extends BookPaginatedScreen {
             this.addRenderableWidget(button);
             this.entryButtons.add(button);
         }
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
     }
 }

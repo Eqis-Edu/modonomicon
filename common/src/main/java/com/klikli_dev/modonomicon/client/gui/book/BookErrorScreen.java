@@ -105,4 +105,9 @@ public class BookErrorScreen extends Screen {
         this.prepareError();
 
     }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false;
+    }
 }
