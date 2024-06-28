@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.92.1] - 2024-06-28
+### :bug: Bug Fixes
+- [`835b9da`](https://github.com/klikli-dev/modonomicon/commit/835b9da18f89057002572af7aadc4b4d9e269179) - endless loop when checking clicked component style on recipe pages with 2 recipes *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.92.0] - 2024-06-27
 ### :sparkles: New Features
 - [`1e9221d`](https://github.com/klikli-dev/modonomicon/commit/1e9221d1fee9d43f1060427c348bf4a1faedba2c) - add EntryType.ENTRY_LINK ([#227](https://github.com/klikli-dev/modonomicon/pull/227)) - thanks @DaFuqs *(commit by [@DaFuqs](https://github.com/DaFuqs))*
@@ -1172,3 +1177,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.90.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.4...release/v1.21-1.90.5
 [release/v1.21-1.91.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.5...release/v1.21-1.91.0
 [release/v1.21-1.92.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.91.0...release/v1.21-1.92.0
+[release/v1.21-1.92.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.0...release/v1.21-1.92.1
