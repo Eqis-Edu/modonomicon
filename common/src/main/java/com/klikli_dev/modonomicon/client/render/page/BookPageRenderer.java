@@ -50,6 +50,9 @@ public abstract class BookPageRenderer<T extends BookPage> {
 
 
     public static float getBookTextHolderScaleForRenderSize(BookTextHolder text, Font font, int width, int height) {
+        if(width <= 0 || height <= 0) //this really should not happen, but e.g. on recipe pages with two recipes the getClickedComponentStyle is called despite there being no text and the high textY results in a negative height.
+            return 1.0f;
+
         if (!(text instanceof RenderedBookTextHolder renderedText))
             return 1.0f;
 
