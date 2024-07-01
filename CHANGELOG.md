@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.92.2] - 2024-07-01
+### :sparkles: New Features
+- [`c854d91`](https://github.com/klikli-dev/modonomicon/commit/c854d913529a0286543899b3dd10901416360806) - always display modonomicons in the modonomicon creative tab *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`3e16c5a`](https://github.com/klikli-dev/modonomicon/commit/3e16c5a1a78eff2dcdccb03172e76e3881b90e12) - remove unused neo pr maven *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.92.1] - 2024-06-28
 ### :bug: Bug Fixes
 - [`835b9da`](https://github.com/klikli-dev/modonomicon/commit/835b9da18f89057002572af7aadc4b4d9e269179) - endless loop when checking clicked component style on recipe pages with 2 recipes *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1178,3 +1186,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.91.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.90.5...release/v1.21-1.91.0
 [release/v1.21-1.92.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.91.0...release/v1.21-1.92.0
 [release/v1.21-1.92.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.0...release/v1.21-1.92.1
+[release/v1.21-1.92.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.1...release/v1.21-1.92.2
