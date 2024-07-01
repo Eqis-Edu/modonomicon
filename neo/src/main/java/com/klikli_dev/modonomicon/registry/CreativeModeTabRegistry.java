@@ -42,8 +42,15 @@ public class CreativeModeTabRegistry {
         //we need to use it here to test before inserting, because event.getEntries().contains uses a different hashing strategy and is thus not reliable
         final var searchDupes = new ObjectLinkedOpenCustomHashSet<ItemStack>(ItemStackLinkedSet.TYPE_AND_TAG);
 
+        var modonomiconTab = CreativeModeTabRegistry.MODONOMICON.get();
+
         BookDataManager.get().getBooks().values().forEach(b -> {
-            if (event.getTabKey() == CreativeModeTabs.SEARCH || BuiltInRegistries.CREATIVE_MODE_TAB.get(ResourceLocation.parse(b.getCreativeTab())) == event.getTab()) {
+            var bookTab = BuiltInRegistries.CREATIVE_MODE_TAB.get(ResourceLocation.parse(b.getCreativeTab()));
+
+            if (event.getTabKey() == CreativeModeTabs.SEARCH ||
+                    bookTab == event.getTab() ||
+                    modonomiconTab == event.getTab()
+            ) {
                 if (b.generateBookItem()) {
                     ItemStack stack = new ItemStack(ItemRegistry.MODONOMICON.get());
 
