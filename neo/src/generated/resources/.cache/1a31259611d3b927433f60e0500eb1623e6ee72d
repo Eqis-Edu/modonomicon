@@ -1,9 +1,9 @@
-// 1.21	2024-06-23T19:01:31.8254366	Books: modonomicon
+// 1.21	2024-07-05T11:10:37.5124264	Books: modonomicon
 e7a8a796b161b7ac9f317622a616281aed277904 data/modonomicon/modonomicon/books/demo/book.json
-e6a715f2cfd8e4506f0fc77153a77ee059476a73 data/modonomicon/modonomicon/books/demo/categories/conditional.json
-bb1c01567081f42f09dbbcb4485915f0cb23897b data/modonomicon/modonomicon/books/demo/categories/features.json
-447f3ebb16996ca02562642ead2e57ff8f9b6c86 data/modonomicon/modonomicon/books/demo/categories/formatting.json
-10f44784cb6b4302e5b7c6952f625717d585115b data/modonomicon/modonomicon/books/demo/categories/index_mode.json
+921b4c0c386660c7f87e205ff0ea2e61bf17b905 data/modonomicon/modonomicon/books/demo/categories/conditional.json
+1026c22d26aacaf4cdbc863df4fb00229af152a3 data/modonomicon/modonomicon/books/demo/categories/features.json
+ec1a0bd861f88468a69596a8426fe890f37f705e data/modonomicon/modonomicon/books/demo/categories/formatting.json
+2f34d264ede292fb4d8eb0c4b41c1fcd383be779 data/modonomicon/modonomicon/books/demo/categories/index_mode.json
 91921129e14250f4f9403e2ee1b4614da61f702a data/modonomicon/modonomicon/books/demo/commands/test_command.json
 b9ad32b76e2efc9f44c8b76d56670f9dc63f2a94 data/modonomicon/modonomicon/books/demo/commands/test_command2.json
 1a0db0976ce67f83de62f5d8521a5cb31df8717b data/modonomicon/modonomicon/books/demo/entries/conditional/always_locked.json
@@ -28,5 +28,5 @@ df0f65389e81935cede169200a76078be687f45f data/modonomicon/modonomicon/books/demo
 74b0b26d3953eb7221f2156b78a035c689ff9e48 data/modonomicon/modonomicon/books/demo/entries/index_mode/demo1.json
 0692a83733a7baebf8cd86907bc271654cc6f0a8 data/modonomicon/modonomicon/books/demo/entries/index_mode/demo2.json
 fdba47af847cc5619b3a984eee4078dc3f3f7a04 data/modonomicon/modonomicon/books/demo_leaflet/book.json
-ca6aad8e1b20aaab7e1dce1b623644b18b9a7119 data/modonomicon/modonomicon/books/demo_leaflet/categories/leaflet.json
+56c22a396d523514af2db5eacdf5b70bdcd9fb3b data/modonomicon/modonomicon/books/demo_leaflet/categories/leaflet.json
 dd5cb5f430655580d4c8766f7df63ced770df651 data/modonomicon/modonomicon/books/demo_leaflet/entries/leaflet/leaflet.json

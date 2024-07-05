@@ -10,6 +10,8 @@
   "icon": {
     "item": "minecraft:paper"
   },
+  "max_scroll_x": 512,
+  "max_scroll_y": 512,
   "name": "book.modonomicon.demo_leaflet.leaflet.name",
   "show_category_button": true,
   "sort_number": 0

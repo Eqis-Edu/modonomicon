@@ -11,6 +11,8 @@
   "icon": {
     "item": "minecraft:book"
   },
+  "max_scroll_x": 512,
+  "max_scroll_y": 512,
   "name": "book.modonomicon.demo.formatting.name",
   "open_entry_to_open_only_once": true,
   "show_category_button": true,
