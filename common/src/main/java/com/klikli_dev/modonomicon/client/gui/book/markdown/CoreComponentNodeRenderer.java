@@ -134,17 +134,19 @@ public class CoreComponentNodeRenderer extends AbstractVisitor implements NodeRe
         var listHolder = this.context.getListHolder();
         if (listHolder != null && listHolder instanceof OrderedListHolder orderedListHolder) {
             //List bullets/numbers will not be affected by current style
+            //however, we do use the font!
             this.context.getCurrentComponent().append(Component.translatable(
                             orderedListHolder.getIndent() + orderedListHolder.getCounter() + orderedListHolder.getDelimiter() + " ")
-                    .withStyle(Style.EMPTY));
+                    .withStyle(Style.EMPTY).withStyle(s -> s.withFont(this.context.getCurrentStyle().getFont())));
 
             this.visitChildren(listItem);
             orderedListHolder.increaseCounter();
         } else if (listHolder != null && listHolder instanceof BulletListHolder bulletListHolder) {
             //List bullets/numbers will not be affected by current style
+            //however, we do use the font!
             this.context.getCurrentComponent().append(Component.translatable(
                             bulletListHolder.getIndent() + bulletListHolder.getMarker() + " ")
-                    .withStyle(Style.EMPTY));
+                    .withStyle(Style.EMPTY).withStyle(s -> s.withFont(this.context.getCurrentStyle().getFont())));
             this.visitChildren(listItem);
         }
     }
