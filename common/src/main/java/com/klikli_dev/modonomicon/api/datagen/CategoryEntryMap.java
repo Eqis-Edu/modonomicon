@@ -23,9 +23,10 @@ public class CategoryEntryMap {
     protected String[] map;
 
     protected Vec2 offset;
+    protected Vec2 additionalOffset;
 
     public CategoryEntryMap() {
-
+        this.additionalOffset = Vec2.ZERO;
     }
 
     public void setMap(String... map) {
@@ -35,8 +36,36 @@ public class CategoryEntryMap {
         this.offset = new Vec2(-(int) (map[0].length() / 2.0f), -(int) (map.length / 2.0f));
     }
 
+    /**
+     * Overwrites the automatically calculated offset for entry coordinates.
+     * In most cases you will instead want to use setAdditionalOffset().
+     * Call in CategoryProvider#additionalSetup (or at any rate, after setMap();
+     */
     public void setOffset(Vec2 offset) {
         this.offset = offset;
+    }
+
+    /**
+     * Overwrites the automatically calculated offset for entry coordinates.
+     * In most cases you will instead want to use setAdditionalOffset().
+     * Call in CategoryProvider#additionalSetup (or at any rate, after setMap();
+     */
+    public void setOffset(int x, int y) {
+        this.offset = new Vec2(x, y);
+    }
+
+    /**
+     * Adds an additional offset to the calculated offset for entry coordinates.
+     */
+    public void setAdditionalOffset(Vec2 offset) {
+        this.additionalOffset = offset;
+    }
+
+    /**
+     * Adds an additional offset to the calculated offset for entry coordinates.
+     */
+    public void setAdditionalOffset(int x, int y) {
+        this.additionalOffset = new Vec2(x, y);
     }
 
     /**
@@ -52,7 +81,7 @@ public class CategoryEntryMap {
             for (var c : line.toCharArray()) {
                 //do not match a char symbol within brackets, because everything in there is part of a larger string symbol
                 if (c == symbol && !inBracket) {
-                    return new Vec2(x, y).add(this.offset);
+                    return new Vec2(x, y).add(this.offset).add(this.additionalOffset);
                 } else if (c == '(') {
                     inBracket = true;
                 } else if (c == ')') {
@@ -91,7 +120,7 @@ public class CategoryEntryMap {
                 } else if (c == ')') {
                     inBracket = false;
                     if (currentSymbol.equals(symbol)) {
-                        return new Vec2(x, y).add(this.offset);
+                        return new Vec2(x, y).add(this.offset).add(this.additionalOffset);
                     }
                     x++;
                     currentSymbol = "";
