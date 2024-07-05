@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.93.0] - 2024-07-05
+### :sparkles: New Features
+- [`a5f5847`](https://github.com/klikli-dev/modonomicon/commit/a5f584700e67421a9189b1df54dc79960c55516e) - add configurable max scroll for categories *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`da04457`](https://github.com/klikli-dev/modonomicon/commit/da0445719e1d9d076f85fa577173b1b7506f5431) - add additional offset to entry map to shift entries *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`5596ec7`](https://github.com/klikli-dev/modonomicon/commit/5596ec7cdc26a057af0dfade1e2661332c9935e4) - crash due to handing resource location to translation component *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`9352eae`](https://github.com/klikli-dev/modonomicon/commit/9352eaee3484e527a4cb8fd1b625f0577a9d496b) - book font setting is not used for list enumerator characters *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`00ca5b2`](https://github.com/klikli-dev/modonomicon/commit/00ca5b2d517fdd55ab214904c7df394d101920ee) - component hover/click detection scaling *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`3efb0d4`](https://github.com/klikli-dev/modonomicon/commit/3efb0d40a237965f42d0df46661934a19d85968b) - update to latest neo *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`49fc10a`](https://github.com/klikli-dev/modonomicon/commit/49fc10adccb138712222f5eb37035bebe7b4bedf) - extend spotlight entry to test scaling *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`93c79be`](https://github.com/klikli-dev/modonomicon/commit/93c79be0d80dfae05ee41a9cadc7ef4248509467) - run datagen *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.92.2] - 2024-07-01
 ### :sparkles: New Features
 - [`c854d91`](https://github.com/klikli-dev/modonomicon/commit/c854d913529a0286543899b3dd10901416360806) - always display modonomicons in the modonomicon creative tab *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1187,3 +1203,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.92.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.91.0...release/v1.21-1.92.0
 [release/v1.21-1.92.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.0...release/v1.21-1.92.1
 [release/v1.21-1.92.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.1...release/v1.21-1.92.2
+[release/v1.21-1.93.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.2...release/v1.21-1.93.0
