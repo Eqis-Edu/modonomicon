@@ -44,6 +44,14 @@ public class BookCategoryModel {
     protected int backgroundWidth = Category.DEFAULT_BACKGROUND_WIDTH;
     protected int backgroundHeight = Category.DEFAULT_BACKGROUND_HEIGHT;
     /**
+     * The maximum horizontal scroll distance in this category.
+     */
+    protected int maxScrollX = Category.DEFAULT_MAX_SCROLL_X;
+    /**
+     * The maximum vertical scroll distance in this category.
+     */
+    protected int maxScrollY = Category.DEFAULT_MAX_SCROLL_Y;
+    /**
      * Allows to modify how "zoomed in" the background texture is rendered.
      * A lower value means the texture is zoomed OUT more -> it is sharper / less blurry.
      */
@@ -108,6 +116,8 @@ public class BookCategoryModel {
         json.addProperty("background", this.background.toString());
         json.addProperty("background_width", this.backgroundWidth);
         json.addProperty("background_height", this.backgroundHeight);
+        json.addProperty("max_scroll_x", this.maxScrollX);
+        json.addProperty("max_scroll_y", this.maxScrollY);
         json.addProperty("background_texture_zoom_multiplier", this.backgroundTextureZoomMultiplier);
         json.add("background_parallax_layers",
                 this.backgroundParallaxLayers.stream()
@@ -160,6 +170,14 @@ public class BookCategoryModel {
 
     public int getBackgroundHeight() {
         return this.backgroundHeight;
+    }
+
+    public int getMaxScrollX() {
+        return this.maxScrollX;
+    }
+
+    public int getMaxScrollY() {
+        return this.maxScrollY;
     }
 
     public List<BookCategoryBackgroundParallaxLayer> getBackgroundParallaxLayers() {
@@ -254,6 +272,44 @@ public class BookCategoryModel {
     public BookCategoryModel withBackgroundSize(int width, int height) {
         this.backgroundWidth = width;
         this.backgroundHeight = height;
+        return this;
+    }
+
+    /**
+     * Sets the category's maximum scroll x value.
+     * Default value is {@link Category#DEFAULT_MAX_SCROLL_X}.
+     */
+    public BookCategoryModel withMaxScrollX(int maxScrollX) {
+        this.maxScrollX = maxScrollX;
+        return this;
+    }
+
+    /**
+     * Sets the category's maximum scroll y value.
+     * Default value is {@link Category#DEFAULT_MAX_SCROLL_Y}.
+     */
+    public BookCategoryModel withMaxScrollY(int maxScrollY) {
+        this.maxScrollY = maxScrollY;
+        return this;
+    }
+
+    /**
+     * Sets the category's maximum scroll x and y value.
+     * Default value is {@link Category#DEFAULT_MAX_SCROLL_X} and {@link Category#DEFAULT_MAX_SCROLL_Y}.
+     */
+    public BookCategoryModel withMaxScroll(int maxScrollX, int maxScrollY) {
+        this.maxScrollX = maxScrollX;
+        this.maxScrollY = maxScrollY;
+        return this;
+    }
+
+    /**
+     * Sets the category's maximum scroll x and y value to the given value.
+     * Default value is {@link Category#DEFAULT_MAX_SCROLL_X} and {@link Category#DEFAULT_MAX_SCROLL_Y}.
+     */
+    public BookCategoryModel withMaxScroll(int maxScroll) {
+        this.maxScrollX = maxScroll;
+        this.maxScrollY = maxScroll;
         return this;
     }
 

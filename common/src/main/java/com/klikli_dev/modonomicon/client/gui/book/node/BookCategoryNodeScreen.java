@@ -38,7 +38,6 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
 
     public static final int ENTRY_GRID_SCALE = 30;
     public static final int ENTRY_GAP = 2;
-    public static final int MAX_SCROLL = 512;
 
     public static final int ENTRY_HEIGHT = 26;
     public static final int ENTRY_WIDTH = 26;
@@ -191,8 +190,8 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
         if (layer.getVanishZoom() == -1 || layer.getVanishZoom() > zoom) {
             //for some reason on this one blit overload tex width and height are switched. It does correctly call the followup though, so we have to go along
             guiGraphics.blit(layer.getBackground(), x, y,
-                    (scrollX + MAX_SCROLL) / parallax1 + xOffset,
-                    (scrollY + MAX_SCROLL) / parallax1 + yOffset,
+                    (scrollX + this.getCategory().getMaxScrollX()) / parallax1 + xOffset,
+                    (scrollY + this.getCategory().getMaxScrollY()) / parallax1 + yOffset,
                     width, height, (int) (backgroundHeight * backgroundTextureZoomMultiplier), (int) (backgroundWidth * backgroundTextureZoomMultiplier));
         }
 
@@ -381,8 +380,8 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
     }
 
     private void scroll(double pDragX, double pDragY) {
-        this.scrollX = (float) Mth.clamp(this.scrollX - pDragX, -MAX_SCROLL, MAX_SCROLL);
-        this.scrollY = (float) Mth.clamp(this.scrollY - pDragY, -MAX_SCROLL, MAX_SCROLL);
+        this.scrollX = (float) Mth.clamp(this.scrollX - pDragX, -this.getCategory().getMaxScrollX(), this.getCategory().getMaxScrollX());
+        this.scrollY = (float) Mth.clamp(this.scrollY - pDragY, -this.getCategory().getMaxScrollY(), this.getCategory().getMaxScrollY());
     }
 
     /**

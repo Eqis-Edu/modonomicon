@@ -42,6 +42,8 @@ public class BookCategory {
     protected ResourceLocation background;
     protected int backgroundWidth;
     protected int backgroundHeight;
+    protected int maxScrollX;
+    protected int maxScrollY;
     /**
      * Allows to modify how "zoomed in" the background texture is rendered.
      * A lower value means the texture is zoomed OUT more -> it is sharper / less blurry.
@@ -63,7 +65,7 @@ public class BookCategory {
      */
     protected boolean openEntryToOpenOnlyOnce;
 
-    public BookCategory(ResourceLocation id, String name, BookTextHolder description, int sortNumber, BookCondition condition, boolean showCategoryButton, BookIcon icon, BookDisplayMode displayMode, ResourceLocation background, int backgroundWidth, int backgroundHeight, float backgroundTextureZoomMultiplier, List<BookCategoryBackgroundParallaxLayer> backgroundParallaxLayers, ResourceLocation entryTextures, ResourceLocation entryToOpen, boolean openEntryOnlyOnce) {
+    public BookCategory(ResourceLocation id, String name, BookTextHolder description, int sortNumber, BookCondition condition, boolean showCategoryButton, BookIcon icon, BookDisplayMode displayMode, ResourceLocation background, int backgroundWidth, int backgroundHeight, int maxScrollX, int maxScrollY, float backgroundTextureZoomMultiplier, List<BookCategoryBackgroundParallaxLayer> backgroundParallaxLayers, ResourceLocation entryTextures, ResourceLocation entryToOpen, boolean openEntryOnlyOnce) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -75,6 +77,8 @@ public class BookCategory {
         this.background = background;
         this.backgroundWidth = backgroundWidth;
         this.backgroundHeight = backgroundHeight;
+        this.maxScrollX = maxScrollX;
+        this.maxScrollY = maxScrollY;
         this.backgroundTextureZoomMultiplier = backgroundTextureZoomMultiplier;
         this.backgroundParallaxLayers = backgroundParallaxLayers;
         this.entryTextures = entryTextures;
@@ -92,6 +96,9 @@ public class BookCategory {
         var background = ResourceLocation.parse(GsonHelper.getAsString(json, "background", Category.DEFAULT_BACKGROUND));
         var backgroundWidth = GsonHelper.getAsInt(json, "background_width", Category.DEFAULT_BACKGROUND_WIDTH);
         var backgroundHeight = GsonHelper.getAsInt(json, "background_height", Category.DEFAULT_BACKGROUND_HEIGHT);
+        var defaultMaxScrollX = GsonHelper.getAsInt(json, "max_scroll_x", Category.DEFAULT_MAX_SCROLL_X);
+        var defaultMaxScrollY = GsonHelper.getAsInt(json, "max_scroll_y", Category.DEFAULT_MAX_SCROLL_Y);
+
         var backgroundTextureZoomMultiplier = GsonHelper.getAsFloat(json, "background_texture_zoom_multiplier", Category.DEFAULT_BACKGROUND_TEXTURE_ZOOM_MULTIPLIER);
         var entryTextures = ResourceLocation.parse(GsonHelper.getAsString(json, "entry_textures", Category.DEFAULT_ENTRY_TEXTURES));
         var showCategoryButton = GsonHelper.getAsBoolean(json, "show_category_button", true);
@@ -111,7 +118,8 @@ public class BookCategory {
         }
         boolean openEntryOnlyOnce = GsonHelper.getAsBoolean(json, "open_entry_to_open_only_once", true);
 
-        return new BookCategory(id, name, description, sortNumber, condition, showCategoryButton, icon, displayMode, background, backgroundWidth, backgroundHeight, backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures, entryToOpen, openEntryOnlyOnce);
+        return new BookCategory(id, name, description, sortNumber, condition, showCategoryButton, icon, displayMode, background, backgroundWidth, backgroundHeight,
+                defaultMaxScrollX, defaultMaxScrollY, backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures, entryToOpen, openEntryOnlyOnce);
     }
 
     public static BookCategory fromNetwork(ResourceLocation id, RegistryFriendlyByteBuf buffer) {
@@ -123,6 +131,8 @@ public class BookCategory {
         var background = buffer.readResourceLocation();
         var backgroundWidth = buffer.readVarInt();
         var backgroundHeight = buffer.readVarInt();
+        var defaultMaxScrollX = buffer.readVarInt();
+        var defaultMaxScrollY = buffer.readVarInt();
         var backgroundTextureZoomMultiplier = buffer.readFloat();
         var backgroundParallaxLayers = buffer.readList(BookCategoryBackgroundParallaxLayer::fromNetwork);
         var entryTextures = buffer.readResourceLocation();
@@ -131,7 +141,7 @@ public class BookCategory {
         var entryToOpen = buffer.readNullable(FriendlyByteBuf::readResourceLocation);
         var openEntryOnlyOnce = buffer.readBoolean();
         return new BookCategory(id, name, description, sortNumber, condition, showCategoryButton, icon, displayMode, background, backgroundWidth, backgroundHeight,
-                backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures, entryToOpen, openEntryOnlyOnce);
+                defaultMaxScrollX, defaultMaxScrollY, backgroundTextureZoomMultiplier, backgroundParallaxLayers, entryTextures, entryToOpen, openEntryOnlyOnce);
     }
 
     public void toNetwork(RegistryFriendlyByteBuf buffer) {
@@ -143,6 +153,8 @@ public class BookCategory {
         buffer.writeResourceLocation(this.background);
         buffer.writeVarInt(this.backgroundWidth);
         buffer.writeVarInt(this.backgroundHeight);
+        buffer.writeVarInt(this.maxScrollX);
+        buffer.writeVarInt(this.maxScrollY);
         buffer.writeFloat(this.backgroundTextureZoomMultiplier);
         buffer.writeCollection(this.backgroundParallaxLayers, (buf, layer) -> layer.toNetwork(buf));
         buffer.writeResourceLocation(this.entryTextures);
@@ -230,6 +242,14 @@ public class BookCategory {
 
     public int getBackgroundHeight() {
         return this.backgroundHeight;
+    }
+
+    public int getMaxScrollX() {
+        return this.maxScrollX;
+    }
+
+    public int getMaxScrollY() {
+        return this.maxScrollY;
     }
 
     public float getBackgroundTextureZoomMultiplier() {
