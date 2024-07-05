@@ -30,7 +30,8 @@ public class SpotlightEntry extends EntryProvider {
         this.pageTitle("Spotlight Entry");
         this.pageText("""
                 Spotlight pages allow to show items (actually, ingredients).
-                """);
+                """
+        );
 
         this.page("spotlight1", () -> BookSpotlightPageModel.create()
                 .withTitle(this.context().pageTitle())
@@ -38,7 +39,15 @@ public class SpotlightEntry extends EntryProvider {
                 .withItem(Ingredient.of(Items.APPLE))
         );
         this.pageTitle("Custom Title");
-        this.pageText("A sample spotlight page with custom title.");
+        this.pageText("""
+                A sample spotlight page with custom title.\\
+                It shows how an {0} can be rendered with a little border and fancyness around it.\\
+                I am adding this link to see if spotlight pages have an offset problem. \\
+                The entry needs to be longer to trigger scaling.\\
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed odio eu dolor ornare tempor. In nibh erat, finibus sed eros id, finibus interdum justo. Aenean luctus, magna at pharetra accumsan, tellus libero tincidunt enim, id varius ante sem sit amet ipsum.\s
+                """,
+                this.itemLink(Items.APPLE)
+        );
 
         this.page("spotlight2", () -> BookSpotlightPageModel.create()
                 .withText(this.context().pageText())
