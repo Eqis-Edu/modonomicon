@@ -344,18 +344,19 @@ public abstract class BookPageRenderer<T extends BookPage> {
         } else if (text instanceof RenderedBookTextHolder renderedText) {
             var scale = getBookTextHolderScaleForRenderSize(text, this.font, width, height);
 
+            float currentY = y;
             var components = renderedText.getRenderedText();
             for (var component : components) {
                 var wrapped = MarkdownComponentRenderUtils.wrapComponents(component, (int) (width / scale), (int) ((width - 10) / scale), this.font);
                 for (FormattedCharSequence formattedcharsequence : wrapped) {
-                    float minY =  y * scale;
-                    float maxY = (y + this.font.lineHeight) * scale;
+                    float minY = currentY;
+                    float maxY = currentY + this.font.lineHeight * scale;
                     if (pMouseY > minY && pMouseY < maxY) {
                         //check if we are vertically over the title line
                         //horizontally over and right of the title is handled by font splitter
                         return this.font.getSplitter().componentStyleAtWidth(formattedcharsequence, (int) ((pMouseX - x) / scale));
                     }
-                    y += this.font.lineHeight;
+                    currentY += this.font.lineHeight * scale;
                 }
             }
         }
