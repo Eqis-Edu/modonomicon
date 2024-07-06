@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.94.0] - 2024-07-06
+### :sparkles: New Features
+- [`7240b04`](https://github.com/klikli-dev/modonomicon/commit/7240b043e649f6a1e7884294150a77b11a26d912) - Allow more than 13 categories per book by adding scroll buttons *(PR [#233](https://github.com/klikli-dev/modonomicon/pull/233) by [@klikli-dev](https://github.com/klikli-dev))*
+  - :arrow_lower_right: *addresses issue [#159](https://github.com/klikli-dev/modonomicon/issues/159) opened by [@DaFuqs](https://github.com/DaFuqs)*
+
+
 ## [release/v1.21-1.93.0] - 2024-07-05
 ### :sparkles: New Features
 - [`a5f5847`](https://github.com/klikli-dev/modonomicon/commit/a5f584700e67421a9189b1df54dc79960c55516e) - add configurable max scroll for categories *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1204,3 +1210,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.92.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.0...release/v1.21-1.92.1
 [release/v1.21-1.92.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.1...release/v1.21-1.92.2
 [release/v1.21-1.93.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.2...release/v1.21-1.93.0
+[release/v1.21-1.94.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.93.0...release/v1.21-1.94.0
