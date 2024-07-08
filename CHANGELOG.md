@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.95.1] - 2024-07-08
+### :wrench: Chores
+- [`725d451`](https://github.com/klikli-dev/modonomicon/commit/725d451ae99e9e1607e2f7dfe7c74feab6bb507e) - simplify creative tab registration in neo *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.95.0] - 2024-07-08
 ### :sparkles: New Features
 - [`87ee999`](https://github.com/klikli-dev/modonomicon/commit/87ee99950f385fa365fa1de5d958941176256f1c) - update past neo breaking changes *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1220,3 +1225,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.93.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.92.2...release/v1.21-1.93.0
 [release/v1.21-1.94.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.93.0...release/v1.21-1.94.0
 [release/v1.21-1.95.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.94.0...release/v1.21-1.95.0
+[release/v1.21-1.95.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.95.0...release/v1.21-1.95.1
