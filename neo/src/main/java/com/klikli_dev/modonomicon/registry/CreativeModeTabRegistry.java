@@ -43,19 +43,14 @@ public class CreativeModeTabRegistry {
         BookDataManager.get().getBooks().values().forEach(b -> {
             var bookTab = BuiltInRegistries.CREATIVE_MODE_TAB.get(ResourceLocation.parse(b.getCreativeTab()));
 
-            if (event.getTabKey() == CreativeModeTabs.SEARCH ||
-                    bookTab == event.getTab() ||
-                    modonomiconTab == event.getTab()
+            if (bookTab == event.getTab() || modonomiconTab == event.getTab()
             ) {
                 if (b.generateBookItem()) {
                     ItemStack stack = new ItemStack(ItemRegistry.MODONOMICON.get());
 
                     stack.set(DataComponentRegistry.BOOK_ID.get(), b.getId());
 
-                    if (event.getTabKey() != CreativeModeTabs.SEARCH && !event.getParentEntries().contains(stack)) {
-                        event.accept(stack, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
-                    } else if (event.getTabKey() == CreativeModeTabs.SEARCH && !event.getSearchEntries().contains(stack)){
-                        //if we do only search here, then it will not show up in search ..
+                    if (!event.getParentEntries().contains(stack)) {
                         event.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                     }
                 }
