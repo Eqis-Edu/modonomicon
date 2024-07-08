@@ -38,10 +38,6 @@ public class CreativeModeTabRegistry {
         if (tabName == null)
             return;
 
-        //From: EventHooks#onCreativeModeTabBuildContents
-        //we need to use it here to test before inserting, because event.getEntries().contains uses a different hashing strategy and is thus not reliable
-        final var searchDupes = new ObjectLinkedOpenCustomHashSet<ItemStack>(ItemStackLinkedSet.TYPE_AND_TAG);
-
         var modonomiconTab = CreativeModeTabRegistry.MODONOMICON.get();
 
         BookDataManager.get().getBooks().values().forEach(b -> {
@@ -56,8 +52,11 @@ public class CreativeModeTabRegistry {
 
                     stack.set(DataComponentRegistry.BOOK_ID.get(), b.getId());
 
-                    if (searchDupes.add(stack)) {
-                        event.accept(stack, event.getTabKey() == CreativeModeTabs.SEARCH ? CreativeModeTab.TabVisibility.SEARCH_TAB_ONLY : CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+                    if (event.getTabKey() != CreativeModeTabs.SEARCH && !event.getParentEntries().contains(stack)) {
+                        event.accept(stack, CreativeModeTab.TabVisibility.PARENT_TAB_ONLY);
+                    } else if (event.getTabKey() == CreativeModeTabs.SEARCH && !event.getSearchEntries().contains(stack)){
+                        //if we do only search here, then it will not show up in search ..
+                        event.accept(stack, CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
                     }
                 }
             }
