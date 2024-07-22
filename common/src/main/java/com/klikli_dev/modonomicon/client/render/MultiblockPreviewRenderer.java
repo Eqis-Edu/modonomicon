@@ -79,7 +79,7 @@ public class MultiblockPreviewRenderer {
     }
 
     public static void setMultiblock(Multiblock multiblock, Component name, boolean flip, Function<BlockPos, BlockPos> offsetApplier) {
-        if (flip && hasMultiblock) {
+        if (flip && hasMultiblock && MultiblockPreviewRenderer.multiblock == multiblock) {
             hasMultiblock = false;
         } else {
             MultiblockPreviewRenderer.multiblock = multiblock;
