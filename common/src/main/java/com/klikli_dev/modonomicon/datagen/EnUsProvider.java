@@ -127,8 +127,21 @@ public class EnUsProvider extends AbstractModonomiconLanguageProvider {
         this.addItem(ItemRegistry.MODONOMICON, "Modonomicon");
     }
 
+
+    private void addConfigurationTranslations() {
+        this.addConfig("qol", "Quality of Life Settings");
+        this.addConfig("enableSmoothZoom", "Enable Smooth Zoom");
+        this.addConfig("storeLastOpenPageWhenClosingEntry", "Store Last Open Page When Closing Entry");
+        this.addConfig("fontFallbackLocales", "Font Fallback Locales");
+    }
+
+    private void addConfig(String key, String name){
+        this.add(Modonomicon.MOD_ID + ".configuration." + key, name);
+    }
+
     protected void addTranslations() {
         this.addMisc();
         this.addItems();
+        this.addConfigurationTranslations();
     }
 }

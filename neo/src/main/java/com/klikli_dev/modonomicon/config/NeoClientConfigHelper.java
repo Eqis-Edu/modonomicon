@@ -23,7 +23,7 @@ public class NeoClientConfigHelper implements ClientConfigHelper {
 
     @Override
     public List<String> fontFallbackLocales() {
-        return ClientConfig.get().qolCategory.fontFallbackLocales.get();
+        return ClientConfig.get().qolCategory.fontFallbackLocales.get().stream().map(String::toString).toList();
     }
 
 

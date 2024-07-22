@@ -33,7 +33,7 @@ public class ClientConfig {
         public final ModConfigSpec.BooleanValue enableSmoothZoom;
         public final ModConfigSpec.BooleanValue storeLastOpenPageWhenClosingEntry;
 
-        public final ModConfigSpec.ConfigValue<List<String>> fontFallbackLocales;
+        public final ModConfigSpec.ConfigValue<List<? extends String>> fontFallbackLocales;
 
         public QoLCategory(ModConfigSpec.Builder builder) {
             builder.comment("Quality of Life Settings").push("qol");
@@ -45,7 +45,7 @@ public class ClientConfig {
 
             var fontFallbackLocalesDefault = new ArrayList<>(List.of("zh_cn", "ja_jp", "ko_kr")); //wrap in arraylist because immutable lists cause issues with the config system
             this.fontFallbackLocales = builder.comment("If your locale is not supported by the default Modonomicon font, indicated by the book just rendering blocky shapes instead of characters, add your locale to this list to fall back to the builtin Minecraft font.")
-                    .define("fontFallbackLocales", fontFallbackLocalesDefault);
+                    .defineList("fontFallbackLocales", fontFallbackLocalesDefault, () -> "", (e) -> true);
 
             builder.pop();
         }
