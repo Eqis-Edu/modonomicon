@@ -16,6 +16,22 @@ public class DemoMultiblockProvider extends MultiblockProvider {
 
     @Override
     public void buildMultiblocks() {
+        this.add(this.modLoc("demo_block_entity"), new DenseMultiblockBuilder()
+                .layer(" WWW ",
+                        "N X S",
+                        "N 0 S",
+                        "N K S",
+                        " EEE "
+                )
+                .blockstate('N', () -> Blocks.OAK_STAIRS, "[facing=north]")
+                .blockstate('S', () -> Blocks.OAK_STAIRS, "[facing=south]")
+                .blockstate('W', () -> Blocks.OAK_STAIRS, "[facing=west]")
+                .blockstate('E', () -> Blocks.OAK_STAIRS, "[facing=east]")
+                .blockstate('X', () -> Blocks.SKELETON_SKULL, "[rotation=2]")
+                .blockstate('K', () -> Blocks.SKELETON_SKULL, "")
+        );
+
+
         this.add(this.modLoc("demo_dense"), new DenseMultiblockBuilder()
                 .layer(" WWW ",
                         "N   S",

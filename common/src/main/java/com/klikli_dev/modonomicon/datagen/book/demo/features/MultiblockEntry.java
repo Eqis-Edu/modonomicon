@@ -52,6 +52,10 @@ public class MultiblockEntry extends EntryProvider {
         this.page("demo_fluid", () -> BookMultiblockPageModel.create()
                 .withMultiblockId(this.modLoc("demo_fluid"))
         );
+
+        this.page("demo_block_entity", () -> BookMultiblockPageModel.create()
+                .withMultiblockId(this.modLoc("demo_block_entity"))
+        );
     }
 
     @Override
