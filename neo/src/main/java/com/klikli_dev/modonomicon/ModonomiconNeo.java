@@ -58,7 +58,6 @@ public class ModonomiconNeo {
         Modonomicon.init();
 
         modContainer.registerConfig(ModConfig.Type.CLIENT, ClientConfig.get().spec);
-        modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 
         //Most registries are handled by common, but creative tabs are easier per loader
         CreativeModeTabRegistry.CREATIVE_MODE_TABS.register(modEventBus);
