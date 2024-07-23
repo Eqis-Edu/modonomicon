@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.96.0] - 2024-07-23
+### :sparkles: New Features
+- [`db5d19f`](https://github.com/klikli-dev/modonomicon/commit/db5d19fe7beb7a1acd940a4e51ee4803a512e5dd) - add config screen for neo *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`ac28b0c`](https://github.com/klikli-dev/modonomicon/commit/ac28b0c818aff6f0c31aef13b96867aa6fc6717c) - potential resource leak in updateAndSyncFor *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`350d635`](https://github.com/klikli-dev/modonomicon/commit/350d6352c9583656b5cdc895641e4f88c1bd9831) - set correct (new) modonomicon logo *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`f83a503`](https://github.com/klikli-dev/modonomicon/commit/f83a503f6d04aa7c8d2b7e2896a0348bb16c05ac) - allow one multiblock preview to replace the next, instead of closing it *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`887e4d9`](https://github.com/klikli-dev/modonomicon/commit/887e4d99fdff734ce7a465f3de07d54b1baaa399) - server crash due to neo config screen registered on both sides *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`d536684`](https://github.com/klikli-dev/modonomicon/commit/d5366840ccc489e738388f7754911affb9cf344b) - add demo multiblock with rotated skeleton skulls *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`d3eac28`](https://github.com/klikli-dev/modonomicon/commit/d3eac28bdd11a1e961c0e57d5ca805655a702a1b) - provide higher res logo *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`79d7e22`](https://github.com/klikli-dev/modonomicon/commit/79d7e224416fc9d6dd23b402d3db908eede29d03) - add example recipe for demo book *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.95.3] - 2024-07-10
 ### :bug: Bug Fixes
 - [`803df6a`](https://github.com/klikli-dev/modonomicon/commit/803df6a46d88e99e5ca3fc550357e94eb5fe776d) - forge jarinjar leads to duplicate module on classpath for dependants *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1238,3 +1254,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.95.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.95.0...release/v1.21-1.95.1
 [release/v1.21-1.95.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.95.1...release/v1.21-1.95.2
 [release/v1.21-1.95.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.95.2...release/v1.21-1.95.3
+[release/v1.21-1.96.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.95.3...release/v1.21-1.96.0
