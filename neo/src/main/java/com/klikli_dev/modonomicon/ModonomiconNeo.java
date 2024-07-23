@@ -130,6 +130,8 @@ public class ModonomiconNeo {
             modEventBus.addListener((RegisterClientReloadListenersEvent e) -> {
                 e.registerReloadListener(BookDataManager.Client.get());
             });
+
+            Client.registerConfigScreen(modContainer);
         }
     }
 
@@ -175,6 +177,10 @@ public class ModonomiconNeo {
                     MultiblockPreviewRenderer.onRenderLevelLastEvent(e.getPoseStack());
                 }
             });
+        }
+
+        public static void registerConfigScreen(ModContainer modContainer){
+            modContainer.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
         }
 
         /**
