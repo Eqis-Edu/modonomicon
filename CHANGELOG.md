@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21-1.97.0] - 2024-07-31
+### :sparkles: New Features
+- [`42fb37d`](https://github.com/klikli-dev/modonomicon/commit/42fb37d996f78395910f7a8461d655070739cae4) - improve unlock state sync backlog handling - thanks @Xaikii *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.96.1] - 2024-07-23
 ### :bug: Bug Fixes
 - [`269c492`](https://github.com/klikli-dev/modonomicon/commit/269c49281e879a31ef7548e4069f1ee419d10000) - actually fix neo config screen crash *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1261,3 +1266,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.95.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.95.2...release/v1.21-1.95.3
 [release/v1.21-1.96.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.95.3...release/v1.21-1.96.0
 [release/v1.21-1.96.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.96.0...release/v1.21-1.96.1
+[release/v1.21-1.97.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.96.1...release/v1.21-1.97.0
