@@ -20,6 +20,7 @@ import com.klikli_dev.modonomicon.registry.CreativeModeTabRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -91,6 +92,11 @@ public class ModonomiconFabric implements ModInitializer {
         });
 
         UseBlockCallback.EVENT.register(LecternIntegration::rightClick);
+
+        //We use server tick to flush the queue of players that need a book state sync
+        ServerTickEvents.END_SERVER_TICK.register((server) -> {
+            BookUnlockStateManager.get().onServerTickEnd(server);
+        });
 
         //Advancement event handling for condition/unlock system
         //done in MixinPlayerAdvancements, because we have no event in Fabric

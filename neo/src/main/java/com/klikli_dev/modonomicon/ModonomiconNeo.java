@@ -45,6 +45,7 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.player.AdvancementEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.neoforge.event.tick.ServerTickEvent;
 
 @Mod(Modonomicon.MOD_ID)
 public class ModonomiconNeo {
@@ -113,6 +114,11 @@ public class ModonomiconNeo {
 
         //Advancement event handling for condition/unlock system
         NeoForge.EVENT_BUS.addListener((AdvancementEvent.AdvancementEarnEvent e) -> BookUnlockStateManager.get().onAdvancement((ServerPlayer) e.getEntity()));
+
+        //We use server tick to flush the queue of players that need a book state sync
+        NeoForge.EVENT_BUS.addListener(((ServerTickEvent.Post e) -> {
+            BookUnlockStateManager.get().onServerTickEnd(e.getServer());
+        }));
 
         //Datagen
         modEventBus.addListener(DataGenerators::gatherData);
