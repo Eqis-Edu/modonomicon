@@ -15,6 +15,7 @@ subprojects {
             rename { "${it}_${mod_name}" }
         }
 
+        exclude ".cache"
         exclude "**/data/modonomicon/modonomicon/books/**"
         exclude "**/data/modonomicon/modonomicon/multiblocks/**"
         exclude "**/data/modonomicon/modonomicon/recipes/**"
