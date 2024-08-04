@@ -12,8 +12,11 @@ import net.minecraft.server.level.ServerPlayer;
 /**
  * An event that is fired on both the client and server side, when an entry is read for the first time.
  * Note that resetting the book and then reading the entry again, will trigger this event again.
+ *
  * If you are e.g. awarding rewards based on this event you should save somewhere that the player already received the entry.
  * See e.g. {@link BookCommand#execute(ServerPlayer)} which stores how many times a command has been executed.
+ *
+ * Further, any rewards or persistent game logic should only be done on the server side call of this event.
  */
 public class EntryFirstReadEvent extends ModonomiconEvent {
     protected ResourceLocation bookId;

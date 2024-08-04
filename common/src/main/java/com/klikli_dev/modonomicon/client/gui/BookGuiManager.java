@@ -6,6 +6,7 @@
 
 package com.klikli_dev.modonomicon.client.gui;
 
+import com.klikli_dev.modonomicon.api.events.EntryFirstReadEvent;
 import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.book.BookCategory;
 import com.klikli_dev.modonomicon.book.BookDisplayMode;
@@ -30,6 +31,7 @@ import com.klikli_dev.modonomicon.client.gui.book.node.BookCategoryNodeScreen;
 import com.klikli_dev.modonomicon.client.gui.book.node.BookParentNodeScreen;
 import com.klikli_dev.modonomicon.client.gui.book.node.DummyBookCategoryNodeScreen;
 import com.klikli_dev.modonomicon.data.BookDataManager;
+import com.klikli_dev.modonomicon.events.ModonomiconEvents;
 import com.klikli_dev.modonomicon.networking.BookEntryReadMessage;
 import com.klikli_dev.modonomicon.networking.SaveBookStateMessage;
 import com.klikli_dev.modonomicon.networking.SaveCategoryStateMessage;
@@ -334,6 +336,7 @@ public class BookGuiManager {
     public void openEntry(BookEntry entry, BookAddress address) {
         if (!BookUnlockStateManager.get().isReadFor(this.player(), entry)) {
             Services.NETWORK.sendToServer(new BookEntryReadMessage(entry.getBook().getId(), entry.getId()));
+            ModonomiconEvents.client().entryFirstRead(new EntryFirstReadEvent(entry.getBook().getId(), entry.getId()));
         }
 
         entry.openEntry(address); //visitor pattern that will call openContentEntry or openCategoryLinkEntry

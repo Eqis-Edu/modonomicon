@@ -5,6 +5,7 @@
 package com.klikli_dev.modonomicon.events;
 
 import com.klikli_dev.modonomicon.api.events.EntryClickedEvent;
+import com.klikli_dev.modonomicon.api.events.EntryFirstReadEvent;
 import com.klikli_dev.modonomicon.api.events.EventPriority;
 import com.mojang.datafixers.util.Pair;
 
@@ -27,7 +28,36 @@ public class ModonomiconEvents {
     }
 
     public static class Server {
+        private final List<Pair<Consumer<EntryFirstReadEvent>, EventPriority>> entryFirstReadCallbacks = new ArrayList<>();
 
+        /**
+         * Register a callback for the EntryFirstReadEvent with Normal priority.
+         * Forge: Should be called in FMLClientSetupEvent
+         * Fabric: Should be called from ClientModInitializer
+         */
+        public void onEntryFirstRead(Consumer<EntryFirstReadEvent> callback) {
+            this.onEntryFirstRead(callback, EventPriority.NORMAL);
+
+        }
+
+        /**
+         * Register a callback for the EntryFirstReadEvent with the given priority.
+         * Forge: Should be called in FMLClientSetupEvent
+         * Fabric: Should be called from ClientModInitializer
+         */
+        public void onEntryFirstRead(Consumer<EntryFirstReadEvent> callback, EventPriority priority) {
+            this.entryFirstReadCallbacks.add(Pair.of(callback, priority));
+            this.entryFirstReadCallbacks.sort((a, b) -> b.getSecond().compareTo(a.getSecond()));
+        }
+
+        /**
+         * Fires the entry clicked event.
+         */
+        public void entryFirstRead(EntryFirstReadEvent event) {
+            for (var callback : this.entryFirstReadCallbacks) {
+                callback.getFirst().accept(event);
+            }
+        }
     }
 
     public static class Client {
@@ -66,6 +96,37 @@ public class ModonomiconEvents {
             }
 
             return event.isCanceled();
+        }
+
+        private final List<Pair<Consumer<EntryFirstReadEvent>, EventPriority>> entryFirstReadCallbacks = new ArrayList<>();
+
+        /**
+         * Register a callback for the EntryFirstReadEvent with Normal priority.
+         * Forge: Should be called in FMLClientSetupEvent
+         * Fabric: Should be called from ClientModInitializer
+         */
+        public void onEntryFirstRead(Consumer<EntryFirstReadEvent> callback) {
+            this.onEntryFirstRead(callback, EventPriority.NORMAL);
+
+        }
+
+        /**
+         * Register a callback for the EntryFirstReadEvent with the given priority.
+         * Forge: Should be called in FMLClientSetupEvent
+         * Fabric: Should be called from ClientModInitializer
+         */
+        public void onEntryFirstRead(Consumer<EntryFirstReadEvent> callback, EventPriority priority) {
+            this.entryFirstReadCallbacks.add(Pair.of(callback, priority));
+            this.entryFirstReadCallbacks.sort((a, b) -> b.getSecond().compareTo(a.getSecond()));
+        }
+
+        /**
+         * Fires the entry clicked event.
+         */
+        public void entryFirstRead(EntryFirstReadEvent event) {
+            for (var callback : this.entryFirstReadCallbacks) {
+                callback.getFirst().accept(event);
+            }
         }
     }
 
