@@ -8,6 +8,7 @@
 package com.klikli_dev.modonomicon.client.gui.book.index;
 
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
+import com.klikli_dev.modonomicon.api.events.EntryClickedEvent;
 import com.klikli_dev.modonomicon.book.Book;
 import com.klikli_dev.modonomicon.book.BookCategory;
 import com.klikli_dev.modonomicon.book.entries.BookEntry;
@@ -20,7 +21,9 @@ import com.klikli_dev.modonomicon.client.gui.book.BookPaginatedScreen;
 import com.klikli_dev.modonomicon.client.gui.book.BookParentScreen;
 import com.klikli_dev.modonomicon.client.gui.book.button.EntryListButton;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
+import com.klikli_dev.modonomicon.client.gui.book.entry.EntryDisplayState;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
+import com.klikli_dev.modonomicon.events.ModonomiconEvents;
 import com.klikli_dev.modonomicon.util.GuiGraphicsExt;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -59,8 +62,17 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
         this.category = category;
     }
 
-    public void handleButtonEntry(Button button) {
+    public void handleEntryListButton(Button button) {
         var entry = ((EntryListButton) button).getEntry();
+
+        var displayStyle = this.getEntryDisplayState(entry);
+        var event = new EntryClickedEvent(this.category.getBook().getId(), entry.getId(), button.getX(), button.getY(), GLFW.GLFW_MOUSE_BUTTON_1, displayStyle);
+
+        //if event is canceled -> click was handled and we do not open the entry.
+        if (ModonomiconEvents.client().entryClicked(event)) {
+            return;
+        }
+
         BookGuiManager.get().openEntry(entry.getBook().getId(), entry.getId(), 0);
     }
 
@@ -318,7 +330,7 @@ public class BookCategoryIndexScreen extends BookPaginatedScreen implements Book
 
     void addEntryButtons(int x, int y, int start, int count) {
         for (int i = 0; i < count && (i + start) < this.visibleEntries.size(); i++) {
-            Button button = new EntryListButton(this.visibleEntries.get(start + i), this.bookLeft + x, this.bookTop + y + i * 11, this::handleButtonEntry);
+            Button button = new EntryListButton(this.visibleEntries.get(start + i), this.bookLeft + x, this.bookTop + y + i * 11, this::handleEntryListButton);
             this.addRenderableWidget(button);
             this.entryButtons.add(button);
         }

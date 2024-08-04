@@ -197,34 +197,6 @@ public class BookCategoryNodeScreen implements BookCategoryScreen {
 
     }
 
-
-    private EntryDisplayState getEntryDisplayState(BookEntry entry) {
-        var player = Minecraft.getInstance().player;
-
-        var isEntryUnlocked = BookUnlockStateManager.get().isUnlockedFor(player, entry);
-
-        var anyParentsUnlocked = false;
-        var allParentsUnlocked = true;
-        for (var parent : entry.getParents()) {
-            if (!BookUnlockStateManager.get().isUnlockedFor(player, parent.getEntry())) {
-                allParentsUnlocked = false;
-            } else {
-                anyParentsUnlocked = true;
-            }
-        }
-
-        if (entry.showWhenAnyParentUnlocked() && !anyParentsUnlocked)
-            return EntryDisplayState.HIDDEN;
-
-        if (!entry.showWhenAnyParentUnlocked() && !allParentsUnlocked)
-            return EntryDisplayState.HIDDEN;
-
-        if (!isEntryUnlocked)
-            return entry.hideWhileLocked() ? EntryDisplayState.HIDDEN : EntryDisplayState.LOCKED;
-
-        return EntryDisplayState.UNLOCKED;
-    }
-
     private void renderEntries(GuiGraphics guiGraphics, int mouseX, int mouseY) {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
