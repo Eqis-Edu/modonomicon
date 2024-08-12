@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.98.1] - 2024-08-12
+### :wrench: Chores
+- [`de71f79`](https://github.com/klikli-dev/modonomicon/commit/de71f79dba62814a1bb6916248562efe8583d010) - update neogradle and neo *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21-1.98.0] - 2024-08-04
 ### :sparkles: New Features
 - [`cedc7b0`](https://github.com/klikli-dev/modonomicon/commit/cedc7b07207d8dbd38e8b26e81914f9b0fe4d060) - improve EntryClickedEvent and enable it on index mode categories *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1277,3 +1282,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21-1.96.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.96.0...release/v1.21-1.96.1
 [release/v1.21-1.97.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.96.1...release/v1.21-1.97.0
 [release/v1.21-1.98.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21-1.97.0...release/v1.21-1.98.0
+[release/v1.21.1-1.98.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-0.0.0...release/v1.21.1-1.98.1
