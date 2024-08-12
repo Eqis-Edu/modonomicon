@@ -124,6 +124,7 @@ jobs:
             neoforge
           game-versions: |
             ${{ steps.get_mc_version.outputs.result }}
+            1.21.1
           changelog: |-
             ${{ steps.changelog.outputs.changes }}
 
@@ -150,6 +151,7 @@ jobs:
             forge
           game-versions: |
             ${{ steps.get_mc_version.outputs.result }}
+            1.21.1
           changelog: |-
             ${{ steps.changelog.outputs.changes }}
 
@@ -174,6 +176,7 @@ jobs:
           version-type: ${{ steps.get_release_type.outputs.result }}
           game-versions: |
             ${{ steps.get_mc_version.outputs.result }}
+            1.21.1
           changelog: |-
             ${{ steps.changelog.outputs.changes }}
 
