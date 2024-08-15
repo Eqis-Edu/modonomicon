@@ -101,7 +101,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ steps.get_release_type.outputs.result != 'test' }}
         with:
-          branch: version/1.21
+          branch: version/1.21.1
           commit_message: 'docs: update CHANGELOG.md for ${{ github.ref_name }} [skip ci]'
           file_pattern: CHANGELOG.md
       - name: Upload Neo Version to Mod Platforms
@@ -124,7 +124,7 @@ jobs:
             neoforge
           game-versions: |
             ${{ steps.get_mc_version.outputs.result }}
-            1.21.1
+            1.21
           changelog: |-
             ${{ steps.changelog.outputs.changes }}
 
@@ -151,7 +151,7 @@ jobs:
             forge
           game-versions: |
             ${{ steps.get_mc_version.outputs.result }}
-            1.21.1
+            1.21
           changelog: |-
             ${{ steps.changelog.outputs.changes }}
 
@@ -176,7 +176,7 @@ jobs:
           version-type: ${{ steps.get_release_type.outputs.result }}
           game-versions: |
             ${{ steps.get_mc_version.outputs.result }}
-            1.21.1
+            1.21
           changelog: |-
             ${{ steps.changelog.outputs.changes }}
 
