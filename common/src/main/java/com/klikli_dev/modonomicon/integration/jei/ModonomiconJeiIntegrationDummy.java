@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-package com.klikli_dev.modonomicon.integration;
+package com.klikli_dev.modonomicon.integration.jei;
 
 import net.minecraft.world.item.ItemStack;
 
 public class ModonomiconJeiIntegrationDummy implements ModonomiconJeiIntegration {
     @Override
-    public boolean isJeiLoaded() {
+    public boolean isLoaded() {
         return false;
     }
 
     @Override
-    public boolean isJEIRecipesGuiOpen() {
+    public boolean isRecipesGuiOpen() {
         return false;
     }
 

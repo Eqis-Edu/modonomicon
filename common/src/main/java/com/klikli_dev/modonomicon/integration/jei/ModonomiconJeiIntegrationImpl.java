@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-package com.klikli_dev.modonomicon.integration;
+package com.klikli_dev.modonomicon.integration.jei;
 
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconAPI;
-import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
 import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
@@ -24,12 +23,12 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class ModonomiconJeiIntegrationImpl implements ModonomiconJeiIntegration {
-    public boolean isJeiLoaded() {
+    public boolean isLoaded() {
         return Services.PLATFORM.isModLoaded("jei");
     }
 
-    public boolean isJEIRecipesGuiOpen() {
-        if (isJeiLoaded()) {
+    public boolean isRecipesGuiOpen() {
+        if (this.isLoaded()) {
             return ModonomiconJeiHelper.isJEIRecipesGuiOpen();
         } else {
             Modonomicon.LOG.warn("Attempted check if JEI recipes GUI is open without JEI installed!");
@@ -38,7 +37,7 @@ public class ModonomiconJeiIntegrationImpl implements ModonomiconJeiIntegration 
     }
 
     public void showRecipe(ItemStack stack) {
-        if (isJeiLoaded()) {
+        if (this.isLoaded()) {
             ModonomiconJeiHelper.showRecipe(stack);
         } else {
             Modonomicon.LOG.warn("Attempted to show JEI recipe for {} without JEI installed!", BuiltInRegistries.ITEM.getKey(stack.getItem()));
@@ -46,7 +45,7 @@ public class ModonomiconJeiIntegrationImpl implements ModonomiconJeiIntegration 
     }
 
     public void showUses(ItemStack stack) {
-        if (isJeiLoaded()) {
+        if (this.isLoaded()) {
             ModonomiconJeiHelper.showUses(stack);
         } else {
             Modonomicon.LOG.warn("Attempted to show JEI usages for {} without JEI installed!", BuiltInRegistries.ITEM.getKey(stack.getItem()));

@@ -8,7 +8,7 @@ import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.ItemLinkRenderer;
-import com.klikli_dev.modonomicon.integration.ModonomiconJeiIntegration;
+import com.klikli_dev.modonomicon.integration.jei.ModonomiconJeiIntegration;
 import com.mojang.brigadier.StringReader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -40,7 +40,7 @@ public class ItemLinkHandler extends LinkHandler {
         if (!ItemLinkRenderer.isItemLink(event.getValue()))
             return ClickResult.UNHANDLED;
 
-        if (!ModonomiconJeiIntegration.get().isJeiLoaded())
+        if (!ModonomiconJeiIntegration.get().isLoaded())
             return ClickResult.FAILURE;
 
 

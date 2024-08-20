@@ -9,11 +9,8 @@ package com.klikli_dev.modonomicon.client.gui.book.entry;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Gui;
 import com.klikli_dev.modonomicon.book.Book;
-import com.klikli_dev.modonomicon.book.BookLink;
-import com.klikli_dev.modonomicon.book.CommandLink;
 import com.klikli_dev.modonomicon.book.entries.BookContentEntry;
 import com.klikli_dev.modonomicon.book.page.BookPage;
-import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
 import com.klikli_dev.modonomicon.bookstate.visual.EntryVisualState;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
@@ -27,9 +24,8 @@ import com.klikli_dev.modonomicon.client.gui.book.button.RemoveBookmarkButton;
 import com.klikli_dev.modonomicon.client.gui.book.button.SearchButton;
 import com.klikli_dev.modonomicon.client.gui.book.entry.linkhandler.*;
 import com.klikli_dev.modonomicon.client.render.page.BookPageRenderer;
-import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.fluid.FluidHolder;
-import com.klikli_dev.modonomicon.integration.ModonomiconJeiIntegration;
+import com.klikli_dev.modonomicon.integration.jei.ModonomiconJeiIntegration;
 import com.klikli_dev.modonomicon.networking.AddBookmarkMessage;
 import com.klikli_dev.modonomicon.networking.SyncBookVisualStatesMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
@@ -43,9 +39,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -287,7 +281,7 @@ public abstract class BookEntryScreen extends BookPaginatedScreen implements Con
 
         if (this.isHoveringItemLink()) {
             tooltip.add(Component.literal(""));
-            if (ModonomiconJeiIntegration.get().isJeiLoaded()) {
+            if (ModonomiconJeiIntegration.get().isLoaded()) {
                 tooltip.add(Component.translatable(Gui.HOVER_ITEM_LINK_INFO).withStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GREEN)));
                 tooltip.add(Component.translatable(Gui.HOVER_ITEM_LINK_INFO_LINE2).withStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY)));
             } else {
@@ -303,7 +297,7 @@ public abstract class BookEntryScreen extends BookPaginatedScreen implements Con
 
         if (this.isHoveringItemLink()) {
             tooltip.add(Component.literal(""));
-            if (ModonomiconJeiIntegration.get().isJeiLoaded()) {
+            if (ModonomiconJeiIntegration.get().isLoaded()) {
                 tooltip.add(Component.translatable(Gui.HOVER_ITEM_LINK_INFO).withStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GREEN)));
                 tooltip.add(Component.translatable(Gui.HOVER_ITEM_LINK_INFO_LINE2).withStyle(Style.EMPTY.withItalic(true).withColor(ChatFormatting.GRAY)));
             } else {
