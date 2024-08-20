@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.100.1] - 2024-08-20
+### :bug: Bug Fixes
+- [`be1470f`](https://github.com/klikli-dev/modonomicon/commit/be1470fab6c07cab8e987367a942d62d5a27aa50) - jei integration file excluded from sources *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.99.1] - 2024-08-16
 ### :wrench: Chores
 - [`24b8c88`](https://github.com/klikli-dev/modonomicon/commit/24b8c88eaba35b7ed4617f2ac803c047fc451d1c) - update to latest jei *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1296,3 +1301,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.98.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-0.0.0...release/v1.21.1-1.98.1
 [release/v1.21.1-1.99.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.98.1...release/v1.21.1-1.99.0
 [release/v1.21.1-1.99.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.99.0...release/v1.21.1-1.99.1
+[release/v1.21.1-1.100.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.0...release/v1.21.1-1.100.1
