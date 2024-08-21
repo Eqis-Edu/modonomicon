@@ -60,8 +60,8 @@ public class MultiblockPreviewRenderer {
 
     public static boolean hasMultiblock;
 
-    private static Map<BlockPos, BlockEntity> blockEntityCache = new Object2ObjectOpenHashMap<>();
-    private static Set<BlockEntity> erroredBlockEntities = Collections.newSetFromMap(new WeakHashMap<>());
+    private static final Map<BlockPos, BlockEntity> blockEntityCache = new Object2ObjectOpenHashMap<>();
+    private static final Set<BlockEntity> erroredBlockEntities = Collections.newSetFromMap(new WeakHashMap<>());
     private static Multiblock multiblock;
     private static Component name;
     private static BlockPos pos;
@@ -83,8 +83,8 @@ public class MultiblockPreviewRenderer {
             hasMultiblock = false;
         } else {
             MultiblockPreviewRenderer.multiblock = multiblock;
-            MultiblockPreviewRenderer.blockEntityCache = new HashMap<>();
-            MultiblockPreviewRenderer.erroredBlockEntities = Collections.newSetFromMap(new WeakHashMap<>());
+            MultiblockPreviewRenderer.blockEntityCache.clear();
+            MultiblockPreviewRenderer.erroredBlockEntities.clear();
             MultiblockPreviewRenderer.name = name;
             MultiblockPreviewRenderer.offsetApplier = offsetApplier;
             pos = null;
@@ -252,7 +252,9 @@ public class MultiblockPreviewRenderer {
         lookingState = null;
         lookingPos = checkPos;
 
-        Pair<BlockPos, Collection<Multiblock.SimulateResult>> sim = multiblock.simulate(level, getStartPos(), getFacingRotation(), true, false);
+        BlockPos startPos = getStartPos();
+
+        Pair<BlockPos, Collection<Multiblock.SimulateResult>> sim = multiblock.simulate(level, startPos, getFacingRotation(), true, false);
         for (Multiblock.SimulateResult r : sim.getSecond()) {
             float alpha = 0.3F;
             if (r.getWorldPosition().equals(checkPos)) {
@@ -271,7 +273,8 @@ public class MultiblockPreviewRenderer {
                     renderBlock(level, renderState, r.getWorldPosition(), multiblock, air, alpha, ms);
 
                     if (renderState.getBlock() instanceof EntityBlock eb) {
-                        var be = blockEntityCache.computeIfAbsent(r.getWorldPosition().immutable(), p -> eb.newBlockEntity(p, renderState));
+                        //the problem is that we have one cache for virtual BEs in the world, but if we move then we might query another BE
+                        var be = blockEntityCache.computeIfAbsent(r.getWorldPosition().subtract(startPos).immutable(), p -> eb.newBlockEntity(p, renderState));
                         if (be != null && !erroredBlockEntities.contains(be)) {
                             be.setLevel(mc.level);
 
