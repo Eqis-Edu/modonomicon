@@ -72,9 +72,19 @@ subprojects {
     }
 
     processResources {
-        filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
-            expand project.properties
+        def props = new HashMap<>(project.properties)
+        def keys = new ArrayList<String>(props.keySet()) //to avoid concurrent modification exception
+
+        for (String key : keys) {
+            if (!(props.get(key) instanceof String) && !(props.get(key) instanceof Integer)) {
+                props.remove(key)
+            }
         }
+
+        filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml', 'META-INF/neoforge.mods.toml', '*.mixins.json']) {
+            expand props
+        }
+        getInputs().properties(props)
     }
 
     // Disables Gradle's custom module metadata from being published to maven. The
