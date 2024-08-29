@@ -91,7 +91,7 @@ public class BookCategory {
         var name = GsonHelper.getAsString(json, "name");
         var description = BookGsonHelper.getAsBookTextHolder(json, "description", BookTextHolder.EMPTY, provider);
         var sortNumber = GsonHelper.getAsInt(json, "sort_number", -1);
-        var icon = BookIcon.fromJson(json.get("icon"));
+        var icon = BookIcon.fromJson(json.get("icon"), provider);
         var displayMode = BookDisplayMode.byName(GsonHelper.getAsString(json, "display_mode", BookDisplayMode.NODE.getSerializedName()));
         var background = ResourceLocation.parse(GsonHelper.getAsString(json, "background", Category.DEFAULT_BACKGROUND));
         var backgroundWidth = GsonHelper.getAsInt(json, "background_width", Category.DEFAULT_BACKGROUND_WIDTH);

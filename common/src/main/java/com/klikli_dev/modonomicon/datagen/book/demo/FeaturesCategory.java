@@ -33,7 +33,7 @@ public class FeaturesCategory extends CategoryProvider {
                 "___           _______2____1__i__",
                 "__s           _____e____________",
                 "___           _______________g__",
-                "___           _____f____________"
+                "__x           _____f____________"
         };
     }
 
@@ -69,6 +69,9 @@ public class FeaturesCategory extends CategoryProvider {
 
         var spotlightEntry = this.add(new SpotlightEntry(this).generate('s'))
                 .withParent(this.parent(recipeEntry).withLineReversed(true));
+
+        var componentIconEntry = this.add(new EntryWithComponentIcon(this).generate('x'))
+                .withParent(spotlightEntry);
 
         var emptyEntry = this.add(new EmptyPageEntry(this).generate('e'))
                 .withParent(spotlightEntry);

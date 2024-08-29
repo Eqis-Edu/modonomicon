@@ -9,16 +9,36 @@ package com.klikli_dev.modonomicon.book;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class BookIcon {
+
+    /**
+     * A custom codec that still uses the "item" field instead of "id" for backwards comp,
+     */
+    public static final Codec<ItemStack> CUSTOM_ITEM_STACK_CODEC = RecordCodecBuilder.create((builder) -> builder.group(
+            ItemStack.ITEM_NON_AIR_CODEC.fieldOf("item").forGetter(ItemStack::getItemHolder),
+            Codec.INT.optionalFieldOf("count", 1).forGetter(ItemStack::getCount),
+            DataComponentPatch.CODEC.optionalFieldOf("components", DataComponentPatch.EMPTY).forGetter(ItemStack::getComponentsPatch)
+    ).apply(builder, ItemStack::new));
+
+    /**
+     * We allow both vanilla item stack syntax and our custom syntax.
+     */
+    public static final Codec<ItemStack> ITEM_STACK_CODEC = Codec.withAlternative(CUSTOM_ITEM_STACK_CODEC, ItemStack.CODEC);
+
     private final ItemStack itemStack;
     private final ResourceLocation texture;
 
@@ -39,7 +59,7 @@ public class BookIcon {
         this.height = height;
     }
 
-    public static BookIcon fromJson(JsonElement jsonElement) {
+    public static BookIcon fromJson(JsonElement jsonElement, HolderLookup.Provider provider) {
         //if string -> use from string
         //if json object -> parse from json
         if (jsonElement.isJsonPrimitive()) {
@@ -47,16 +67,17 @@ public class BookIcon {
         }
 
         var jsonObject = jsonElement.getAsJsonObject();
-        if (jsonObject.has("item")) {
-            Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(GsonHelper.getAsString(jsonObject, "item")));
-            return new BookIcon(new ItemStack(item));
-        } else if (jsonObject.has("texture")) {
+        if (jsonObject.has("texture")) {
             var width = GsonHelper.getAsInt(jsonObject, "width", ModonomiconConstants.Data.Icon.DEFAULT_WIDTH);
             var height = GsonHelper.getAsInt(jsonObject, "height", ModonomiconConstants.Data.Icon.DEFAULT_HEIGHT);
             var texture = ResourceLocation.parse(GsonHelper.getAsString(jsonObject, "texture"));
             return new BookIcon(texture, width, height);
         } else {
-            throw new JsonParseException("BookIcon must have either item or texture defined." + jsonElement);
+            var stack = ITEM_STACK_CODEC.decode(provider.createSerializationContext(JsonOps.INSTANCE), jsonObject).getOrThrow((e) -> {
+                throw new JsonParseException("BookIcon must have either item or texture defined." + jsonElement, new Throwable(e));
+            }).getFirst();
+
+            return new BookIcon(stack);
         }
     }
 
@@ -69,7 +90,7 @@ public class BookIcon {
         }
     }
 
-    public static BookIcon fromNetwork(FriendlyByteBuf buffer) {
+    public static BookIcon fromNetwork(RegistryFriendlyByteBuf buffer) {
         if (buffer.readBoolean()) {
             ResourceLocation texture = buffer.readResourceLocation();
             int width = buffer.readVarInt();
@@ -77,9 +98,8 @@ public class BookIcon {
             return new BookIcon(texture, width, height);
         }
 
-        ResourceLocation rl = buffer.readResourceLocation();
-        Item item = BuiltInRegistries.ITEM.get(rl);
-        return new BookIcon(new ItemStack(item));
+        var stack = ItemStack.STREAM_CODEC.decode(buffer);
+        return new BookIcon(stack);
     }
 
     public void render(GuiGraphics guiGraphics, int x, int y) {
@@ -90,14 +110,14 @@ public class BookIcon {
         }
     }
 
-    public void toNetwork(FriendlyByteBuf buffer) {
+    public void toNetwork(RegistryFriendlyByteBuf buffer) {
         buffer.writeBoolean(this.texture != null);
         if (this.texture != null) {
             buffer.writeResourceLocation(this.texture);
             buffer.writeVarInt(this.width);
             buffer.writeVarInt(this.height);
         } else {
-            buffer.writeResourceLocation(BuiltInRegistries.ITEM.getKey(this.itemStack.getItem()));
+            ItemStack.STREAM_CODEC.encode(buffer, this.itemStack);
         }
     }
 }

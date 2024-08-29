@@ -8,6 +8,8 @@ package com.klikli_dev.modonomicon.api.datagen.book;
 
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
+import com.klikli_dev.modonomicon.book.BookIcon;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -59,9 +61,7 @@ public class BookIconModel {
             json.addProperty("height", this.height);
             return json;
         } else {
-            JsonObject json = new JsonObject();
-            json.addProperty("item", BuiltInRegistries.ITEM.getKey(this.itemStack.getItem()).toString());
-            return json;
+            return (JsonObject) BookIcon.ITEM_STACK_CODEC.encodeStart(provider.createSerializationContext(JsonOps.INSTANCE), this.itemStack).getOrThrow();
         }
     }
 }

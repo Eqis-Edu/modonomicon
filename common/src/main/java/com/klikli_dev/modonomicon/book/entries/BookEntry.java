@@ -247,7 +247,7 @@ public abstract class BookEntry {
 
             var name = GsonHelper.getAsString(json, "name");
             var description = GsonHelper.getAsString(json, "description", "");
-            var icon = BookIcon.fromJson(json.get("icon"));
+            var icon = BookIcon.fromJson(json.get("icon"), provider);
             var entryBackgroundUIndex = GsonHelper.getAsInt(json, "background_u_index", 0);
             var entryBackgroundVIndex = GsonHelper.getAsInt(json, "background_v_index", 0);
 
