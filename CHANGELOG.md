@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.101.0] - 2024-08-29
+### :sparkles: New Features
+- [`d9294d1`](https://github.com/klikli-dev/modonomicon/commit/d9294d1d8d6aed586cb0bafab409dd21123afde7) - Various improvements around entry unlocks ([#245](https://github.com/klikli-dev/modonomicon/pull/245)) - thanks @DaFuqs *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`a69c8fd`](https://github.com/klikli-dev/modonomicon/commit/a69c8fd8bb54baa9f4c3259c70ab1241ffd7e296) - allow book icons to use components *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`844ad77`](https://github.com/klikli-dev/modonomicon/commit/844ad77651bbe1a429f5fc7de5296fe27513a1de) - mouse snaps to center when opening entries in certain cases *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`9c47dfa`](https://github.com/klikli-dev/modonomicon/commit/9c47dfa30b397319466508470f44367fa0d03696) - book icons with texture ignore tint *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.100.5] - 2024-08-29
 ### :wrench: Chores
 - [`f761941`](https://github.com/klikli-dev/modonomicon/commit/f7619417c868adb3fc9f576bf5d90b56414156ec) - increase mod version *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1329,3 +1339,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.100.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.2...release/v1.21.1-1.100.3
 [release/v1.21.1-1.100.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.3...release/v1.21.1-1.100.4
 [release/v1.21.1-1.100.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.4...release/v1.21.1-1.100.5
+[release/v1.21.1-1.101.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.5...release/v1.21.1-1.101.0
