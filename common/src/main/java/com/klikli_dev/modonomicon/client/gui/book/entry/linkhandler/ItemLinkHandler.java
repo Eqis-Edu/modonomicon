@@ -56,13 +56,17 @@ public class ItemLinkHandler extends LinkHandler {
             return ClickResult.FAILURE;
         }
 
-        BookGuiManager.get().closeScreenStack(this.screen()); //will cause the book to close entirely, and save the open page
+        final var finalItemStack = itemStack;
+        BookGuiManager.get().keepMousePosition(() -> {
+            BookGuiManager.get().closeScreenStack(this.screen()); //will cause the book to close entirely, and save the open page
 
-        if (Screen.hasShiftDown()) {
-            ModonomiconJeiIntegration.get().showUses(itemStack);
-        } else {
-            ModonomiconJeiIntegration.get().showRecipe(itemStack);
-        }
+            if (Screen.hasShiftDown()) {
+                ModonomiconJeiIntegration.get().showUses(finalItemStack);
+            } else {
+                ModonomiconJeiIntegration.get().showRecipe(finalItemStack);
+            }
+        });
+
 
         //TODO: Consider adding logic to restore content screen after JEI gui close
         //      currently only the overview screen is restored (because JEI does not use Forges Gui Stack, only vanilla screen, thus only saves one parent screen)

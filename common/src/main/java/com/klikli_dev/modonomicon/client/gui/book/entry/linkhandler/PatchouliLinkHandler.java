@@ -33,9 +33,12 @@ public class PatchouliLinkHandler extends LinkHandler {
         if (link.bookId == null)
             return ClickResult.FAILURE;
 
-        BookGuiManager.get().closeScreenStack(this.screen()); //will cause the book to close entirely, and save the open page
-        //the integration class handles class loading guards if patchouli is not present
-        Services.PATCHOULI.openEntry(link.bookId, link.entryId, link.pageNumber);
+        BookGuiManager.get().keepMousePosition(() -> {
+            BookGuiManager.get().closeScreenStack(this.screen()); //will cause the book to close entirely, and save the open page
+            //the integration class handles class loading guards if patchouli is not present
+            Services.PATCHOULI.openEntry(link.bookId, link.entryId, link.pageNumber);
+        });
+
 
         return ClickResult.SUCCESS;
     }

@@ -38,11 +38,14 @@ import com.klikli_dev.modonomicon.networking.SaveCategoryStateMessage;
 import com.klikli_dev.modonomicon.networking.SaveEntryStateMessage;
 import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
+import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+import org.lwjgl.glfw.GLFW;
 
 import java.util.Stack;
 
@@ -327,7 +330,7 @@ public class BookGuiManager {
     @ApiStatus.Internal
     public void openCategoryLinkEntry(CategoryLinkBookEntry entry) {
         var category = entry.getCategoryToOpen();
-        
+
         //Opening a category link means we already opened a book, and a category. These all need to be closed before reopening, so we just use our default opening method
         this.openBook(BookAddress.defaultFor(category));
     }
@@ -383,6 +386,16 @@ public class BookGuiManager {
     }
 
     /**
+     * Saves the current mouse position and restores it after the given runnable is executed.
+     * This is necessary because setting the screen to null will cause MC to grab the mouse and set it to screen center.
+     */
+    public void keepMousePosition(Runnable run) {
+        var mousePos = Pair.of(Minecraft.getInstance().mouseHandler.xpos(), Minecraft.getInstance().mouseHandler.ypos());
+        run.run();
+        InputConstants.grabOrReleaseMouse(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_CURSOR_NORMAL, mousePos.getFirst(), mousePos.getSecond());
+    }
+
+    /**
      * Opens the book at the given location. Will open as far as possible (meaning, if category and entry are null, it
      * will not open those obviously).
      */
@@ -396,16 +409,18 @@ public class BookGuiManager {
         if (this.showErrorScreen(bookId)) {
         }
 
-        //First close the current book and preserve -state
-        if (this.openBookEntryScreen != null)
-            this.closeScreenStack(this.openBookEntryScreen);
-        else if (this.openBookCategoryScreen != null)
-            this.closeScreenStack(this.openBookCategoryScreen);
-        else if (this.openBookParentScreen != null)
-            this.closeScreenStack(this.openBookParentScreen);
+        this.keepMousePosition(() -> {
+            //First close the current book and preserve -state
+            if (this.openBookEntryScreen != null)
+                this.closeScreenStack(this.openBookEntryScreen);
+            else if (this.openBookCategoryScreen != null)
+                this.closeScreenStack(this.openBookCategoryScreen);
+            else if (this.openBookParentScreen != null)
+                this.closeScreenStack(this.openBookParentScreen);
 
-        //then open the given address
-        this.openBook(BookAddress.ignoreSaved(bookId, categoryId, entryId, page));
+            //then open the given address
+            this.openBook(BookAddress.ignoreSaved(bookId, categoryId, entryId, page));
+        });
     }
 
     /**
