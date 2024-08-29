@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.100.3] - 2024-08-29
+### :bug: Bug Fixes
+- [`34af98b`](https://github.com/klikli-dev/modonomicon/commit/34af98b2427347f4bf55282024ff91eb4aa8f783) - rare crash during entity join *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.100.2] - 2024-08-21
 ### :bug: Bug Fixes
 - [`dafd1cf`](https://github.com/klikli-dev/modonomicon/commit/dafd1cf94c93182da7be795541c6ec879040c14d) - crashes when previewing multiblocks with multiple block entities in the world *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1311,3 +1316,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.99.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.99.0...release/v1.21.1-1.99.1
 [release/v1.21.1-1.100.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.0...release/v1.21.1-1.100.1
 [release/v1.21.1-1.100.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.1...release/v1.21.1-1.100.2
+[release/v1.21.1-1.100.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.2...release/v1.21.1-1.100.3
