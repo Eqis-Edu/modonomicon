@@ -84,7 +84,6 @@ public class BookIcon {
 
     public void render(GuiGraphics guiGraphics, int x, int y) {
         if (this.texture != null) {
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             guiGraphics.blit(this.texture, x, y, 16, 16, 0, 0, this.width, this.height, this.width, this.height);
         } else {
             guiGraphics.renderItem(this.itemStack, x, y);

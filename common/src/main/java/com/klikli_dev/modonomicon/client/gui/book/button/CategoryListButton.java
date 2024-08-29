@@ -64,6 +64,7 @@ public class CategoryListButton extends Button {
                 RenderSystem.setShaderColor(1F, 1F, 1F, 0.7F);
                 BookContentRenderer.drawLock(guiGraphics, this.category.getBook(), this.getX() * 2 + 2, this.getY() * 2 + 2);
             } else {
+                RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
                 this.category.getIcon().render(guiGraphics, this.getX() * 2 + 2, this.getY() * 2 + 2);
             }
 
