@@ -51,7 +51,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
 
     private static final BookDataManager instance = new BookDataManager();
 
-    private Map<ResourceLocation, Book> books = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
+    private final Map<ResourceLocation, Book> books = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>());
     private boolean loaded;
     private boolean booksBuilt;
     private HolderLookup.Provider registries;
@@ -91,7 +91,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
 
     public void onDatapackSyncPacket(SyncBookDataMessage message) {
         this.preLoad();
-        this.books = Object2ObjectMaps.synchronize(new Object2ObjectOpenHashMap<>(message.books));
+        this.books.putAll(message.books);
         this.onLoadingComplete();
     }
 
