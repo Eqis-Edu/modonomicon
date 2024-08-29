@@ -15,7 +15,9 @@ import com.klikli_dev.modonomicon.book.conditions.BookEntryReadCondition;
 import com.klikli_dev.modonomicon.book.conditions.BookNoneCondition;
 import com.klikli_dev.modonomicon.book.error.BookErrorManager;
 import com.klikli_dev.modonomicon.book.page.BookPage;
+import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
+import com.klikli_dev.modonomicon.client.gui.book.entry.EntryDisplayState;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import net.minecraft.core.HolderLookup;
@@ -98,6 +100,37 @@ public abstract class BookEntry {
 
     public ResourceLocation getId() {
         return this.id;
+    }
+
+    public EntryDisplayState getEntryDisplayState(Player player) {
+        var isEntryUnlocked = BookUnlockStateManager.get().isUnlockedFor(player, this);
+
+        // if an entry has its unlock condition met, it will always shop up
+        if (isEntryUnlocked) {
+            return EntryDisplayState.UNLOCKED;
+        }
+
+        // if an entry does have parents, it might be hidden
+        if (!this.getParents().isEmpty()) {
+            var anyParentsUnlocked = false;
+            var allParentsUnlocked = true;
+            for (var parent : this.getParents()) {
+                if (!BookUnlockStateManager.get().isUnlockedFor(player, parent.getEntry())) {
+                    allParentsUnlocked = false;
+                } else {
+                    anyParentsUnlocked = true;
+                }
+            }
+
+            if (this.showWhenAnyParentUnlocked() && !anyParentsUnlocked)
+                return EntryDisplayState.HIDDEN;
+
+            if (!this.showWhenAnyParentUnlocked() && !allParentsUnlocked)
+                return EntryDisplayState.HIDDEN;
+        }
+
+        // either the entry does not have any parents or any/all parents are unlocked
+        return this.hideWhileLocked() ? EntryDisplayState.HIDDEN : EntryDisplayState.LOCKED;
     }
 
     /**

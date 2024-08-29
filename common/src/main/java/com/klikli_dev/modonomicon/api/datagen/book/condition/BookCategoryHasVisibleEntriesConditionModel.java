@@ -14,15 +14,15 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class BookCategoryHasEntriesConditionModel extends BookConditionModel<BookCategoryHasEntriesConditionModel> {
+public class BookCategoryHasVisibleEntriesConditionModel extends BookConditionModel<BookCategoryHasVisibleEntriesConditionModel> {
     private String categoryId;
 
-    protected BookCategoryHasEntriesConditionModel() {
-        super(Condition.CATEGORY_HAS_ENTRIES);
+    protected BookCategoryHasVisibleEntriesConditionModel() {
+        super(Condition.CATEGORY_HAS_VISIBLE_ENTRIES);
     }
 
-    public static BookCategoryHasEntriesConditionModel create() {
-        return new BookCategoryHasEntriesConditionModel();
+    public static BookCategoryHasVisibleEntriesConditionModel create() {
+        return new BookCategoryHasVisibleEntriesConditionModel();
     }
 
 
@@ -38,19 +38,19 @@ public class BookCategoryHasEntriesConditionModel extends BookConditionModel<Boo
     }
 
 
-    public BookCategoryHasEntriesConditionModel withCategory(ResourceLocation entryId) {
+    public BookCategoryHasVisibleEntriesConditionModel withCategory(ResourceLocation entryId) {
         this.categoryId = entryId.toString();
         return this;
     }
 
 
-    public BookCategoryHasEntriesConditionModel withCategory(String entryId) {
+    public BookCategoryHasVisibleEntriesConditionModel withCategory(String entryId) {
         this.categoryId = entryId;
         return this;
     }
 
     @Override
-    public BookCategoryHasEntriesConditionModel withTooltip(Component tooltip) {
+    public BookCategoryHasVisibleEntriesConditionModel withTooltip(Component tooltip) {
         this.tooltip = tooltip;
         return this;
     }
@@ -59,7 +59,7 @@ public class BookCategoryHasEntriesConditionModel extends BookConditionModel<Boo
      * Will overwrite withTooltip
      */
     @Override
-    public BookCategoryHasEntriesConditionModel withTooltipString(String tooltipString) {
+    public BookCategoryHasVisibleEntriesConditionModel withTooltipString(String tooltipString) {
         this.tooltipString = tooltipString;
         return this;
     }

@@ -8,10 +8,9 @@ package com.klikli_dev.modonomicon.book.conditions;
 
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
-import com.klikli_dev.modonomicon.book.BookCategory;
 import com.klikli_dev.modonomicon.book.conditions.context.BookConditionContext;
 import com.klikli_dev.modonomicon.book.conditions.context.BookConditionEntryContext;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -21,25 +20,23 @@ import net.minecraft.world.entity.player.Player;
 
 import java.util.List;
 
-public class BookCategoryHasEntriesCondition extends BookCondition {
-
+/**
+ * This BookCondition evaluates to true
+ * if a category has at least
+ */
+public class BookCategoryHasVisibleEntriesCondition extends BookCondition {
+    
     protected ResourceLocation categoryId;
-
-    public BookCategoryHasEntriesCondition(Component tooltip, ResourceLocation categoryId) {
+    
+    public BookCategoryHasVisibleEntriesCondition(Component tooltip, ResourceLocation categoryId) {
         super(tooltip);
         this.categoryId = categoryId;
     }
-
-    public static BookCategoryHasEntriesCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
+    
+    public static BookCategoryHasVisibleEntriesCondition fromJson(JsonObject json) {
         ResourceLocation categoryId = ResourceLocation.parse(GsonHelper.getAsString(json, "category_id"));
         Component tooltip = Component.translatable(ModonomiconConstants.I18n.Tooltips.CONDITION_CATEGORY_HAS_VISIBLE_ENTRIES, categoryId);
-        return new BookCategoryHasEntriesCondition(tooltip, categoryId);
-    }
-
-    public static BookCategoryHasEntriesCondition fromNetwork(RegistryFriendlyByteBuf buffer) {
-        var tooltip = buffer.readBoolean() ? ComponentSerialization.STREAM_CODEC.decode(buffer) : null;
-        var entryId = buffer.readResourceLocation();
-        return new BookCategoryHasEntriesCondition(tooltip, entryId);
+        return new BookCategoryHasVisibleEntriesCondition(tooltip, categoryId);
     }
 
     @Override
@@ -50,25 +47,42 @@ public class BookCategoryHasEntriesCondition extends BookCondition {
         }
         buffer.writeResourceLocation(this.categoryId);
     }
-
+    
+    public static BookCategoryHasVisibleEntriesCondition fromNetwork(RegistryFriendlyByteBuf buffer) {
+        var tooltip = buffer.readBoolean() ? ComponentSerialization.STREAM_CODEC.decode(buffer) : null;
+        var entryId = buffer.readResourceLocation();
+        return new BookCategoryHasVisibleEntriesCondition(tooltip, entryId);
+    }
+    
     @Override
     public ResourceLocation getType() {
         return ModonomiconConstants.Data.Condition.CATEGORY_HAS_VISIBLE_ENTRIES;
     }
-
+    
     @Override
     public boolean test(BookConditionContext context, Player player) {
-        BookCategory category = context.book.getCategory(this.categoryId);
+        var category = context.book.getCategory(this.categoryId);
         if (category == null) {
-            throw new IllegalArgumentException("Category with id " + this.categoryId + " not found in book " + context.getBook().getId() + "for BookCategoryHasEntriesCondition. This happened while trying to unlock " + context);
+            throw new IllegalArgumentException("Category with id " + this.categoryId + " not found in book " + context.getBook().getId() + "for BookCategoryHasVisibleEntriesCondition. This happened while trying to unlock " + context);
         }
-        return category.getEntries().size() > 0;
-    }
 
+        if(category.getEntries().isEmpty()) {
+            return false;
+        }
+
+        for(var entry : category.getEntries().values()) {
+            if(entry.getEntryDisplayState(player).isVisible()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     @Override
     public List<Component> getTooltip(Player player, BookConditionContext context) {
         if (this.tooltip == null && context instanceof BookConditionEntryContext entryContext) {
-            this.tooltip = Component.translatable(ModonomiconConstants.I18n.Tooltips.CONDITION_ENTRY_READ, Component.translatable(entryContext.getBook().getEntry(this.categoryId).getName()));
+            this.tooltip = Component.translatable(ModonomiconConstants.I18n.Tooltips.CONDITION_CATEGORY_HAS_VISIBLE_ENTRIES, Component.translatable(entryContext.getBook().getEntry(this.categoryId).getName()));
         }
         return super.getTooltip(player, context);
     }
