@@ -38,7 +38,18 @@ public class BookSpotlightPageRenderer extends BookPageRenderer<BookSpotlightPag
         RenderSystem.enableBlend();
         guiGraphics.blit(this.page.getBook().getCraftingTexture(), BookEntryScreen.PAGE_WIDTH / 2 - w / 2, 10, 0, 128 - h, w, h, 128, 256);
 
-        this.parentScreen.renderIngredient(guiGraphics, ITEM_X, ITEM_Y, mouseX, mouseY, this.page.getItem());
+        this.page.getItem().ifRight(
+                ingredient -> {
+                    //ingredient
+                    this.parentScreen.renderIngredient(guiGraphics, ITEM_X, ITEM_Y, mouseX, mouseY, ingredient);
+                }
+        );
+        this.page.getItem().ifLeft(
+                itemStack -> {
+                    //item
+                    this.parentScreen.renderItemStack(guiGraphics, ITEM_X, ITEM_Y, mouseX, mouseY, itemStack);
+                }
+        );
 
         var style = this.getClickedComponentStyleAt(mouseX, mouseY);
         if (style != null)

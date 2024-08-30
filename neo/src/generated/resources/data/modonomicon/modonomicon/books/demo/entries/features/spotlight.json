@@ -43,6 +43,24 @@
       },
       "text": "book.modonomicon.demo.features.spotlight.spotlight2.text",
       "title": ""
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "components": {
+          "minecraft:dyed_color": {
+            "rgb": 1481884,
+            "show_in_tooltip": false
+          }
+        },
+        "item": "minecraft:leather_helmet"
+      },
+      "text": "book.modonomicon.demo.features.spotlight.spotlight3.text",
+      "title": ""
     }
   ],
   "parents": [

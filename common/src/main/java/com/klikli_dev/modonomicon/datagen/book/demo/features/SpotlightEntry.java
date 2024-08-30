@@ -11,7 +11,10 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
 
 public class SpotlightEntry extends EntryProvider {
@@ -54,6 +57,14 @@ public class SpotlightEntry extends EntryProvider {
                 .withItem(Ingredient.of(Items.DIAMOND))
         );
         this.pageText("A sample spotlight page with automatic title.");
+
+        var iconStack = new ItemStack(Items.LEATHER_HELMET);
+        iconStack.set(DataComponents.DYED_COLOR, new DyedItemColor(0x169C9C, false));
+        this.page("spotlight3", () -> BookSpotlightPageModel.create()
+                .withText(this.context().pageText())
+                .withItem(iconStack)
+        );
+        this.pageText("A sample spotlight page with an item with components");
     }
 
     @Override
