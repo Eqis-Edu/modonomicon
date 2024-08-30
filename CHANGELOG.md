@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.102.0] - 2024-08-30
+### :sparkles: New Features
+- [`3c2bb48`](https://github.com/klikli-dev/modonomicon/commit/3c2bb4844b1f99294c03000f826e7caaebd955d1) - support itemstacks as spotlights (unlike ingredients they support components) *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.101.0] - 2024-08-29
 ### :sparkles: New Features
 - [`d9294d1`](https://github.com/klikli-dev/modonomicon/commit/d9294d1d8d6aed586cb0bafab409dd21123afde7) - Various improvements around entry unlocks ([#245](https://github.com/klikli-dev/modonomicon/pull/245)) - thanks @DaFuqs *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1340,3 +1345,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.100.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.3...release/v1.21.1-1.100.4
 [release/v1.21.1-1.100.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.4...release/v1.21.1-1.100.5
 [release/v1.21.1-1.101.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.5...release/v1.21.1-1.101.0
+[release/v1.21.1-1.102.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.101.0...release/v1.21.1-1.102.0
