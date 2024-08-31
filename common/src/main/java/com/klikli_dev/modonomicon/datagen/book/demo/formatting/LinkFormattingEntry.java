@@ -66,6 +66,18 @@ public class LinkFormattingEntry extends EntryProvider {
 //                [Link to a Patchouli Entry](patchouli://occultism:dictionary_of_spirits//misc/books_of_calling)
 //                """
 //        );
+
+
+        this.page("invalidLink", () -> BookTextPageModel.create()
+                .withTitle(this.context().pageTitle())
+                .withText(this.context().pageText())
+        );
+        this.pageTitle("Invalid Link");
+        this.pageText("""
+                {0}
+                """,
+                this.entryLink("It has an invalid Link", "a_cat", "an_entry")
+        );
     }
 
     @Override

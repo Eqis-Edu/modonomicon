@@ -101,6 +101,11 @@ public class Book {
     protected PageDisplayMode pageDisplayMode = PageDisplayMode.DOUBLE_PAGE;
     protected ResourceLocation singlePageTexture = ResourceLocation.parse(Data.Book.DEFAULT_SINGLE_PAGE_TEXTURE);
 
+    /**
+     * If true, invalid links do not show an error screen when opening the book.
+     * Instead, the book and pages will open, but the link will not work.
+     */
+    protected boolean allowOpenBooksWithInvalidLinks;
 
     public Book(ResourceLocation id, String name, BookTextHolder description, String tooltip, ResourceLocation model, BookDisplayMode displayMode, boolean generateBookItem,
                 @Nullable ResourceLocation customBookItem, String creativeTab, ResourceLocation font, ResourceLocation bookOverviewTexture, ResourceLocation frameTexture,
@@ -108,7 +113,7 @@ public class Book {
                 ResourceLocation bookContentTexture, ResourceLocation craftingTexture, ResourceLocation turnPageSound,
                 int defaultTitleColor, float categoryButtonIconScale, boolean autoAddReadConditions, int bookTextOffsetX, int bookTextOffsetY, int bookTextOffsetWidth, int bookTextOffsetHeight,
                 int categoryButtonXOffset, int categoryButtonYOffset, int searchButtonXOffset, int searchButtonYOffset, int readAllButtonYOffset, ResourceLocation leafletEntry,
-                PageDisplayMode pageDisplayMode, ResourceLocation singlePageTexture) {
+                PageDisplayMode pageDisplayMode, ResourceLocation singlePageTexture, boolean allowOpenBooksWithInvalidLinks) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -149,6 +154,8 @@ public class Book {
 
         this.pageDisplayMode = pageDisplayMode;
         this.singlePageTexture = singlePageTexture;
+
+        this.allowOpenBooksWithInvalidLinks = allowOpenBooksWithInvalidLinks;
     }
 
     public static Book fromJson(ResourceLocation id, JsonObject json, HolderLookup.Provider provider) {
@@ -208,10 +215,12 @@ public class Book {
         var pageDisplayMode = PageDisplayMode.byName(GsonHelper.getAsString(json, "page_display_mode", PageDisplayMode.DOUBLE_PAGE.getSerializedName()));
         var singlePageTexture = ResourceLocation.parse(GsonHelper.getAsString(json, "single_page_texture", Data.Book.DEFAULT_SINGLE_PAGE_TEXTURE));
 
+        var allowOpenBooksWithInvalidLinks = GsonHelper.getAsBoolean(json, "allow_open_book_with_invalid_links", false);
+
         return new Book(id, name, description, tooltip, model, displayMode, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
                 frameTexture, topFrameOverlay, bottomFrameOverlay, leftFrameOverlay, rightFrameOverlay,
                 bookContentTexture, craftingTexture, turnPageSound, defaultTitleColor, categoryButtonIconScale, autoAddReadConditions, bookTextOffsetX, bookTextOffsetY, bookTextOffsetWidth, bookTextOffsetHeight,
-                categoryButtonXOffset, categoryButtonYOffset, searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset, leafletEntry, pageDisplayMode, singlePageTexture);
+                categoryButtonXOffset, categoryButtonYOffset, searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset, leafletEntry, pageDisplayMode, singlePageTexture, allowOpenBooksWithInvalidLinks);
     }
 
 
@@ -260,10 +269,12 @@ public class Book {
         var pageDisplayMode = PageDisplayMode.byId(buffer.readByte());
         var singlePageTexture = buffer.readResourceLocation();
 
+        var allowOpenBooksWithInvalidLinks = buffer.readBoolean();
+
         return new Book(id, name, description, tooltip, model, displayMode, generateBookItem, customBookItem, creativeTab, font, bookOverviewTexture,
                 frameTexture, topFrameOverlay, bottomFrameOverlay, leftFrameOverlay, rightFrameOverlay,
                 bookContentTexture, craftingTexture, turnPageSound, defaultTitleColor, categoryButtonIconScale, autoAddReadConditions, bookTextOffsetX, bookTextOffsetY, bookTextOffsetWidth, bookTextOffsetHeight,
-                categoryButtonXOffset, categoryButtonYOffset, searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset, leafletEntry, pageDisplayMode, singlePageTexture);
+                categoryButtonXOffset, categoryButtonYOffset, searchButtonXOffset, searchButtonYOffset, readAllButtonYOffset, leafletEntry, pageDisplayMode, singlePageTexture, allowOpenBooksWithInvalidLinks);
     }
 
     /**
@@ -304,7 +315,6 @@ public class Book {
         }
     }
 
-    @SuppressWarnings("deprecation")
     public void toNetwork(RegistryFriendlyByteBuf buffer) {
         buffer.writeUtf(this.name);
         this.description.toNetwork(buffer);
@@ -350,6 +360,8 @@ public class Book {
 
         buffer.writeByte(this.pageDisplayMode.ordinal());
         buffer.writeResourceLocation(this.singlePageTexture);
+
+        buffer.writeBoolean(this.allowOpenBooksWithInvalidLinks);
     }
 
     public boolean autoAddReadConditions() {
@@ -539,5 +551,9 @@ public class Book {
 
     public ResourceLocation getSinglePageTexture() {
         return this.singlePageTexture;
+    }
+
+    public boolean allowOpenBooksWithInvalidLinks() {
+        return this.allowOpenBooksWithInvalidLinks;
     }
 }

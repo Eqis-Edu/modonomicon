@@ -144,6 +144,12 @@ public class BookModel {
     @Nullable
     protected ResourceLocation leafletEntry;
 
+    /**
+     * If true, invalid links do not show an error screen when opening the book.
+     * Instead, the book and pages will open, but the link will not work.
+     */
+    protected boolean allowOpenBooksWithInvalidLinks = false;
+
     protected BookModel(ResourceLocation id, String name) {
         this.id = id;
         this.name = name;
@@ -262,6 +268,10 @@ public class BookModel {
         return this.leafletEntry;
     }
 
+    public boolean allowOpenBooksWithInvalidLinks() {
+        return this.allowOpenBooksWithInvalidLinks;
+    }
+
     public JsonObject toJson(HolderLookup.Provider provider) {
         JsonObject json = new JsonObject();
         json.addProperty("name", this.name);
@@ -303,6 +313,8 @@ public class BookModel {
 
         json.addProperty("page_display_mode", this.pageDisplayMode.getSerializedName());
         json.addProperty("single_page_texture", this.singlePageTexture.toString());
+
+        json.addProperty("allow_open_book_with_invalid_links", this.allowOpenBooksWithInvalidLinks);
 
         return json;
     }
@@ -551,6 +563,17 @@ public class BookModel {
 
     public BookModel withSinglePageTexture(ResourceLocation singlePageTexture) {
         this.singlePageTexture = singlePageTexture;
+        return this;
+    }
+
+    /**
+     * If true, invalid links do not show an error screen when opening the book.
+     * Instead, the book and pages will open, but the link will not work.
+     *
+     * The main use for this is for mods that have external translators for their books, where translations might be outdated after entries have been removed or moved.
+     */
+    public BookModel withAllowOpenBooksWithInvalidLinks(boolean value) {
+        this.allowOpenBooksWithInvalidLinks = value;
         return this;
     }
 }

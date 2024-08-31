@@ -46,7 +46,8 @@ public class DemoBook extends SingleBookSubProvider {
                 .withBookTextOffsetY(0) //no top offset
                 .withBookTextOffsetWidth(-5)
                 .withCommand(commandEntryCommand)
-                .withCommand(commandEntryLinkCommand);
+                .withCommand(commandEntryLinkCommand)
+                .withAllowOpenBooksWithInvalidLinks(true);
     }
 
     @Override
