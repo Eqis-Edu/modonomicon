@@ -4,10 +4,6 @@
 
 package com.klikli_dev.modonomicon.integration;
 
-import com.klikli_dev.modonomicon.Modonomicon;
-import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
-import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
-import com.klikli_dev.modonomicon.item.ModonomiconItem;
 import com.klikli_dev.modonomicon.networking.OpenBookOnClientMessage;
 import com.klikli_dev.modonomicon.platform.Services;
 import com.klikli_dev.modonomicon.registry.DataComponentRegistry;
@@ -37,9 +33,9 @@ public class LecternIntegration {
                 takeBook(player, lectern);
             } else {
                 if (!pLevel.isClientSide && player instanceof ServerPlayer serverPlayer) {
-                    openBook(serverPlayer, lectern.getBook());
+                    if (openBook(serverPlayer, lectern.getBook()))
+                        return InteractionResult.SUCCESS;
                 }
-                return InteractionResult.SUCCESS;
             }
         } else {
             ItemStack stack = player.getItemInHand(hand);
@@ -52,21 +48,24 @@ public class LecternIntegration {
         return InteractionResult.PASS;
     }
 
-    private static void openBook(ServerPlayer player, ItemStack stack) {
+    private static boolean openBook(ServerPlayer player, ItemStack stack) {
         var bookId = stack.get(DataComponentRegistry.BOOK_ID.get());
         if (bookId != null) {
             Services.NETWORK.sendTo(player, new OpenBookOnClientMessage(bookId));
-        } else {
-            Modonomicon.LOG.error("Modonomicon Lectern: ItemStack has no tag!");
+            return true;
         }
+        return false;
     }
 
     private static void takeBook(Player player, LecternBlockEntity lectern) {
-        ItemStack itemstack = lectern.getBook();
-        lectern.setBook(ItemStack.EMPTY);
-        LecternBlock.resetBookState(player, lectern.getLevel(), lectern.getBlockPos(), lectern.getBlockState(), false);
-        if (!player.getInventory().add(itemstack)) {
-            player.drop(itemstack, false);
+        ItemStack stack = lectern.getBook();
+        var bookId = stack.get(DataComponentRegistry.BOOK_ID.get());
+        if (bookId != null) {
+            lectern.setBook(ItemStack.EMPTY);
+            LecternBlock.resetBookState(player, lectern.getLevel(), lectern.getBlockPos(), lectern.getBlockState(), false);
+            if (!player.getInventory().add(stack)) {
+                player.drop(stack, false);
+            }
         }
     }
 }
