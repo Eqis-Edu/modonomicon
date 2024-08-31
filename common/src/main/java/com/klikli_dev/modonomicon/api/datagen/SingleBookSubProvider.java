@@ -9,6 +9,7 @@ package com.klikli_dev.modonomicon.api.datagen;
 
 import com.klikli_dev.modonomicon.api.datagen.book.BookCategoryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 
@@ -61,7 +62,9 @@ public abstract class SingleBookSubProvider extends ModonomiconProviderBase impl
     }
 
     @Override
-    public void generate(BiConsumer<ResourceLocation, BookModel> consumer) {
+    public void generate(BiConsumer<ResourceLocation, BookModel> consumer, HolderLookup.Provider registries) {
+        this.registries(registries);
+
         this.registerDefaultMacros();
 
         this.context().book(this.bookId());

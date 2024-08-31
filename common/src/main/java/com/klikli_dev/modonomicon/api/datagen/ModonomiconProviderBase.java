@@ -12,6 +12,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookConditionModel;
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookOrConditionModel;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
@@ -28,6 +29,8 @@ public abstract class ModonomiconProviderBase {
     protected final BookContextHelper context;
     protected final ConditionHelper conditionHelper;
     private final Map<String, String> macros = new Object2ObjectOpenHashMap<>();
+
+    private HolderLookup.Provider registries;
 
     protected ModonomiconProviderBase(String modId, BiConsumer<String, String> lang, Map<String, BiConsumer<String, String>> langs, BookContextHelper context, ConditionHelper conditionHelper) {
         this.modId = modId;
@@ -56,6 +59,14 @@ public abstract class ModonomiconProviderBase {
 
     protected String modId() {
         return this.modId;
+    }
+
+    protected HolderLookup.Provider registries() {
+        return this.registries;
+    }
+
+    protected void registries(HolderLookup.Provider registries) {
+        this.registries = registries;
     }
 
     protected ModonomiconLanguageProvider lang() {

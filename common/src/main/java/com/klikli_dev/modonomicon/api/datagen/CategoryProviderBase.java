@@ -5,6 +5,7 @@
 package com.klikli_dev.modonomicon.api.datagen;
 
 import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel;
+import net.minecraft.core.HolderLookup;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,11 @@ public abstract class CategoryProviderBase extends ModonomiconProviderBase {
     protected CategoryProviderBase(ModonomiconProviderBase parent, String modId, BiConsumer<String, String> lang, Map<String, BiConsumer<String, String>> translations, BookContextHelper context, ConditionHelper conditionHelper) {
         super(modId, lang, translations, context, conditionHelper);
         this.parent = parent;
+    }
+
+    @Override
+    protected HolderLookup.Provider registries() {
+        return this.parent.registries();
     }
 
     public abstract String categoryId();

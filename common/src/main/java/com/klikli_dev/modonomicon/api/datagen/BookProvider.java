@@ -18,6 +18,7 @@ import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -91,13 +92,13 @@ public class BookProvider implements DataProvider {
     }
 
     @Override
-    public CompletableFuture<?> run(CachedOutput cache) {
+    public @NotNull CompletableFuture<?> run(@NotNull CachedOutput cache) {
         return this.registries.thenCompose(registries -> {
             List<CompletableFuture<?>> futures = new ArrayList<>();
 
             Path dataFolder = this.packOutput.getOutputFolder(PackOutput.Target.DATA_PACK);
 
-            this.subProviders.forEach(subProvider -> subProvider.generate(this.bookModels::put));
+            this.subProviders.forEach(subProvider -> subProvider.generate(this.bookModels::put, registries));
 
             for (var bookModel : this.bookModels.values()) {
                 Path bookPath = this.getPath(dataFolder, bookModel);
@@ -124,7 +125,7 @@ public class BookProvider implements DataProvider {
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Books: " + this.modId();
     }
 

@@ -12,8 +12,11 @@ import com.klikli_dev.modonomicon.api.datagen.book.page.BookSpotlightPageModel;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -65,6 +68,13 @@ public class SpotlightEntry extends EntryProvider {
                 .withItem(iconStack)
         );
         this.pageText("A sample spotlight page with an item with components");
+
+        this.page("spotlight4", () -> BookSpotlightPageModel.create()
+                .withText(this.context().pageText())
+                //We are using the potion registry here to test and demonstrate using this.registries(). Vanilla potions can be accessed directly without using the resource key, as the Potions class offers potion holders.
+                .withItem(PotionContents.createItemStack(Items.POTION, this.registries().lookupOrThrow(Registries.POTION).getOrThrow(Potions.HEALING.unwrapKey().get())))
+        );
+        this.pageText("A sample spotlight page with a potion");
     }
 
     @Override

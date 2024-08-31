@@ -61,6 +61,23 @@
       },
       "text": "book.modonomicon.demo.features.spotlight.spotlight3.text",
       "title": ""
+    },
+    {
+      "type": "modonomicon:spotlight",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "item": {
+        "components": {
+          "minecraft:potion_contents": {
+            "potion": "minecraft:healing"
+          }
+        },
+        "item": "minecraft:potion"
+      },
+      "text": "book.modonomicon.demo.features.spotlight.spotlight4.text",
+      "title": ""
     }
   ],
   "parents": [

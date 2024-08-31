@@ -10,6 +10,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.BookEntryModel;
 import com.klikli_dev.modonomicon.api.datagen.book.BookIconModel;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookPageModel;
 import com.mojang.datafixers.util.Pair;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.world.phys.Vec2;
 
 import java.util.List;
@@ -28,6 +29,11 @@ public abstract class EntryProvider extends ModonomiconProviderBase {
         super(parent.modId(), parent.lang(), parent.langsAsMapOfBiConsumers(), parent.context(), parent.condition());
         this.parent = parent;
         this.entry = null;
+    }
+
+    @Override
+    protected HolderLookup.Provider registries() {
+        return this.parent.registries();
     }
 
     @Override
