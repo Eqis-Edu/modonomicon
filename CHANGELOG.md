@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.103.0] - 2024-08-31
+### :sparkles: New Features
+- [`da3dfeb`](https://github.com/klikli-dev/modonomicon/commit/da3dfeb9361c492316168c6eaba24ce12e186c87) - add .registries() to modonomicon book, category and entry providers *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`4603696`](https://github.com/klikli-dev/modonomicon/commit/46036960fa297a0301bf98f2a5a2cf3d46757ebe) - add allowOpenBooksWithInvalidLinks *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`fb1cf98`](https://github.com/klikli-dev/modonomicon/commit/fb1cf98af11b58398c7c33079e9aa07cfaccc9d7) - lectern interaction *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.102.1] - 2024-08-30
 ### :bug: Bug Fixes
 - [`dd23aa8`](https://github.com/klikli-dev/modonomicon/commit/dd23aa8ffecc67042fbd76875e0ea6dc130c41c5) - github tag version not used in jar versioning *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1352,3 +1361,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.101.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.100.5...release/v1.21.1-1.101.0
 [release/v1.21.1-1.102.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.101.0...release/v1.21.1-1.102.0
 [release/v1.21.1-1.102.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.102.0...release/v1.21.1-1.102.1
+[release/v1.21.1-1.103.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.102.1...release/v1.21.1-1.103.0
