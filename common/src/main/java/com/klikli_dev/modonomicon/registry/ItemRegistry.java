@@ -15,7 +15,7 @@ public class ItemRegistry {
     public static final RegistrationProvider<Item> ITEMS = RegistrationProvider.get(Registries.ITEM, Modonomicon.MOD_ID);
 
     public static final RegistryObject<Item> MODONOMICON =
-            ITEMS.register("modonomicon", () -> new ModonomiconItem(new Item.Properties()));
+            ITEMS.register("modonomicon", () -> new ModonomiconItem(new Item.Properties().stacksTo(1)));
 
     //Dummy items for default models
     public static final RegistryObject<Item> MODONOMICON_BLUE =
@@ -27,7 +27,7 @@ public class ItemRegistry {
     public static final RegistryObject<Item> MODONOMICON_RED =
             ITEMS.register("modonomicon_red", () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> LEAFLET =
-            ITEMS.register("leaflet", () -> new Item(new Item.Properties()));
+            ITEMS.register("leaflet", () -> new Item(new Item.Properties().stacksTo(1)));
 
     // Called in the mod initializer / constructor in order to make sure that items are registered
     public static void load() {
