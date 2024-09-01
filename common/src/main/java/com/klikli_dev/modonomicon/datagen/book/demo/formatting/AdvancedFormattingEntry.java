@@ -82,6 +82,23 @@ public class AdvancedFormattingEntry extends EntryProvider {
                 this.entryLink("another Link", FormattingCategory.ID, BasicFormattingEntry.ID),
                 this.entryLink("third link", FormattingCategory.ID, AlwaysLockedEntry.ID)
         );
+
+        this.page("list_test", () -> BookTextPageModel.create()
+                .withText(this.context().pageText())
+        );
+        //the following pattern can be used to add one newline after a list.
+        //it forces the md parser to exit the list context and add an empty line
+        //additional "\\" after the first will add more newlines. Most likely the "\\" must be on a new line each.
+        this.pageText("""
+                Unordered List:
+                - List item 
+                - List item 2
+                - List item 3
+                
+                \\
+                And now some other text.
+                """
+        );
     }
 
     @Override
