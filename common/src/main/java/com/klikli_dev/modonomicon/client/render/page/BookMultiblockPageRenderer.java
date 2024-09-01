@@ -250,8 +250,12 @@ public class BookMultiblockPageRenderer extends BookPageRenderer<BookMultiblockP
                 return multiblockNameStyle;
             }
 
-            var textY = this.getTextY();
-            var textStyle = this.getClickedComponentStyleAtForTextHolder(this.page.getText(), 0, textY, BookEntryScreen.PAGE_WIDTH, BookEntryScreen.PAGE_HEIGHT - textY, pMouseX, pMouseY);
+            var x = this.parentScreen.getBook().getBookTextOffsetX();
+            var y = this.getTextY() + this.parentScreen.getBook().getBookTextOffsetY();
+            var width = BookEntryScreen.PAGE_WIDTH + this.parentScreen.getBook().getBookTextOffsetWidth() - x; //always remove the offset x from the width to avoid overflow
+            var height = BookEntryScreen.PAGE_HEIGHT + this.parentScreen.getBook().getBookTextOffsetHeight() - y; //always remove the offset y from the height to avoid overflow
+
+            var textStyle = this.getClickedComponentStyleAtForTextHolder(this.page.getText(), x, y, width, height, pMouseX, pMouseY);
             if (textStyle != null) {
                 return textStyle;
             }
