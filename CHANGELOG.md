@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.103.2] - 2024-09-01
+### :bug: Bug Fixes
+- [`0b873dc`](https://github.com/klikli-dev/modonomicon/commit/0b873dc49da258c442d46eba05256626930451da) - books and leaflets stack *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`c42a797`](https://github.com/klikli-dev/modonomicon/commit/c42a797f8b38768e5564fa2ef2754a642c9315f8) - remove test recipe *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.103.1] - 2024-09-01
 ### :bug: Bug Fixes
 - [`9c55805`](https://github.com/klikli-dev/modonomicon/commit/9c5580585f4ce2112e347a1a747a16f8cd30f68a) - take text offsets into account on all text based pages when detecting click/hover style *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1372,3 +1378,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.102.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.102.0...release/v1.21.1-1.102.1
 [release/v1.21.1-1.103.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.102.1...release/v1.21.1-1.103.0
 [release/v1.21.1-1.103.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.0...release/v1.21.1-1.103.1
+[release/v1.21.1-1.103.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.1...release/v1.21.1-1.103.2
