@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.103.1] - 2024-09-01
+### :bug: Bug Fixes
+- [`9c55805`](https://github.com/klikli-dev/modonomicon/commit/9c5580585f4ce2112e347a1a747a16f8cd30f68a) - take text offsets into account on all text based pages when detecting click/hover style *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`c449310`](https://github.com/klikli-dev/modonomicon/commit/c449310c9b9dec6fb441e0b8f8b62094cb5b9af6) - drop dual version support *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`7a7ee0b`](https://github.com/klikli-dev/modonomicon/commit/7a7ee0bead88c2d270843524674d966fb5257397) - add a demo for a newline after an unordered list *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.103.0] - 2024-08-31
 ### :sparkles: New Features
 - [`da3dfeb`](https://github.com/klikli-dev/modonomicon/commit/da3dfeb9361c492316168c6eaba24ce12e186c87) - add .registries() to modonomicon book, category and entry providers *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1362,3 +1371,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.102.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.101.0...release/v1.21.1-1.102.0
 [release/v1.21.1-1.102.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.102.0...release/v1.21.1-1.102.1
 [release/v1.21.1-1.103.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.102.1...release/v1.21.1-1.103.0
+[release/v1.21.1-1.103.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.0...release/v1.21.1-1.103.1
