@@ -16,21 +16,17 @@ import com.klikli_dev.modonomicon.client.gui.book.entry.BookEntryScreen;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.MarkdownComponentRenderUtils;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.util.GuiGraphicsExt;
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.ComponentRenderUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class BookPageRenderer<T extends BookPage> {
     public int left;
@@ -48,16 +44,15 @@ public abstract class BookPageRenderer<T extends BookPage> {
     }
 
 
-
     public static float getBookTextHolderScaleForRenderSize(BookTextHolder text, Font font, int width, int height) {
-        if(width <= 0 || height <= 0) //this really should not happen, but e.g. on recipe pages with two recipes the getClickedComponentStyle is called despite there being no text and the high textY results in a negative height.
+        if (width <= 0 || height <= 0) //this really should not happen, but e.g. on recipe pages with two recipes the getClickedComponentStyle is called despite there being no text and the high textY results in a negative height.
             return 1.0f;
 
         if (!(text instanceof RenderedBookTextHolder renderedText))
             return 1.0f;
 
         var cachedScale = BookDataManager.Client.get().getScale(text, width, height);
-        if(cachedScale > -1f)
+        if (cachedScale > -1f)
             return cachedScale;
 
         var components = renderedText.getRenderedText();
@@ -84,7 +79,7 @@ public abstract class BookPageRenderer<T extends BookPage> {
             scale -= granularity;
 
             //repeat until we have a scale that fits the height
-        } while(totalHeight > height);
+        } while (totalHeight > height);
 
         BookDataManager.Client.get().putScale(text, width, height, scale);
 
@@ -168,13 +163,14 @@ public abstract class BookPageRenderer<T extends BookPage> {
 
     /**
      * Will render the given BookTextHolder as (left-aligned) content text. Will automatically handle markdown.
+     *
      * @deprecated use {@link #renderBookTextHolder(GuiGraphics, BookTextHolder, Font, int, int, int, int)} instead and provide the desired height.
      * This exists only for backwards compatibility of custom pages and may estimate the wrong height.
      */
     @Deprecated
     public void renderBookTextHolder(GuiGraphics guiGraphics, BookTextHolder text, int x, int y, int width) {
         var textY = 0;
-        if(this instanceof PageWithTextRenderer pageWithTextRenderer)
+        if (this instanceof PageWithTextRenderer pageWithTextRenderer)
             textY = pageWithTextRenderer.getTextY();
 
         renderBookTextHolder(guiGraphics, text, this.font, x, y, width, BookEntryScreen.PAGE_HEIGHT - textY);
@@ -282,37 +278,39 @@ public abstract class BookPageRenderer<T extends BookPage> {
 
     @Nullable
     protected Style getClickedComponentStyleAtForTitle(BookTextHolder title, int x, int y, double pMouseX, double pMouseY) {
+        //check if we are vertically over the title line
+        if (!(pMouseY > y && pMouseY < y + this.font.lineHeight))
+            return null;
+
         //they say good code comments itself. Well, this is not good code.
         if (title instanceof RenderedBookTextHolder renderedTitle) {
             //markdown title
             var formattedCharSequence = FormattedCharSequence.fromList(
                     renderedTitle.getRenderedText().stream().map(Component::getVisualOrderText).toList());
-            if (pMouseY > y && pMouseY < y + this.font.lineHeight) {
-                //check if we are vertically over the title line
 
-                x = x - this.font.width(formattedCharSequence) / 2;
-                if (pMouseX < x)
-                    return null;
-                //if we are horizontally left of the title, exit
+            x = x - this.font.width(formattedCharSequence) / 2;
+            if (pMouseX < x)
+                return null;
+            //if we are horizontally left of the title, exit
 
-                //horizontally over and right of the title is handled by font splitter
-                return this.font.getSplitter().componentStyleAtWidth(formattedCharSequence, (int) pMouseX - x);
-            }
+            //horizontally over and right of the title is handled by font splitter
+            return this.font.getSplitter().componentStyleAtWidth(formattedCharSequence, (int) pMouseX - x);
         } else {
-            if (pMouseY > y && pMouseY < y + this.font.lineHeight) {
-                //check if we are vertically over the title line
-
-                var formattedCharSequence = title.getComponent().getVisualOrderText();
-                x = x - this.font.width(formattedCharSequence) / 2;
-                if (pMouseX < x)
-                    return null;
-                //if we are horizontally left of the title, exit
-
-                //horizontally over and right of the title is handled by font splitter
-                return this.font.getSplitter().componentStyleAtWidth(formattedCharSequence, (int) pMouseX - x);
+            if (title.getComponent() == null) {
+                //this should not happen, but other errors earlier in the pipeline might cause it.
+                Modonomicon.LOG.warn("Title has no component: {}", title);
+                return null;
             }
+
+            var formattedCharSequence = title.getComponent().getVisualOrderText();
+            x = x - this.font.width(formattedCharSequence) / 2;
+            if (pMouseX < x)
+                return null;
+            //if we are horizontally left of the title, exit
+
+            //horizontally over and right of the title is handled by font splitter
+            return this.font.getSplitter().componentStyleAtWidth(formattedCharSequence, (int) pMouseX - x);
         }
-        return null;
     }
 
     /**
@@ -323,7 +321,7 @@ public abstract class BookPageRenderer<T extends BookPage> {
     @Deprecated
     protected Style getClickedComponentStyleAtForTextHolder(BookTextHolder text, int x, int y, int width, double pMouseX, double pMouseY) {
         var textY = 0;
-        if(this instanceof PageWithTextRenderer pageWithTextRenderer)
+        if (this instanceof PageWithTextRenderer pageWithTextRenderer)
             textY = pageWithTextRenderer.getTextY();
         return this.getClickedComponentStyleAtForTextHolder(text, x, y, width, BookEntryScreen.PAGE_HEIGHT - textY, pMouseX, pMouseY);
     }
