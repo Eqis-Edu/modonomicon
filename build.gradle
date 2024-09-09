@@ -18,7 +18,7 @@ subprojects {
         exclude ".cache"
         exclude "**/data/modonomicon/modonomicon/books/**"
         exclude "**/data/modonomicon/modonomicon/multiblocks/**"
-        exclude "**/data/modonomicon/modonomicon/recipes/**"
+        exclude "**/data/modonomicon/recipe/**"
 
         manifest {
             attributes([
