@@ -72,7 +72,10 @@ public class ModonomiconForge {
 
         //register data managers as reload listeners
         MinecraftForge.EVENT_BUS.addListener((AddReloadListenerEvent e) -> {
+            BookDataManager.get().registries(e.getRegistryAccess());
             e.addListener(BookDataManager.get());
+
+            MultiblockDataManager.get().registries(e.getRegistryAccess());
             e.addListener(MultiblockDataManager.get());
         });
 

@@ -8,7 +8,6 @@ package com.klikli_dev.modonomicon;
 
 import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.bookstate.BookVisualStateManager;
-import com.klikli_dev.modonomicon.client.render.MultiblockPreviewRenderer;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
@@ -54,14 +53,23 @@ public class ModonomiconFabric implements ModInitializer {
         LoaderRegistry.registerLoaders();
 
         //register data managers as reload listeners
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new ReloadListenerWrapper(
-                Modonomicon.loc("book_data_manager"),
-                BookDataManager.get()
-        ));
-        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new ReloadListenerWrapper(
-                Modonomicon.loc("multiblock_data_manager"),
-                MultiblockDataManager.get()
-        ));
+        var bookDataReloadListener = new ReloadListenerWrapper(Modonomicon.loc("book_data_manager"), BookDataManager.get());
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(
+                bookDataReloadListener.getFabricId(),
+                (registries) -> {
+                    BookDataManager.get().registries(registries);
+                    return bookDataReloadListener;
+                }
+        );
+
+        var multiblockDataReloadListener = new ReloadListenerWrapper(Modonomicon.loc("multiblock_data_manager"), MultiblockDataManager.get());
+        ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(
+                multiblockDataReloadListener.getFabricId(),
+                (registries) -> {
+                    MultiblockDataManager.get().registries(registries);
+                    return multiblockDataReloadListener;
+                }
+        );
 
         //register commands
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->

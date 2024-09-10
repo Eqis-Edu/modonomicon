@@ -85,6 +85,7 @@ public class BookGuiManager {
             //Generally it should never happen, because client builds books on UpdateRecipesPacket
             //If that packet for some reason is not handled clientside, we build books here and hope for the best :)
             //Why don't we generally do it lazily like that? Because then markdown prerender errors only show in log if a book is actually opened
+            BookDataManager.get().registries(Minecraft.getInstance().level.registryAccess());
             BookDataManager.get().tryBuildBooks(Minecraft.getInstance().level);
             BookDataManager.get().prerenderMarkdown(Minecraft.getInstance().level.registryAccess());
         }

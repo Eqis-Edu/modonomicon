@@ -17,6 +17,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
@@ -58,12 +59,13 @@ public class SyncMultiblockDataMessage implements Message {
 
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public @NotNull Type<? extends CustomPacketPayload> type() {
         return TYPE;
     }
 
     @Override
     public void onClientReceived(Minecraft minecraft, Player player) {
+        MultiblockDataManager.get().registries(player.registryAccess());
         MultiblockDataManager.get().onDatapackSyncPacket(this);
     }
 }
