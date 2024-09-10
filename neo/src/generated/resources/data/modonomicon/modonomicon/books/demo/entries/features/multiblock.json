@@ -26,17 +26,6 @@
       "condition": {
         "type": "modonomicon:none"
       },
-      "multiblock_id": "modonomicon:blockentity",
-      "multiblock_name": "multiblocks.modonomicon.blockentity",
-      "show_visualize_button": true,
-      "text": "book.modonomicon.demo.features.multiblock.preview.text"
-    },
-    {
-      "type": "modonomicon:multiblock",
-      "anchor": "",
-      "condition": {
-        "type": "modonomicon:none"
-      },
       "multiblock_id": "modonomicon:tag",
       "multiblock_name": "",
       "show_visualize_button": true,

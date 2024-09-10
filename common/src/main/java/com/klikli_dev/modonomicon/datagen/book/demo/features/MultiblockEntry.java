@@ -31,14 +31,6 @@ public class MultiblockEntry extends EntryProvider {
                 Multiblock pages allow to preview multiblocks both in the book and in the world.
                 """);
 
-        this.page("preview", () -> BookMultiblockPageModel.create()
-                .withMultiblockId(this.modLoc("blockentity"))
-                .withMultiblockName("multiblocks.modonomicon.blockentity")
-                .withText(this.context().pageText())
-        );
-        this.pageText("A sample multiblock.");
-        this.add("multiblocks.modonomicon.blockentity", "Blockentity Multiblock.");
-
         this.page("preview2", () -> BookMultiblockPageModel.create()
                 .withMultiblockId(this.modLoc("tag"))
                 .withText(this.context().pageText())
