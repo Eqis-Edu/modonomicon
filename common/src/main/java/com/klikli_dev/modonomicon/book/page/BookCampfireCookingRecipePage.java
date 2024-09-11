@@ -23,7 +23,7 @@ public class BookCampfireCookingRecipePage extends BookProcessingRecipePage<Camp
         super(RecipeType.CAMPFIRE_COOKING, title1, recipeId1, title2, recipeId2, text, anchor, condition);
     }
 
-    public static BookCampfireCookingRecipePage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookCampfireCookingRecipePage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var common = BookRecipePage.commonFromJson(json, provider);
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")

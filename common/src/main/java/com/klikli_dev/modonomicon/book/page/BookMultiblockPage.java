@@ -43,9 +43,16 @@ public class BookMultiblockPage extends BookPage {
         this.showVisualizeButton = showVisualizeButton;
     }
 
-    public static BookMultiblockPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookMultiblockPage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var multiblockName = BookGsonHelper.getAsBookTextHolder(json, "multiblock_name", BookTextHolder.EMPTY, provider);
-        var multiblockId = ResourceLocation.tryParse(GsonHelper.getAsString(json, "multiblock_id"));
+
+
+        var multiblockPath = GsonHelper.getAsString(json, "multiblock_id");
+        //leaflet entries can be without a namespace, in which case we use the book namespace.
+        var multiblockId = multiblockPath.contains(":") ?
+                ResourceLocation.parse(multiblockPath) :
+                ResourceLocation.fromNamespaceAndPath(entryId.getNamespace(), multiblockPath);
+
         var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);
         var showVisualizeButton = GsonHelper.getAsBoolean(json, "show_visualize_button", true);
         var anchor = GsonHelper.getAsString(json, "anchor", "");

@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public class BookMultiblockPageModel extends BookPageModel<BookMultiblockPageModel> {
     protected BookTextHolderModel multiblockName = new BookTextHolderModel("");
     protected BookTextHolderModel text = new BookTextHolderModel("");
-    protected String multiblockId = "";
+    protected ResourceLocation multiblockId = null;
     protected boolean showVisualizeButton = true;
 
     protected BookMultiblockPageModel() {
@@ -31,7 +31,7 @@ public class BookMultiblockPageModel extends BookPageModel<BookMultiblockPageMod
         return this.multiblockName;
     }
 
-    public String getMultiblockId() {
+    public ResourceLocation getMultiblockId() {
         return this.multiblockId;
     }
 
@@ -43,14 +43,19 @@ public class BookMultiblockPageModel extends BookPageModel<BookMultiblockPageMod
         return this.showVisualizeButton;
     }
 
-
     @Override
-    public JsonObject toJson(HolderLookup.Provider provider) {
-        var json = super.toJson(provider);
+    public JsonObject toJson(ResourceLocation entryId, HolderLookup.Provider provider) {
+        var json = super.toJson(entryId, provider);
         json.add("multiblock_name", this.multiblockName.toJson(provider));
-        json.addProperty("multiblock_id", this.multiblockId);
         json.add("text", this.text.toJson(provider));
         json.addProperty("show_visualize_button", this.showVisualizeButton);
+
+        //if we are in the same namespace, which we basically always should be, omit namespace
+        if (this.multiblockId.getNamespace().equals(entryId.getNamespace()))
+            json.addProperty("multiblock_id", this.multiblockId.getPath());
+        else
+            json.addProperty("multiblock_id", this.multiblockId.toString());
+
         return json;
     }
 
@@ -64,13 +69,8 @@ public class BookMultiblockPageModel extends BookPageModel<BookMultiblockPageMod
         return this;
     }
 
-    public BookMultiblockPageModel withMultiblockId(String multiblockId) {
-        this.multiblockId = multiblockId;
-        return this;
-    }
-
     public BookMultiblockPageModel withMultiblockId(ResourceLocation multiblockId) {
-        this.multiblockId = multiblockId.toString();
+        this.multiblockId = multiblockId;
         return this;
     }
 

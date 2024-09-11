@@ -11,6 +11,7 @@ import com.klikli_dev.modonomicon.api.datagen.book.condition.BookConditionModel;
 import com.klikli_dev.modonomicon.api.datagen.book.condition.BookNoneConditionModel;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class BookPageModel<T extends BookPageModel<T>> {
@@ -31,12 +32,25 @@ public class BookPageModel<T extends BookPageModel<T>> {
         return this.anchor;
     }
 
-    public JsonObject toJson(HolderLookup.Provider provider) {
-        JsonObject json = new JsonObject();
+    /**
+     * Serializes the model to json.
+     */
+    public JsonObject toJson(ResourceLocation entryId, HolderLookup.Provider provider) {
+        JsonObject json = this.toJson(provider); //to keep backwards compat
         json.addProperty("type", this.type.toString());
         json.addProperty("anchor", this.anchor);
         json.add("condition", this.condition.toJson(provider));
+
         return json;
+    }
+
+    /**
+     * Serializes the model to json.
+     * @deprecated use {@link #toJson(ResourceLocation, HolderLookup.Provider)} instead.
+     */
+    @Deprecated(forRemoval = true, since="1.21.1-1.105.0")
+    public JsonObject toJson(HolderLookup.Provider provider) {
+        return new JsonObject();
     }
 
     public T withAnchor(@NotNull String anchor) {

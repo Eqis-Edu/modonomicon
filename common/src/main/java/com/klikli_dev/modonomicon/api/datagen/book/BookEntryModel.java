@@ -85,7 +85,7 @@ public class BookEntryModel {
         if (!this.pages.isEmpty()) {
             var pagesArray = new JsonArray();
             for (var page : this.pages) {
-                pagesArray.add(page.toJson(provider));
+                pagesArray.add(page.toJson(this.getId(), provider));
             }
             json.add("pages", pagesArray);
         }

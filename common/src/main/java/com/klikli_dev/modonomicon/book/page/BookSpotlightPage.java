@@ -93,7 +93,7 @@ public class BookSpotlightPage extends BookPage {
         this.item = item;
     }
 
-    public static BookSpotlightPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookSpotlightPage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider);
         var item = ITEM_CODEC.parse(provider.createSerializationContext(JsonOps.INSTANCE), json.get("item")).result().get();
         var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);

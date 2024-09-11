@@ -23,7 +23,7 @@ public class BookStonecuttingRecipePage extends BookProcessingRecipePage<Stonecu
         super(RecipeType.STONECUTTING, title1, recipeId1, title2, recipeId2, text, anchor, condition);
     }
 
-    public static BookStonecuttingRecipePage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookStonecuttingRecipePage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var common = BookRecipePage.commonFromJson(json, provider);
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")

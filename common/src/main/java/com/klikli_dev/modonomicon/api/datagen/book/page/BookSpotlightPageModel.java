@@ -14,6 +14,7 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.JsonOps;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -45,8 +46,8 @@ public class BookSpotlightPageModel extends BookPageModel<BookSpotlightPageModel
     }
 
     @Override
-    public JsonObject toJson(HolderLookup.Provider provider) {
-        var json = super.toJson(provider);
+    public JsonObject toJson(ResourceLocation entryId, HolderLookup.Provider provider) {
+        var json = super.toJson(entryId, provider);
         json.add("title", this.title.toJson(provider));
         json.add("item",
                 BookSpotlightPage.ITEM_CODEC.encodeStart(provider.createSerializationContext(JsonOps.INSTANCE), this.item).getOrThrow()

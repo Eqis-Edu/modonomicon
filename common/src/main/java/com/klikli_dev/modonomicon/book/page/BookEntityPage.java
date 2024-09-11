@@ -48,7 +48,7 @@ public class BookEntityPage extends BookPage {
         this.defaultRotation = defaultRotation;
     }
 
-    public static BookEntityPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookEntityPage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var entityName = BookGsonHelper.getAsBookTextHolder(json, "name", BookTextHolder.EMPTY, provider);
         var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);
         var entityId = GsonHelper.getAsString(json, "entity_id");

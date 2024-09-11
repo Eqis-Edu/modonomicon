@@ -37,7 +37,7 @@ public class BookImagePage extends BookPage {
         this.useLegacyRendering = useLegacyRendering;
     }
 
-    public static BookImagePage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookImagePage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider);
         var text = BookGsonHelper.getAsBookTextHolder(json, "text", BookTextHolder.EMPTY, provider);
 

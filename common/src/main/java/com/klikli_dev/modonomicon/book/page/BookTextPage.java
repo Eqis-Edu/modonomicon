@@ -35,7 +35,7 @@ public class BookTextPage extends BookPage {
         this.showTitleSeparator = showTitleSeparator;
     }
 
-    public static BookTextPage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookTextPage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var title = BookGsonHelper.getAsBookTextHolder(json, "title", BookTextHolder.EMPTY, provider);
         var useMarkdownInTitle = GsonHelper.getAsBoolean(json, "use_markdown_title", false);
         var showTitleSeparator = GsonHelper.getAsBoolean(json, "show_title_separator", true);

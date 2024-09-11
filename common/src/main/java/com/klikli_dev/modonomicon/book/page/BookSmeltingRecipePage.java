@@ -23,7 +23,7 @@ public class BookSmeltingRecipePage extends BookProcessingRecipePage<SmeltingRec
         super(RecipeType.SMELTING, title1, recipeId1, title2, recipeId2, text, anchor, condition);
     }
 
-    public static BookSmeltingRecipePage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookSmeltingRecipePage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var common = BookRecipePage.commonFromJson(json, provider);
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")

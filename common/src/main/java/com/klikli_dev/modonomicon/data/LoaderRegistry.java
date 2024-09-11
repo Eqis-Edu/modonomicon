@@ -6,6 +6,7 @@
 
 package com.klikli_dev.modonomicon.data;
 
+import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Condition;
@@ -25,6 +26,7 @@ import com.klikli_dev.modonomicon.multiblock.matcher.*;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMaps;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockState;
@@ -70,19 +72,20 @@ public class LoaderRegistry {
     }
 
     private static void registerDefaultPageLoaders() {
-        registerPageLoader(Page.TEXT, BookTextPage::fromJson, BookTextPage::fromNetwork);
-        registerPageLoader(Page.MULTIBLOCK, BookMultiblockPage::fromJson, BookMultiblockPage::fromNetwork);
-        registerPageLoader(Page.CRAFTING_RECIPE, BookCraftingRecipePage::fromJson, BookCraftingRecipePage::fromNetwork);
-        registerPageLoader(Page.SMELTING_RECIPE, BookSmeltingRecipePage::fromJson, BookSmeltingRecipePage::fromNetwork);
-        registerPageLoader(Page.SMOKING_RECIPE, BookSmokingRecipePage::fromJson, BookSmokingRecipePage::fromNetwork);
-        registerPageLoader(Page.CAMPFIRE_COOKING_RECIPE, BookCampfireCookingRecipePage::fromJson, BookCampfireCookingRecipePage::fromNetwork);
-        registerPageLoader(Page.BLASTING_RECIPE, BookBlastingRecipePage::fromJson, BookBlastingRecipePage::fromNetwork);
-        registerPageLoader(Page.STONECUTTING_RECIPE, BookStonecuttingRecipePage::fromJson, BookStonecuttingRecipePage::fromNetwork);
-        registerPageLoader(Page.SMITHING_RECIPE, BookSmithingRecipePage::fromJson, BookSmithingRecipePage::fromNetwork);
-        registerPageLoader(Page.SPOTLIGHT, BookSpotlightPage::fromJson, BookSpotlightPage::fromNetwork);
-        registerPageLoader(Page.EMPTY, BookEmptyPage::fromJson, BookEmptyPage::fromNetwork);
-        registerPageLoader(Page.ENTITY, BookEntityPage::fromJson, BookEntityPage::fromNetwork);
-        registerPageLoader(Page.IMAGE, BookImagePage::fromJson, BookImagePage::fromNetwork);
+        //TODO(BookPageLoading): when replacing jsonloader with bookpagejsonloader, remove the cast
+        registerPageLoader(Page.TEXT, (BookPageJsonLoader<?>) BookTextPage::fromJson, BookTextPage::fromNetwork);
+        registerPageLoader(Page.MULTIBLOCK, (BookPageJsonLoader<?>) BookMultiblockPage::fromJson, BookMultiblockPage::fromNetwork);
+        registerPageLoader(Page.CRAFTING_RECIPE, (BookPageJsonLoader<?>) BookCraftingRecipePage::fromJson, BookCraftingRecipePage::fromNetwork);
+        registerPageLoader(Page.SMELTING_RECIPE,(BookPageJsonLoader<?>)  BookSmeltingRecipePage::fromJson, BookSmeltingRecipePage::fromNetwork);
+        registerPageLoader(Page.SMOKING_RECIPE, (BookPageJsonLoader<?>) BookSmokingRecipePage::fromJson, BookSmokingRecipePage::fromNetwork);
+        registerPageLoader(Page.CAMPFIRE_COOKING_RECIPE, (BookPageJsonLoader<?>) BookCampfireCookingRecipePage::fromJson, BookCampfireCookingRecipePage::fromNetwork);
+        registerPageLoader(Page.BLASTING_RECIPE, (BookPageJsonLoader<?>) BookBlastingRecipePage::fromJson, BookBlastingRecipePage::fromNetwork);
+        registerPageLoader(Page.STONECUTTING_RECIPE, (BookPageJsonLoader<?>) BookStonecuttingRecipePage::fromJson, BookStonecuttingRecipePage::fromNetwork);
+        registerPageLoader(Page.SMITHING_RECIPE, (BookPageJsonLoader<?>) BookSmithingRecipePage::fromJson, BookSmithingRecipePage::fromNetwork);
+        registerPageLoader(Page.SPOTLIGHT,(BookPageJsonLoader<?>)  BookSpotlightPage::fromJson, BookSpotlightPage::fromNetwork);
+        registerPageLoader(Page.EMPTY, (BookPageJsonLoader<?>) BookEmptyPage::fromJson, BookEmptyPage::fromNetwork);
+        registerPageLoader(Page.ENTITY, (BookPageJsonLoader<?>) BookEntityPage::fromJson, BookEntityPage::fromNetwork);
+        registerPageLoader(Page.IMAGE, (BookPageJsonLoader<?>) BookImagePage::fromJson, BookImagePage::fromNetwork);
     }
 
     private static void registerDefaultConditionLoaders() {

@@ -48,8 +48,8 @@ public abstract class BookRecipePageModel<T extends BookRecipePageModel<T>> exte
     }
 
     @Override
-    public JsonObject toJson(HolderLookup.Provider provider) {
-        var json = super.toJson(provider);
+    public JsonObject toJson(ResourceLocation entryId, HolderLookup.Provider provider) {
+        var json = super.toJson(entryId, provider);
         json.add("title1", this.title1.toJson(provider));
         if (this.recipeId1 != null && !this.recipeId1.isEmpty()) {
             json.addProperty("recipe_id_1", this.recipeId1);

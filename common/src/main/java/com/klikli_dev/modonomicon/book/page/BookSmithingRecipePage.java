@@ -26,7 +26,7 @@ public class BookSmithingRecipePage extends BookRecipePage<SmithingRecipe> {
         super(RecipeType.SMITHING, title1, recipeId1, title2, recipeId2, text, anchor, condition);
     }
 
-    public static BookSmithingRecipePage fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookSmithingRecipePage fromJson(ResourceLocation entryId, JsonObject json, HolderLookup.Provider provider) {
         var common = BookRecipePage.commonFromJson(json, provider);
         var anchor = GsonHelper.getAsString(json, "anchor", "");
         var condition = json.has("condition")
