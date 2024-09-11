@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.104.0] - 2024-09-11
+### :sparkles: New Features
+- [`2a5920c`](https://github.com/klikli-dev/modonomicon/commit/2a5920c6459acc104b306a8267a431b01b0e7fcc) - allow leaflet entries to be without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`399ab1c`](https://github.com/klikli-dev/modonomicon/commit/399ab1c9a35e463674b12afc5b96f269ff936c7f) - allow EntryToOpen in categories to be without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`1ccfb5f`](https://github.com/klikli-dev/modonomicon/commit/1ccfb5fea9dae19487fbd4d413377d49f0365766) - improve readability *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`1aa3544`](https://github.com/klikli-dev/modonomicon/commit/1aa3544996b83cfabcc375a9adcd66f78893f640) - increase mod version *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.103.6] - 2024-09-10
 ### :bug: Bug Fixes
 - [`0406e29`](https://github.com/klikli-dev/modonomicon/commit/0406e298faac73567f77d09073e50b311158d995) - registry access null on forge and fabric during data loading *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1403,3 +1413,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.103.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.3...release/v1.21.1-1.103.4
 [release/v1.21.1-1.103.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.4...release/v1.21.1-1.103.5
 [release/v1.21.1-1.103.6]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.5...release/v1.21.1-1.103.6
+[release/v1.21.1-1.104.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.6...release/v1.21.1-1.104.0
