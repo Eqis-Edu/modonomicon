@@ -67,7 +67,6 @@ public class DemoLeaflet extends LeafletSubProvider {
                 .withBookTextOffsetX(5)
                 .withPageDisplayMode(PageDisplayMode.SINGLE_PAGE)
                 .withModel(ItemRegistry.LEAFLET.getId())
-                .withLeafletEntry(this.path(LeafletCategoryProvider.ID, LeafletEntryProvider.ID)) //overwrite the default leaflet entry with one without namespace -> this allows the demo leaflet to be used as a basis for datapacks.
                 ;
     }
 
