@@ -57,7 +57,13 @@ public class BookEntryModel {
 
     public JsonObject toJson(HolderLookup.Provider provider) {
         JsonObject json = new JsonObject();
-        json.addProperty("category", this.category.id.toString());
+
+        //if we are in the same namespace, which we basically always should be, omit namespace
+        if (this.category.getId().getNamespace().equals(this.getId().getNamespace()))
+            json.addProperty("category", this.category.id.getPath());
+        else
+            json.addProperty("category", this.category.getId().toString());
+
         json.addProperty("name", this.name);
         json.addProperty("description", this.description);
         json.add("icon", this.icon.toJson(provider));

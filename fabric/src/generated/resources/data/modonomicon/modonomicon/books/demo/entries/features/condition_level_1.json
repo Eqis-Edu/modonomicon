@@ -1,7 +1,7 @@
 {
   "background_u_index": 0,
   "background_v_index": 0,
-  "category": "modonomicon:features",
+  "category": "features",
   "condition": {
     "type": "modonomicon:entry_read",
     "entry_id": "modonomicon:features/condition_root"

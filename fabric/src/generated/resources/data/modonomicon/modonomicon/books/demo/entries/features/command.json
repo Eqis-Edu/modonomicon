@@ -1,7 +1,7 @@
 {
   "background_u_index": 0,
   "background_v_index": 0,
-  "category": "modonomicon:features",
+  "category": "features",
   "command_to_run_on_first_read": "modonomicon:test_command",
   "description": "book.modonomicon.demo.features.command.description",
   "hide_while_locked": false,

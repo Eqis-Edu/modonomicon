@@ -221,8 +221,12 @@ public abstract class BookEntry {
                                 BookCondition condition, boolean hideWhileLocked, boolean showWhenAnyParentUnlocked,
                                 int sortNumber) {
 
-        public static BookEntryData fromJson(JsonObject json, boolean autoAddReadConditions, HolderLookup.Provider provider) {
-            var categoryId = ResourceLocation.parse(GsonHelper.getAsString(json, "category"));
+        public static BookEntryData fromJson(ResourceLocation id, JsonObject json, boolean autoAddReadConditions, HolderLookup.Provider provider) {
+            var categoryIdPath = GsonHelper.getAsString(json, "category");
+            var categoryId = categoryIdPath.contains(":") ?
+                    ResourceLocation.parse(categoryIdPath) :
+                    ResourceLocation.fromNamespaceAndPath(id.getNamespace(), categoryIdPath);
+
             var x = GsonHelper.getAsInt(json, "x");
             var y = GsonHelper.getAsInt(json, "y");
 

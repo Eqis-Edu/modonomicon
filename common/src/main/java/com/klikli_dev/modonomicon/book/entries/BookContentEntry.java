@@ -37,7 +37,7 @@ public class BookContentEntry extends BookEntry {
     }
 
     public static BookContentEntry fromJson(ResourceLocation id, JsonObject json, boolean autoAddReadConditions, HolderLookup.Provider provider) {
-        BookEntryData data = BookEntryData.fromJson(json, autoAddReadConditions, provider);
+        BookEntryData data = BookEntryData.fromJson(id, json, autoAddReadConditions, provider);
 
         ResourceLocation commandToRunOnFirstReadId = null;
         if (json.has("command_to_run_on_first_read")) {

@@ -374,7 +374,7 @@ public class BookCategoryModel {
     }
 
     protected BookEntryModel linkEntry(BookEntryModel entry) {
-        entry.category = this;
+        entry.withCategory(this);
         if (!entry.id.getPath().startsWith(this.id.getPath())) {
             entry.id = ResourceLocation.fromNamespaceAndPath(entry.id.getNamespace(), this.id.getPath() + "/" + entry.id.getPath());
         }

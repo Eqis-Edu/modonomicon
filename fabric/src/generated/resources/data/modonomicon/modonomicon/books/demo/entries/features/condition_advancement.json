@@ -1,7 +1,7 @@
 {
   "background_u_index": 1,
   "background_v_index": 0,
-  "category": "modonomicon:features",
+  "category": "features",
   "condition": {
     "type": "modonomicon:advancement",
     "advancement_id": "minecraft:husbandry/ride_a_boat_with_a_goat"
