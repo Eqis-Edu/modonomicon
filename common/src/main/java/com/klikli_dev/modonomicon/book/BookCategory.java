@@ -105,7 +105,7 @@ public class BookCategory {
 
         BookCondition condition = new BookNoneCondition(); //default to unlocked
         if (json.has("condition")) {
-            condition = BookCondition.fromJson(json.getAsJsonObject("condition"), provider);
+            condition = BookCondition.fromJson(id, json.getAsJsonObject("condition"), provider);
         }
 
         List<BookCategoryBackgroundParallaxLayer> backgroundParallaxLayers = List.of();

@@ -14,7 +14,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceLocation;
 
 public class BookEntryReadConditionModel extends BookConditionModel<BookEntryReadConditionModel> {
-    protected String entryId;
+    protected ResourceLocation entryId;
 
     protected BookEntryReadConditionModel() {
         super(Condition.ENTRY_READ);
@@ -25,23 +25,28 @@ public class BookEntryReadConditionModel extends BookConditionModel<BookEntryRea
     }
 
     @Override
-    public JsonObject toJson(HolderLookup.Provider provider) {
-        var json = super.toJson(provider);
-        json.addProperty("entry_id", this.entryId);
+    public JsonObject toJson(ResourceLocation conditionParentId, HolderLookup.Provider provider) {
+        var json = super.toJson(conditionParentId, provider);
+
+        if (this.entryId.getNamespace().equals(conditionParentId.getNamespace()))
+            json.addProperty("entry_id", this.entryId.getPath());
+        else
+            json.addProperty("entry_id", this.entryId.toString());
+
         return json;
     }
 
-    public String getEntryId() {
+    public ResourceLocation getEntryId() {
         return this.entryId;
     }
 
     public BookEntryReadConditionModel withEntry(ResourceLocation entryId) {
-        this.entryId = entryId.toString();
+        this.entryId = entryId;
         return this;
     }
 
     public BookEntryReadConditionModel withEntry(String entryId) {
-        this.entryId = entryId;
+        this.entryId = ResourceLocation.parse(entryId);
         return this;
     }
 }

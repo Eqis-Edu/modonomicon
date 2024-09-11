@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.book.conditions.context.BookConditionContext;
 import com.klikli_dev.modonomicon.book.conditions.context.BookConditionEntryContext;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -33,8 +34,12 @@ public class BookCategoryHasVisibleEntriesCondition extends BookCondition {
         this.categoryId = categoryId;
     }
     
-    public static BookCategoryHasVisibleEntriesCondition fromJson(JsonObject json) {
-        ResourceLocation categoryId = ResourceLocation.parse(GsonHelper.getAsString(json, "category_id"));
+    public static BookCategoryHasVisibleEntriesCondition fromJson(ResourceLocation conditionParentId, JsonObject json, HolderLookup.Provider provider) {
+        var categoryPath = GsonHelper.getAsString(json, "category_id");
+        var categoryId = categoryPath.contains(":") ?
+                ResourceLocation.parse(categoryPath) :
+                ResourceLocation.fromNamespaceAndPath(conditionParentId.getNamespace(), categoryPath);
+
         Component tooltip = Component.translatable(ModonomiconConstants.I18n.Tooltips.CONDITION_CATEGORY_HAS_VISIBLE_ENTRIES, categoryId);
         return new BookCategoryHasVisibleEntriesCondition(tooltip, categoryId);
     }

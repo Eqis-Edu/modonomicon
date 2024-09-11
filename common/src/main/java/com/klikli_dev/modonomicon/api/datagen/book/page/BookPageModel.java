@@ -39,7 +39,7 @@ public class BookPageModel<T extends BookPageModel<T>> {
         JsonObject json = this.toJson(provider); //to keep backwards compat
         json.addProperty("type", this.type.toString());
         json.addProperty("anchor", this.anchor);
-        json.add("condition", this.condition.toJson(provider));
+        json.add("condition", this.condition.toJson(entryId, provider));
 
         return json;
     }

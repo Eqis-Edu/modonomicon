@@ -29,7 +29,7 @@ public class BookNoneCondition extends BookCondition {
         super(component);
     }
 
-    public static BookNoneCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookNoneCondition fromJson(ResourceLocation conditionParentId, JsonObject json, HolderLookup.Provider provider) {
         var tooltip = tooltipFromJson(json, provider);
         return new BookNoneCondition(tooltip);
     }

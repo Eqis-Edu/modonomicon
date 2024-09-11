@@ -265,7 +265,7 @@ public abstract class BookEntry {
 
             BookCondition condition = new BookNoneCondition(); //default to unlocked
             if (json.has("condition")) {
-                condition = BookCondition.fromJson(json.getAsJsonObject("condition"), provider);
+                condition = BookCondition.fromJson(id, json.getAsJsonObject("condition"), provider);
             } else if (autoAddReadConditions) {
                 if (parents.size() == 1) {
                     condition = new BookEntryReadCondition(null, parents.get(0).getEntryId());

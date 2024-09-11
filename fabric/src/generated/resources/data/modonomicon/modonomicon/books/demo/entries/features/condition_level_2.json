@@ -4,7 +4,7 @@
   "category": "features",
   "condition": {
     "type": "modonomicon:entry_read",
-    "entry_id": "modonomicon:features/condition_level_1"
+    "entry_id": "features/condition_level_1"
   },
   "description": "book.modonomicon.demo.features.condition_level_2.description",
   "hide_while_locked": false,

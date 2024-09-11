@@ -31,9 +31,11 @@ public class BookEntryUnlockedCondition extends BookCondition {
         this.entryId = entryId;
     }
 
-    public static BookEntryUnlockedCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
-        var entryId = ResourceLocation.parse(GsonHelper.getAsString(json, "entry_id"));
-
+    public static BookEntryUnlockedCondition fromJson(ResourceLocation conditionParentId, JsonObject json, HolderLookup.Provider provider) {
+        var entryPath = GsonHelper.getAsString(json, "entry_id");
+        var entryId = entryPath.contains(":") ?
+                ResourceLocation.parse(entryPath) :
+                ResourceLocation.fromNamespaceAndPath(conditionParentId.getNamespace(), entryPath);
         var tooltip = tooltipFromJson(json, provider);
 
         return new BookEntryUnlockedCondition(tooltip, entryId);

@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class BookCategoryHasVisibleEntriesConditionModel extends BookConditionModel<BookCategoryHasVisibleEntriesConditionModel> {
-    private String categoryId;
+    private ResourceLocation categoryId;
 
     protected BookCategoryHasVisibleEntriesConditionModel() {
         super(Condition.CATEGORY_HAS_VISIBLE_ENTRIES);
@@ -27,25 +27,30 @@ public class BookCategoryHasVisibleEntriesConditionModel extends BookConditionMo
 
 
     @Override
-    public JsonObject toJson(HolderLookup.Provider provider) {
-        var json = super.toJson(provider);
-        json.addProperty("category_id", this.categoryId);
+    public JsonObject toJson(ResourceLocation conditionParentId, HolderLookup.Provider provider) {
+        var json = super.toJson(conditionParentId, provider);
+
+        if (this.categoryId.getNamespace().equals(conditionParentId.getNamespace()))
+            json.addProperty("category_id", this.categoryId.getPath());
+        else
+            json.addProperty("category_id", this.categoryId.toString());
+
         return json;
     }
 
-    public String getCategoryId() {
+    public ResourceLocation getCategoryId() {
         return this.categoryId;
     }
 
 
     public BookCategoryHasVisibleEntriesConditionModel withCategory(ResourceLocation entryId) {
-        this.categoryId = entryId.toString();
+        this.categoryId = entryId;
         return this;
     }
 
 
     public BookCategoryHasVisibleEntriesConditionModel withCategory(String entryId) {
-        this.categoryId = entryId;
+        this.categoryId = ResourceLocation.parse(entryId);
         return this;
     }
 

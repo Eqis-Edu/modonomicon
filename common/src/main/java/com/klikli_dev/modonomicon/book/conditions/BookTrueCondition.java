@@ -26,7 +26,7 @@ public class BookTrueCondition extends BookCondition {
         super(component);
     }
 
-    public static BookTrueCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookTrueCondition fromJson(ResourceLocation conditionParentId, JsonObject json, HolderLookup.Provider provider) {
         var tooltip = tooltipFromJson(json, provider);
         return new BookTrueCondition(tooltip);
     }

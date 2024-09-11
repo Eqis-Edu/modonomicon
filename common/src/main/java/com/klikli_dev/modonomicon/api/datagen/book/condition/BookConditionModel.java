@@ -38,7 +38,7 @@ public class BookConditionModel<T extends BookConditionModel<T>> {
         return this.tooltipString;
     }
 
-    public JsonObject toJson(HolderLookup.Provider provider) {
+    public JsonObject toJson(ResourceLocation conditionParentId, HolderLookup.Provider provider) {
         JsonObject json = new JsonObject();
         json.addProperty("type", this.getType().toString());
         if (this.tooltipString != null)

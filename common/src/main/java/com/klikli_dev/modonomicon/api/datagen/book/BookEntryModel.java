@@ -92,7 +92,7 @@ public class BookEntryModel {
 
 
         if (this.condition != null) {
-            json.add("condition", this.condition.toJson(provider));
+            json.add("condition", this.condition.toJson(this.getId(), provider));
         }
 
         if (this.categoryToOpen != null) {

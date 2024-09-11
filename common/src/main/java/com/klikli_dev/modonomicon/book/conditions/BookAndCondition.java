@@ -35,15 +35,15 @@ public class BookAndCondition extends BookCondition {
         this.children = children;
     }
 
-    public static BookAndCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookAndCondition fromJson(ResourceLocation conditionParentId, JsonObject json, HolderLookup.Provider provider) {
         var children = new ArrayList<BookCondition>();
         for (var j : GsonHelper.getAsJsonArray(json, "children")) {
             if (!j.isJsonObject())
                 throw new JsonSyntaxException("Condition children must be an array of JsonObjects.");
-            children.add(BookCondition.fromJson(j.getAsJsonObject(), provider));
+            children.add(BookCondition.fromJson(conditionParentId, j.getAsJsonObject(), provider));
         }
         var tooltip = tooltipFromJson(json, provider);
-        return new BookAndCondition(tooltip, children.toArray(new BookCondition[children.size()]));
+        return new BookAndCondition(tooltip, children.toArray(new BookCondition[0]));
     }
 
     public static BookAndCondition fromNetwork(RegistryFriendlyByteBuf buffer) {

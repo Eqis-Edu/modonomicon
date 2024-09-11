@@ -28,7 +28,7 @@ public class BookModLoadedCondition extends BookCondition {
         this.modId = modId;
     }
 
-    public static BookModLoadedCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookModLoadedCondition fromJson(ResourceLocation conditionParentId, JsonObject json, HolderLookup.Provider provider) {
         var modId = GsonHelper.getAsString(json, "mod_id");
 
         //default tooltip

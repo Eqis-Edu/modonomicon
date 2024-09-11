@@ -12,6 +12,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants.Data.Condition;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceLocation;
 
 public class BookOrConditionModel extends BookConditionModel<BookOrConditionModel> {
 
@@ -30,11 +31,11 @@ public class BookOrConditionModel extends BookConditionModel<BookOrConditionMode
     }
 
     @Override
-    public JsonObject toJson(HolderLookup.Provider provider) {
-        var json = super.toJson(provider);
+    public JsonObject toJson(ResourceLocation conditionParentId, HolderLookup.Provider provider) {
+        var json = super.toJson(conditionParentId, provider);
         var children = new JsonArray();
         for (var child : this.children) {
-            children.add(child.toJson(provider));
+            children.add(child.toJson(conditionParentId, provider));
         }
         json.add("children", children);
         return json;

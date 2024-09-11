@@ -106,7 +106,7 @@ public class BookCategoryModel {
         return this.book;
     }
 
-    public JsonObject toJson(HolderLookup.Provider provider) {
+    public JsonObject toJson( HolderLookup.Provider provider) {
         JsonObject json = new JsonObject();
         json.addProperty("name", this.name);
         json.add("description", this.description.toJson(provider));
@@ -126,7 +126,7 @@ public class BookCategoryModel {
                         .collect(JsonArray::new, JsonArray::add, JsonArray::addAll));
         json.addProperty("entry_textures", this.entryTextures.toString());
         if (this.condition != null) {
-            json.add("condition", this.condition.toJson(provider));
+            json.add("condition", this.condition.toJson(this.getId(), provider));
         }
         json.addProperty("show_category_button", this.showCategoryButton);
         if (this.entryToOpen != null) {

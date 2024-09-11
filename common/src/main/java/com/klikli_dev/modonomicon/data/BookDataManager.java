@@ -213,7 +213,7 @@ public class BookDataManager extends SimpleJsonResourceReloadListener {
             return true; //no condition -> always load
         }
 
-        return BookCondition.fromJson(bookObject.getAsJsonObject("condition"), provider).testOnLoad();
+        return BookCondition.fromJson(key, bookObject.getAsJsonObject("condition"), provider).testOnLoad();
     }
 
 

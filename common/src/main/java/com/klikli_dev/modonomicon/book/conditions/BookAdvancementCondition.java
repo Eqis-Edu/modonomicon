@@ -34,7 +34,7 @@ public class BookAdvancementCondition extends BookCondition {
         this.advancementId = advancementId;
     }
 
-    public static BookAdvancementCondition fromJson(JsonObject json, HolderLookup.Provider provider) {
+    public static BookAdvancementCondition fromJson(ResourceLocation conditionParentId, JsonObject json, HolderLookup.Provider provider) {
         var advancementId = ResourceLocation.parse(GsonHelper.getAsString(json, "advancement_id"));
 
 
