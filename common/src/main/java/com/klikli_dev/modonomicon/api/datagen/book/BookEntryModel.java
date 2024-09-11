@@ -90,19 +90,26 @@ public class BookEntryModel {
             json.add("pages", pagesArray);
         }
 
-
         if (this.condition != null) {
             json.add("condition", this.condition.toJson(this.getId(), provider));
         }
 
         if (this.categoryToOpen != null) {
-            json.addProperty("category_to_open", this.categoryToOpen.toString());
+            //if we are in the same namespace, which we basically always should be, omit namespace
+            if (this.categoryToOpen.getNamespace().equals(this.getId().getNamespace()))
+                json.addProperty("category_to_open", this.categoryToOpen.getPath());
+            else
+                json.addProperty("category_to_open", this.categoryToOpen.toString());
         }
         if (this.commandToRunOnFirstRead != null) {
             json.addProperty("command_to_run_on_first_read", this.commandToRunOnFirstRead.toString());
         }
         if (this.entryToOpen != null) {
-            json.addProperty("entry_to_open", this.entryToOpen.toString());
+            //if we are in the same namespace, which we basically always should be, omit namespace
+            if (this.entryToOpen.getNamespace().equals(this.getId().getNamespace()))
+                json.addProperty("entry_to_open", this.entryToOpen.getPath());
+            else
+                json.addProperty("entry_to_open", this.entryToOpen.toString());
         }
 
         json.addProperty("sort_number", this.sortNumber);

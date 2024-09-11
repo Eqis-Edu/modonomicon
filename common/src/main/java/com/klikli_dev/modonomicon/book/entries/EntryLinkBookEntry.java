@@ -39,7 +39,11 @@ public class EntryLinkBookEntry extends BookEntry {
         if (json.has("command_to_run_on_first_read")) {
             commandToRunOnFirstReadId = ResourceLocation.parse(GsonHelper.getAsString(json, "command_to_run_on_first_read"));
         }
-        ResourceLocation entryToOpenId = ResourceLocation.parse(GsonHelper.getAsString(json, "entry_to_open"));
+
+        var entryToOpenIdPath = GsonHelper.getAsString(json, "entry_to_open");
+        var entryToOpenId = entryToOpenIdPath.contains(":") ?
+                ResourceLocation.parse(entryToOpenIdPath) :
+                ResourceLocation.fromNamespaceAndPath(id.getNamespace(), entryToOpenIdPath);
 
         return new EntryLinkBookEntry(id, data, commandToRunOnFirstReadId, entryToOpenId);
     }

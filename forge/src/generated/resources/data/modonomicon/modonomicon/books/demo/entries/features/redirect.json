@@ -2,7 +2,7 @@
   "background_u_index": 1,
   "background_v_index": 1,
   "category": "features",
-  "category_to_open": "modonomicon:index_mode",
+  "category_to_open": "index_mode",
   "description": "book.modonomicon.demo.features.redirect.description",
   "hide_while_locked": false,
   "icon": {

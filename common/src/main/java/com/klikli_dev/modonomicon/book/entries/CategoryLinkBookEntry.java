@@ -40,10 +40,10 @@ public class CategoryLinkBookEntry extends BookEntry {
             commandToRunOnFirstReadId = ResourceLocation.parse(GsonHelper.getAsString(json, "command_to_run_on_first_read"));
         }
 
-        ResourceLocation categoryToOpenId = null;
-        if (json.has("category_to_open")) {
-            categoryToOpenId = ResourceLocation.parse(GsonHelper.getAsString(json, "category_to_open"));
-        }
+        var categoryToOpenIdPath = GsonHelper.getAsString(json, "category_to_open");
+        var categoryToOpenId = categoryToOpenIdPath.contains(":") ?
+                ResourceLocation.parse(categoryToOpenIdPath) :
+                ResourceLocation.fromNamespaceAndPath(id.getNamespace(), categoryToOpenIdPath);
 
         return new CategoryLinkBookEntry(id, data, commandToRunOnFirstReadId, categoryToOpenId);
     }
