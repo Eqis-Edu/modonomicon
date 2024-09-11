@@ -4,6 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.105.0] - 2024-09-11
+### :sparkles: New Features
+- [`bd1019a`](https://github.com/klikli-dev/modonomicon/commit/bd1019a1023c542aeddc4b4951f0fe6078e37952) - allow entry category field to be without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`68e5375`](https://github.com/klikli-dev/modonomicon/commit/68e537546f66839ac9f977701d57dcf4bb6a9b86) - allow entry parents to be without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`b1be07b`](https://github.com/klikli-dev/modonomicon/commit/b1be07b29a35f35d29dd7771bd1fc45aebdb83f2) - allow multiblock id in pages to be without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`3d52866`](https://github.com/klikli-dev/modonomicon/commit/3d52866d06b60ee10d62072c2cae2bb596f085d8) - allow category and entry ids in conditions to be without rpefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`f50cc7f`](https://github.com/klikli-dev/modonomicon/commit/f50cc7fdc877bc822f2e1285cecf4d87bf3f1a26) - allow category and entry links to use target ids without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`b55d89f`](https://github.com/klikli-dev/modonomicon/commit/b55d89f24ef68ec275218b50f5d66c6435ec66f0) - allow entries to use command ids without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :bug: Bug Fixes
+- [`53aed77`](https://github.com/klikli-dev/modonomicon/commit/53aed77deb2d15e1a5d06e23290a3ad8b7a1efb8) - book page loading for content entries *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+### :wrench: Chores
+- [`79dfc05`](https://github.com/klikli-dev/modonomicon/commit/79dfc05b6f6a5da474e40a1fd8449f4c0107d28d) - make demo book (this time for real) only use datagenned multiblocks *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+- [`a10d509`](https://github.com/klikli-dev/modonomicon/commit/a10d509ce0e679b5b043c7d5d3aa8285c77bf5f3) - improve handling of resource location fields that can omit namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.104.0] - 2024-09-11
 ### :sparkles: New Features
 - [`2a5920c`](https://github.com/klikli-dev/modonomicon/commit/2a5920c6459acc104b306a8267a431b01b0e7fcc) - allow leaflet entries to be without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1414,3 +1431,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.103.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.4...release/v1.21.1-1.103.5
 [release/v1.21.1-1.103.6]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.5...release/v1.21.1-1.103.6
 [release/v1.21.1-1.104.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.6...release/v1.21.1-1.104.0
+[release/v1.21.1-1.105.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.104.0...release/v1.21.1-1.105.0
