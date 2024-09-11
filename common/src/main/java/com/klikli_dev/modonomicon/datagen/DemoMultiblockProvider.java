@@ -7,6 +7,9 @@ package com.klikli_dev.modonomicon.datagen;
 import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.datagen.MultiblockProvider;
 import net.minecraft.data.PackOutput;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 
 public class DemoMultiblockProvider extends MultiblockProvider {
@@ -16,6 +19,22 @@ public class DemoMultiblockProvider extends MultiblockProvider {
 
     @Override
     public void buildMultiblocks() {
+        this.add(this.modLoc("demo_tag"), new DenseMultiblockBuilder()
+                .layer(
+                        " WWW ",
+                        "N G S",
+                        "NG0GS",
+                        "N G S",
+                        " EEE "
+                )
+                .blockstate('N', () -> Blocks.OAK_STAIRS, "[facing=north]")
+                .blockstate('S', () -> Blocks.OAK_STAIRS, "[facing=south]")
+                .blockstate('W', () -> Blocks.OAK_STAIRS, "[facing=west]")
+                .blockstate('E', () -> Blocks.OAK_STAIRS, "[facing=east]")
+                .tag('G', BlockTags.CANDLES, () -> Blocks.WHITE_CANDLE)
+                .block('0', () -> Blocks.SKELETON_SKULL)
+        );
+
         this.add(this.modLoc("demo_block_entity"), new DenseMultiblockBuilder()
                 .layer(" WWW ",
                         "NFXFS",

@@ -26,10 +26,21 @@
       "condition": {
         "type": "modonomicon:none"
       },
-      "multiblock_id": "modonomicon:tag",
+      "multiblock_id": "modonomicon:demo_block_entity",
       "multiblock_name": "",
       "show_visualize_button": true,
-      "text": "book.modonomicon.demo.features.multiblock.preview2.text"
+      "text": ""
+    },
+    {
+      "type": "modonomicon:multiblock",
+      "anchor": "",
+      "condition": {
+        "type": "modonomicon:none"
+      },
+      "multiblock_id": "modonomicon:demo_tag",
+      "multiblock_name": "",
+      "show_visualize_button": true,
+      "text": "book.modonomicon.demo.features.multiblock.demo_tag.text"
     },
     {
       "type": "modonomicon:multiblock",
@@ -49,17 +60,6 @@
         "type": "modonomicon:none"
       },
       "multiblock_id": "modonomicon:demo_fluid",
-      "multiblock_name": "",
-      "show_visualize_button": true,
-      "text": ""
-    },
-    {
-      "type": "modonomicon:multiblock",
-      "anchor": "",
-      "condition": {
-        "type": "modonomicon:none"
-      },
-      "multiblock_id": "modonomicon:demo_block_entity",
       "multiblock_name": "",
       "show_visualize_button": true,
       "text": ""
