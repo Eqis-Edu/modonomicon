@@ -77,7 +77,7 @@ public class BookEntryModel {
         if (!this.parents.isEmpty()) {
             var parentsArray = new JsonArray();
             for (var parent : this.parents) {
-                parentsArray.add(parent.toJson(provider));
+                parentsArray.add(parent.toJson(this.getId(), provider));
             }
             json.add("parents", parentsArray);
         }

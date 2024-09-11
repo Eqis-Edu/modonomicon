@@ -22,9 +22,19 @@ public class BookEntryParent {
         this.entryId = entry;
     }
 
-    public static BookEntryParent fromJson(JsonObject json) {
-        var entry = ResourceLocation.parse(GsonHelper.getAsString(json, "entry"));
-        var parent = new BookEntryParent(entry);
+    /**
+     * Creates a new BookEntryParent from the given json object.
+     * @param ownerEntryId the entry id of the entry that contains this parent information. This is the CHILD not the parent.
+     * @param json the json object to read from
+     */
+    public static BookEntryParent fromJson(ResourceLocation ownerEntryId, JsonObject json) {
+        var parentEntryPath = GsonHelper.getAsString(json, "entry");
+        //entries can be without a namespace, in which case we use the owner entry namespace.
+        var parentEntryId = parentEntryPath.contains(":") ?
+                ResourceLocation.parse(parentEntryPath) :
+                ResourceLocation.fromNamespaceAndPath(ownerEntryId.getNamespace(), parentEntryPath);
+
+        var parent = new BookEntryParent(parentEntryId);
         parent.drawArrow = GsonHelper.getAsBoolean(json, "draw_arrow", parent.drawArrow);
         parent.lineEnabled = GsonHelper.getAsBoolean(json, "line_enabled", parent.lineEnabled);
         parent.lineReversed = GsonHelper.getAsBoolean(json, "line_reversed", parent.lineReversed);

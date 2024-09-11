@@ -83,7 +83,7 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "modonomicon:features/recipe",
+      "entry": "features/recipe",
       "line_enabled": true,
       "line_reversed": true
     }

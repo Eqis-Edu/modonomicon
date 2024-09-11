@@ -46,7 +46,7 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "modonomicon:formatting/advanced",
+      "entry": "formatting/advanced",
       "line_enabled": true,
       "line_reversed": false
     }

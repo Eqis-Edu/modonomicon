@@ -24,9 +24,19 @@ public class BookEntryParentModel {
         return new BookEntryParentModel(entryId);
     }
 
-    public JsonObject toJson(HolderLookup.Provider provider) {
+    /**
+     * @param ownerEntryId the entry id of the entry that contains this parent information. This is the CHILD not the parent.
+     * @param provider a registry / holder lookup provider.
+     */
+    public JsonObject toJson(ResourceLocation ownerEntryId, HolderLookup.Provider provider) {
         JsonObject json = new JsonObject();
-        json.addProperty("entry", this.entryId.toString());
+
+        //if we are in the same namespace, which we basically always should be, omit namespace
+        if (this.entryId.getNamespace().equals(ownerEntryId.getNamespace()))
+            json.addProperty("entry", this.entryId.getPath());
+        else
+            json.addProperty("entry", this.entryId.toString());
+
         json.addProperty("draw_arrow", this.drawArrow);
         json.addProperty("line_enabled", this.lineEnabled);
         json.addProperty("line_reversed", this.lineReversed);

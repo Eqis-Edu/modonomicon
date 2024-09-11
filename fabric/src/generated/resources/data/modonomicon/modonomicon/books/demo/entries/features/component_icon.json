@@ -30,7 +30,7 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "modonomicon:features/spotlight",
+      "entry": "features/spotlight",
       "line_enabled": true,
       "line_reversed": false
     }

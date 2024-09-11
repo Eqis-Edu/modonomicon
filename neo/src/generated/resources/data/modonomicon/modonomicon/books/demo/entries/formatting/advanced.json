@@ -68,7 +68,7 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "modonomicon:formatting/basic",
+      "entry": "formatting/basic",
       "line_enabled": true,
       "line_reversed": false
     }

@@ -26,7 +26,7 @@
   "parents": [
     {
       "draw_arrow": true,
-      "entry": "modonomicon:features/image",
+      "entry": "features/image",
       "line_enabled": true,
       "line_reversed": false
     }

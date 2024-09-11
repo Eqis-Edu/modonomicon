@@ -233,7 +233,7 @@ public abstract class BookEntry {
             var parents = new ArrayList<BookEntryParent>();
             if (json.has("parents")) {
                 for (var parent : GsonHelper.getAsJsonArray(json, "parents")) {
-                    parents.add(BookEntryParent.fromJson(parent.getAsJsonObject()));
+                    parents.add(BookEntryParent.fromJson(id, parent.getAsJsonObject()));
                 }
             }
 
