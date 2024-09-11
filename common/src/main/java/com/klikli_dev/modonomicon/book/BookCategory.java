@@ -114,7 +114,10 @@ public class BookCategory {
 
         ResourceLocation entryToOpen = null;
         if (json.has("entry_to_open")) {
-            entryToOpen = ResourceLocation.parse(GsonHelper.getAsString(json, "entry_to_open"));
+            var entryToOpenPath = GsonHelper.getAsString(json, "entry_to_open");
+            entryToOpen = entryToOpenPath.contains(":") ?
+                    ResourceLocation.parse(entryToOpenPath) :
+                    ResourceLocation.fromNamespaceAndPath(id.getNamespace(), entryToOpenPath);
         }
         boolean openEntryOnlyOnce = GsonHelper.getAsBoolean(json, "open_entry_to_open_only_once", true);
 

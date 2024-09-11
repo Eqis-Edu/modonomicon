@@ -69,7 +69,7 @@ public class BookCategoryModel {
      * If null, no entry will be opened.
      */
     @Nullable
-    protected ResourceLocation entryToOpen = null;
+    protected String entryToOpen = null;
     /**
      * If true, the entryToOpen will only be opened the first time the category is opened.
      * If false, the entryToOpen will be opened every time the category is opened.
@@ -130,7 +130,7 @@ public class BookCategoryModel {
         }
         json.addProperty("show_category_button", this.showCategoryButton);
         if (this.entryToOpen != null) {
-            json.addProperty("entry_to_open", this.entryToOpen.toString());
+            json.addProperty("entry_to_open", this.entryToOpen);
             json.addProperty("open_entry_to_open_only_once", this.openEntryToOpenOnlyOnce);
         }
         return json;
@@ -423,7 +423,7 @@ public class BookCategoryModel {
      * By default the entry will only be opened the first time. Specify openEntryToOpenOnlyOnce=false to open it every time.
      */
     public BookCategoryModel withEntryToOpen(ResourceLocation entryToOpen) {
-        return this.withEntryToOpen(entryToOpen, true);
+        return this.withEntryToOpen(entryToOpen.toString());
     }
 
     /**
@@ -433,6 +433,26 @@ public class BookCategoryModel {
      * By default the entry will only be opened the first time. Specify openEntryToOpenOnlyOnce=false to open it every time.
      */
     public BookCategoryModel withEntryToOpen(ResourceLocation entryToOpen, boolean openEntryToOpenOnlyOnce) {
+        return this.withEntryToOpen(entryToOpen.toString(), openEntryToOpenOnlyOnce);
+    }
+
+    /**
+     * Sets the entry to open when this category is opened.
+     * If null, no entry will be opened.
+     * <p>
+     * By default the entry will only be opened the first time. Specify openEntryToOpenOnlyOnce=false to open it every time.
+     */
+    public BookCategoryModel withEntryToOpen(String entryToOpen) {
+        return this.withEntryToOpen(entryToOpen, true);
+    }
+
+    /**
+     * Sets the entry to open when this category is opened.
+     * If null, no entry will be opened.
+     * <p>
+     * By default the entry will only be opened the first time. Specify openEntryToOpenOnlyOnce=false to open it every time.
+     */
+    public BookCategoryModel withEntryToOpen(String entryToOpen, boolean openEntryToOpenOnlyOnce) {
         this.entryToOpen = entryToOpen;
         this.openEntryToOpenOnlyOnce = openEntryToOpenOnlyOnce;
         return this;
