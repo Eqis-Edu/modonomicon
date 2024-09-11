@@ -142,7 +142,7 @@ public class BookModel {
      * The book will be treated as a book in index mode (that means, no big "node view" background will be shown behind the entry).
      */
     @Nullable
-    protected ResourceLocation leafletEntry;
+    protected String leafletEntry;
 
     /**
      * If true, invalid links do not show an error screen when opening the book.
@@ -264,7 +264,7 @@ public class BookModel {
         return this.singlePageTexture;
     }
 
-    public @Nullable ResourceLocation getLeafletEntry() {
+    public @Nullable String getLeafletEntry() {
         return this.leafletEntry;
     }
 
@@ -308,7 +308,7 @@ public class BookModel {
         }
 
         if (this.leafletEntry != null) {
-            json.addProperty("leaflet_entry", this.leafletEntry.toString());
+            json.addProperty("leaflet_entry", this.leafletEntry);
         }
 
         json.addProperty("page_display_mode", this.pageDisplayMode.getSerializedName());
@@ -550,8 +550,21 @@ public class BookModel {
     /**
      * If this entry is set the book will ignore all other content and just display this entry.
      * Note that the entry still needs to be in a valid category, even if the category is not displayed.
+     *
+     * @param leafletEntry The ResourceLocation of the entry to display
      */
     public BookModel withLeafletEntry(ResourceLocation leafletEntry) {
+        this.leafletEntry = leafletEntry.toString();
+        return this;
+    }
+
+    /**
+     * If this entry is set the book will ignore all other content and just display this entry.
+     * Note that the entry still needs to be in a valid category, even if the category is not displayed.
+     *
+     * @param leafletEntry The path of the entry to display.
+     */
+    public BookModel withLeafletEntry(String leafletEntry) {
         this.leafletEntry = leafletEntry;
         return this;
     }

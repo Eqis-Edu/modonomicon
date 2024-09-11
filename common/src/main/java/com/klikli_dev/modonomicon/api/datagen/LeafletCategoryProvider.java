@@ -11,7 +11,7 @@ import net.minecraft.world.item.Items;
  * This is a one-size-fits all category provider for leaflets.
  * There is no need for leaflets to actually implement category providers, they all use this "dummy one"
  */
-class LeafletCategoryProvider extends CategoryProvider{
+public class LeafletCategoryProvider extends CategoryProvider{
     public static final String ID = "leaflet";
 
     public LeafletCategoryProvider(ModonomiconProviderBase parent) {

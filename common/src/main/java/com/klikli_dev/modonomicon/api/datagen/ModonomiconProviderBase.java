@@ -93,8 +93,12 @@ public abstract class ModonomiconProviderBase {
         return this.context;
     }
 
+    protected String path(String... parts) {
+        return String.join("/", parts);
+    }
+
     protected ResourceLocation modLoc(String... idParts) {
-        return ResourceLocation.fromNamespaceAndPath(this.modId, String.join("/", idParts));
+        return ResourceLocation.fromNamespaceAndPath(this.modId, this.path(idParts));
     }
 
     protected ResourceLocation modLoc(String name) {

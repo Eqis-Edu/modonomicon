@@ -27,7 +27,7 @@
   "font": "modonomicon:default",
   "frame_texture": "modonomicon:textures/gui/book_frame.png",
   "generate_book_item": true,
-  "leaflet_entry": "modonomicon:leaflet/leaflet",
+  "leaflet_entry": "leaflet/leaflet",
   "left_frame_overlay": {
     "frame_height": 70,
     "frame_width": 7,

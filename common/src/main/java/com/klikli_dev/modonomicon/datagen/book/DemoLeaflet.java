@@ -6,13 +6,11 @@
 
 package com.klikli_dev.modonomicon.datagen.book;
 
-import com.klikli_dev.modonomicon.api.datagen.CategoryProvider;
-import com.klikli_dev.modonomicon.api.datagen.LeafletEntryProvider;
-import com.klikli_dev.modonomicon.api.datagen.LeafletSubProvider;
-import com.klikli_dev.modonomicon.api.datagen.ModonomiconLanguageProvider;
+import com.klikli_dev.modonomicon.api.datagen.*;
 import com.klikli_dev.modonomicon.api.datagen.book.BookModel;
 import com.klikli_dev.modonomicon.api.datagen.book.page.BookTextPageModel;
 import com.klikli_dev.modonomicon.book.PageDisplayMode;
+import com.klikli_dev.modonomicon.registry.ItemRegistry;
 
 public class DemoLeaflet extends LeafletSubProvider {
     public static final String ID = "demo_leaflet";
@@ -67,8 +65,12 @@ public class DemoLeaflet extends LeafletSubProvider {
         //e.g. set creative tab using .withCreativeTab(<ResourceLocation>)
         return book.withBookTextOffsetWidth(-5)
                 .withBookTextOffsetX(5)
-                .withPageDisplayMode(PageDisplayMode.SINGLE_PAGE);
+                .withPageDisplayMode(PageDisplayMode.SINGLE_PAGE)
+                .withModel(ItemRegistry.LEAFLET.getId())
+                .withLeafletEntry(this.path(LeafletCategoryProvider.ID, LeafletEntryProvider.ID)) //overwrite the default leaflet entry with one without namespace -> this allows the demo leaflet to be used as a basis for datapacks.
+                ;
     }
+
 
     @Override
     protected void registerDefaultMacros() {

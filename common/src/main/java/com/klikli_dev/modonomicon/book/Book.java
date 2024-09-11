@@ -208,9 +208,13 @@ public class Book {
         var searchButtonYOffset = GsonHelper.getAsInt(json, "search_button_y_offset", 0);
         var readAllButtonYOffset = GsonHelper.getAsInt(json, "read_all_button_y_offset", 0);
 
+        //leaflet entries can be without a namespace, in which case we use the book namespace.
         var leafletEntry = json.has("leaflet_entry") ?
-                ResourceLocation.parse(GsonHelper.getAsString(json, "leaflet_entry")) :
+                GsonHelper.getAsString(json, "leaflet_entry").contains(":") ?
+                        ResourceLocation.parse(GsonHelper.getAsString(json, "leaflet_entry")) :
+                        ResourceLocation.fromNamespaceAndPath(id.getNamespace(), GsonHelper.getAsString(json, "leaflet_entry")) :
                 null;
+
 
         var pageDisplayMode = PageDisplayMode.byName(GsonHelper.getAsString(json, "page_display_mode", PageDisplayMode.DOUBLE_PAGE.getSerializedName()));
         var singlePageTexture = ResourceLocation.parse(GsonHelper.getAsString(json, "single_page_texture", Data.Book.DEFAULT_SINGLE_PAGE_TEXTURE));
