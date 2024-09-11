@@ -15,6 +15,7 @@ import com.klikli_dev.modonomicon.bookstate.BookUnlockStateManager;
 import com.klikli_dev.modonomicon.client.gui.BookGuiManager;
 import com.klikli_dev.modonomicon.client.gui.book.BookAddress;
 import com.klikli_dev.modonomicon.client.gui.book.markdown.BookTextRenderer;
+import com.klikli_dev.modonomicon.data.BookPageJsonLoader;
 import com.klikli_dev.modonomicon.data.LoaderRegistry;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.FriendlyByteBuf;
@@ -52,8 +53,15 @@ public class BookContentEntry extends BookEntry {
                 var pageJson = GsonHelper.convertToJsonObject(pageElem, "page");
                 var type = ResourceLocation.parse(GsonHelper.getAsString(pageJson, "type"));
                 var loader = LoaderRegistry.getPageJsonLoader(type);
-                var page = loader.fromJson(pageJson, provider);
-                pages.add(page);
+
+                //TODO(BookPageLoading): when replacing jsonloader with bookpagejsonloader remove the backwards compat
+                if(loader instanceof BookPageJsonLoader<? extends BookPage> bookPageLoader){
+                    var page = bookPageLoader.fromJson(id, pageJson, provider);
+                    pages.add(page);
+                } else{
+                    var page = loader.fromJson(pageJson, provider);
+                    pages.add(page);
+                }
             }
         }
 
