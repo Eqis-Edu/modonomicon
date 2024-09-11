@@ -102,7 +102,11 @@ public class BookEntryModel {
                 json.addProperty("category_to_open", this.categoryToOpen.toString());
         }
         if (this.commandToRunOnFirstRead != null) {
-            json.addProperty("command_to_run_on_first_read", this.commandToRunOnFirstRead.toString());
+            //if we are in the same namespace, which we basically always should be, omit namespace
+            if (this.commandToRunOnFirstRead.getNamespace().equals(this.getId().getNamespace()))
+                json.addProperty("command_to_run_on_first_read", this.commandToRunOnFirstRead.getPath());
+            else
+                json.addProperty("command_to_run_on_first_read", this.commandToRunOnFirstRead.toString());
         }
         if (this.entryToOpen != null) {
             //if we are in the same namespace, which we basically always should be, omit namespace

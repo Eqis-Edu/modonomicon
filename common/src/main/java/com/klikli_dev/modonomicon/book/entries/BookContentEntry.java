@@ -42,7 +42,10 @@ public class BookContentEntry extends BookEntry {
 
         ResourceLocation commandToRunOnFirstReadId = null;
         if (json.has("command_to_run_on_first_read")) {
-            commandToRunOnFirstReadId = ResourceLocation.parse(GsonHelper.getAsString(json, "command_to_run_on_first_read"));
+            var commandToRunOnFirstReadIdPath = GsonHelper.getAsString(json, "command_to_run_on_first_read");
+            commandToRunOnFirstReadId = commandToRunOnFirstReadIdPath.contains(":") ?
+                    ResourceLocation.parse(commandToRunOnFirstReadIdPath) :
+                    ResourceLocation.fromNamespaceAndPath(id.getNamespace(), commandToRunOnFirstReadIdPath);
         }
 
         var pages = new ArrayList<BookPage>();
