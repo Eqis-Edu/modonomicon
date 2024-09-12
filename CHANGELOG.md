@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.106.0] - 2024-09-12
+### :sparkles: New Features
+- [`1463e45`](https://github.com/klikli-dev/modonomicon/commit/1463e454502d719d86b4459a1161d159726b51bd) - expose current previewed multiblock to API *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.105.0] - 2024-09-11
 ### :sparkles: New Features
 - [`bd1019a`](https://github.com/klikli-dev/modonomicon/commit/bd1019a1023c542aeddc4b4951f0fe6078e37952) - allow entry category field to be without prefixed namespace *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1432,3 +1437,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.103.6]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.5...release/v1.21.1-1.103.6
 [release/v1.21.1-1.104.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.103.6...release/v1.21.1-1.104.0
 [release/v1.21.1-1.105.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.104.0...release/v1.21.1-1.105.0
+[release/v1.21.1-1.106.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.105.0...release/v1.21.1-1.106.0
