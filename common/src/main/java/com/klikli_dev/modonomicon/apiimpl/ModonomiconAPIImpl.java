@@ -10,8 +10,11 @@ import com.klikli_dev.modonomicon.api.ModonomiconAPI;
 import com.klikli_dev.modonomicon.api.datagen.BookContextHelper;
 import com.klikli_dev.modonomicon.api.datagen.CategoryEntryMap;
 import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
+import com.klikli_dev.modonomicon.api.multiblock.MultiblockPreviewData;
+import com.klikli_dev.modonomicon.client.render.MultiblockPreviewRenderer;
 import com.klikli_dev.modonomicon.data.MultiblockDataManager;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class ModonomiconAPIImpl implements ModonomiconAPI {
     public boolean isStub() {
@@ -31,5 +34,10 @@ public class ModonomiconAPIImpl implements ModonomiconAPI {
     @Override
     public Multiblock getMultiblock(ResourceLocation id) {
         return MultiblockDataManager.get().getMultiblock(id);
+    }
+
+    @Override
+    public @Nullable MultiblockPreviewData getCurrentPreviewMultiblock() {
+        return MultiblockPreviewRenderer.getMultiblockPreviewData();
     }
 }

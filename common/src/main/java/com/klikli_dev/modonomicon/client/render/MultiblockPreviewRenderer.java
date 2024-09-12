@@ -11,6 +11,7 @@ import com.klikli_dev.modonomicon.Modonomicon;
 import com.klikli_dev.modonomicon.api.ModonomiconAPI;
 import com.klikli_dev.modonomicon.api.ModonomiconConstants;
 import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
+import com.klikli_dev.modonomicon.api.multiblock.MultiblockPreviewData;
 import com.klikli_dev.modonomicon.client.ClientTicks;
 import com.klikli_dev.modonomicon.multiblock.AbstractMultiblock;
 import com.klikli_dev.modonomicon.multiblock.matcher.DisplayOnlyMatcher;
@@ -50,6 +51,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 import java.awt.*;
@@ -58,10 +60,9 @@ import java.util.function.Function;
 
 public class MultiblockPreviewRenderer {
 
-    public static boolean hasMultiblock;
-
     private static final Map<BlockPos, BlockEntity> blockEntityCache = new Object2ObjectOpenHashMap<>();
     private static final Set<BlockEntity> erroredBlockEntities = Collections.newSetFromMap(new WeakHashMap<>());
+    public static boolean hasMultiblock;
     private static Multiblock multiblock;
     private static Component name;
     private static BlockPos pos;
@@ -335,6 +336,14 @@ public class MultiblockPreviewRenderer {
 
             ms.popPose();
         }
+    }
+
+    @Nullable
+    public static MultiblockPreviewData getMultiblockPreviewData() {
+        if (!hasMultiblock) {
+            return null;
+        }
+        return new MultiblockPreviewData(multiblock, pos, facingRotation, isAnchored);
     }
 
     public static Multiblock getMultiblock() {

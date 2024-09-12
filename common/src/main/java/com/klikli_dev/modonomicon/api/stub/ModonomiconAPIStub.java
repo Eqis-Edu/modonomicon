@@ -11,7 +11,9 @@ import com.klikli_dev.modonomicon.api.ModonomiconAPI;
 import com.klikli_dev.modonomicon.api.datagen.BookContextHelper;
 import com.klikli_dev.modonomicon.api.datagen.CategoryEntryMap;
 import com.klikli_dev.modonomicon.api.multiblock.Multiblock;
+import com.klikli_dev.modonomicon.api.multiblock.MultiblockPreviewData;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public class ModonomiconAPIStub implements ModonomiconAPI {
     private static final ModonomiconAPIStub instance = new ModonomiconAPIStub();
@@ -40,6 +42,11 @@ public class ModonomiconAPIStub implements ModonomiconAPI {
 
     @Override
     public Multiblock getMultiblock(ResourceLocation id) {
+        return null;
+    }
+
+    @Override
+    public @Nullable MultiblockPreviewData getCurrentPreviewMultiblock() {
         return null;
     }
 }
