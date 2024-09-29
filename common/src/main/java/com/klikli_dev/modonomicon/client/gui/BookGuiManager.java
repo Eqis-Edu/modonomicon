@@ -40,20 +40,23 @@ import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.Map;
 import java.util.Stack;
 
 public class BookGuiManager {
 
     private static final BookGuiManager instance = new BookGuiManager();
 
-    private final Stack<BookAddress> history = new Stack<>();
+    private final Map<ResourceLocation, Stack<BookAddress>> history = new Object2ObjectArrayMap<>();
 
     /**
      * The currently open screen. Used for unlock state sync to immediately update the open screen.
@@ -349,27 +352,33 @@ public class BookGuiManager {
     public void pushHistory(ResourceLocation bookId, @Nullable ResourceLocation entryId, int page) {
         var book = BookDataManager.get().getBook(bookId);
         var entry = book.getEntry(entryId);
-        this.history.push(BookAddress.of(bookId, entry.getCategoryId(), entryId, page));
+        this.history.computeIfAbsent(bookId, k -> new Stack<>()).push(BookAddress.of(bookId, entry.getCategoryId(), entryId, page));
     }
 
     public void pushHistory(ResourceLocation bookId, @Nullable ResourceLocation categoryId, @Nullable ResourceLocation entryId, int page) {
-        this.history.push(BookAddress.of(bookId, categoryId, entryId, page));
+        this.history.computeIfAbsent(bookId, k -> new Stack<>()).push(BookAddress.of(bookId, categoryId, entryId, page));
     }
 
     public void pushHistory(BookAddress entry) {
-        this.history.push(entry);
+        this.history.computeIfAbsent(entry.bookId(), k -> new Stack<>()).push(entry);
     }
 
-    public BookAddress popHistory() {
-        return this.history.pop();
+    public BookAddress popHistory(ResourceLocation bookId) {
+        if (!this.history.containsKey(bookId) || this.history.get(bookId).isEmpty())
+            return null;
+        return this.history.get(bookId).pop();
     }
 
-    public BookAddress peekHistory() {
-        return this.history.peek();
+    public BookAddress peekHistory(ResourceLocation bookId) {
+        if (!this.history.containsKey(bookId) || this.history.get(bookId).isEmpty())
+            return null;
+        return this.history.get(bookId).peek();
     }
 
-    public int getHistorySize() {
-        return this.history.size();
+    public int getHistorySize(ResourceLocation bookId) {
+        if (!this.history.containsKey(bookId))
+            return 0;
+        return this.history.get(bookId).size();
     }
 
     public void resetHistory() {
@@ -472,10 +481,6 @@ public class BookGuiManager {
         Services.NETWORK.sendToServer(new SaveCategoryStateMessage(screen.getCategory(), state));
     }
 
-    /**
-     * Call this when you want to close the parent screen naturally, without esc.
-     * E.g. from the "close"/"x" button.
-     */
     public void closeParentScreen(BookParentScreen screen) {
         Minecraft.getInstance().setScreen(null);
         this.openBookParentScreen = null;
@@ -483,8 +488,6 @@ public class BookGuiManager {
         var state = BookVisualStateManager.get().getBookStateFor(this.player(), screen.getBook());
         screen.saveState(state);
         Services.NETWORK.sendToServer(new SaveBookStateMessage(screen.getBook(), state));
-
-        this.resetHistory();
     }
 
     public void closeScreenStack(BookParentScreen screen) {
