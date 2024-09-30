@@ -155,7 +155,7 @@ public class BookMultiblockPageRenderer extends BookPageRenderer<BookMultiblockP
                 //if our cached be is not compatible with the render state, remove it.
                 //this happens e.g. if there is a blocktag that contains multible blocks with different BEs
                 var be = this.blockEntityCache.compute(r.getWorldPosition().immutable(), (p, cachedBe) -> {
-                    if (cachedBe != null && !cachedBe.isValidBlockState(renderState)) {
+                    if (cachedBe != null && !cachedBe.getType().isValid(renderState)) {
                         return eb.newBlockEntity(p, renderState);
                     }
                     return cachedBe != null ? cachedBe : eb.newBlockEntity(p, renderState);

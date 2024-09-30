@@ -279,7 +279,7 @@ public class MultiblockPreviewRenderer {
                         //this happens e.g. if there is a blocktag that contains multible blocks with different BEs
                         //we also have to translate by startpos to counteract the preview moving in the world (but the BE cache being static)
                         var be = blockEntityCache.compute(r.getWorldPosition().subtract(startPos).immutable(), (p, cachedBe) -> {
-                            if (cachedBe != null && !cachedBe.isValidBlockState(renderState)) {
+                            if (cachedBe != null && !cachedBe.getType().isValid(renderState)) {
                                 return eb.newBlockEntity(p, renderState);
                             }
                             return cachedBe != null ? cachedBe : eb.newBlockEntity(p, renderState);
