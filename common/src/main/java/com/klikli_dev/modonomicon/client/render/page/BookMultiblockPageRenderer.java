@@ -152,7 +152,15 @@ public class BookMultiblockPageRenderer extends BookPageRenderer<BookMultiblockP
             this.renderBlock(buffers, level, renderState, r.getWorldPosition(), alpha, guiGraphics.pose());
 
             if (renderState.getBlock() instanceof EntityBlock eb) {
-                var be = this.blockEntityCache.computeIfAbsent(r.getWorldPosition().immutable(), p -> eb.newBlockEntity(p, renderState));
+                //if our cached be is not compatible with the render state, remove it.
+                //this happens e.g. if there is a blocktag that contains multible blocks with different BEs
+                var be = this.blockEntityCache.compute(r.getWorldPosition().immutable(), (p, cachedBe) -> {
+                    if (cachedBe != null && !cachedBe.isValidBlockState(renderState)) {
+                        return eb.newBlockEntity(p, renderState);
+                    }
+                    return cachedBe != null ? cachedBe : eb.newBlockEntity(p, renderState);
+                });
+
                 if (be != null && !this.erroredBlockEntities.contains(be)) {
                     be.setLevel(mc.level);
 

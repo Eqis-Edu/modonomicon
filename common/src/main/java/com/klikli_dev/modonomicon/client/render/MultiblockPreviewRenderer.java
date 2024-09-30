@@ -274,8 +274,16 @@ public class MultiblockPreviewRenderer {
                     renderBlock(level, renderState, r.getWorldPosition(), multiblock, air, alpha, ms);
 
                     if (renderState.getBlock() instanceof EntityBlock eb) {
-                        //the problem is that we have one cache for virtual BEs in the world, but if we move then we might query another BE
-                        var be = blockEntityCache.computeIfAbsent(r.getWorldPosition().subtract(startPos).immutable(), p -> eb.newBlockEntity(p, renderState));
+
+                        //if our cached be is not compatible with the render state, remove it.
+                        //this happens e.g. if there is a blocktag that contains multible blocks with different BEs
+                        //we also have to translate by startpos to counteract the preview moving in the world (but the BE cache being static)
+                        var be = blockEntityCache.compute(r.getWorldPosition().subtract(startPos).immutable(), (p, cachedBe) -> {
+                            if (cachedBe != null && !cachedBe.isValidBlockState(renderState)) {
+                                return eb.newBlockEntity(p, renderState);
+                            }
+                            return cachedBe != null ? cachedBe : eb.newBlockEntity(p, renderState);
+                        });
                         if (be != null && !erroredBlockEntities.contains(be)) {
                             be.setLevel(mc.level);
 
