@@ -42,7 +42,9 @@ public class RecipeEntry extends EntryProvider {
         this.page("smelting", () -> BookSmeltingRecipePageModel.create()
                 .withRecipeId1("minecraft:charcoal")
                 .withRecipeId2("minecraft:cooked_beef")
+                .withText(this.context().pageText())
         );
+        this.pageText("A sample smelting recipe page.");
 
         this.page("smoking", () -> BookSmokingRecipePageModel.create()
                 .withRecipeId1("minecraft:cooked_beef_from_smoking")

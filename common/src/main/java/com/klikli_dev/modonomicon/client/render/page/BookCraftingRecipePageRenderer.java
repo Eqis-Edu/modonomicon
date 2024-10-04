@@ -26,7 +26,7 @@ public class BookCraftingRecipePageRenderer extends BookRecipePageRenderer<Recip
 
     @Override
     protected int getRecipeHeight() {
-        return 78;
+        return 75;
     }
 
     @Override

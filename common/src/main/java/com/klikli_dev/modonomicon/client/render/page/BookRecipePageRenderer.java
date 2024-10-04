@@ -48,11 +48,8 @@ public abstract class BookRecipePageRenderer<R extends Recipe<?>, T extends Book
                     recipeX - 13, recipeY - 15, 0xFF0000, BookEntryScreen.PAGE_WIDTH);
         }
 
-        //only render if no second recipe available
-        if (this.page.getRecipe2() == null) {
-            var textY = this.getTextY();
-            this.renderBookTextHolder(guiGraphics, this.getPage().getText(), 0, textY, BookEntryScreen.PAGE_WIDTH, BookEntryScreen.PAGE_HEIGHT - textY);
-        }
+        var textY = this.getTextY();
+        this.renderBookTextHolder(guiGraphics, this.getPage().getText(), 0, textY, BookEntryScreen.PAGE_WIDTH, BookEntryScreen.PAGE_HEIGHT - textY);
 
 
         var style = this.getClickedComponentStyleAt(mouseX, mouseY);
@@ -82,7 +79,10 @@ public abstract class BookRecipePageRenderer<R extends Recipe<?>, T extends Book
 
     @Override
     public int getTextY() {
-        return Y + this.getRecipeHeight() * (this.page.getRecipe2() == null ? 1 : 2) - (this.page.getTitle2().isEmpty() ? 10 : 0);
+        var y = Y + (this.getRecipeHeight() * (this.page.getRecipe2() == null ? 1 : 2));
+        y -= this.page.getTitle2().isEmpty() ? 10 : 0;
+        y -= this.page.getRecipe2() == null ? 0 : 10;
+        return y;
     }
 
     protected abstract int getRecipeHeight();
