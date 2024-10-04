@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.108.0] - 2024-10-04
+### :sparkles: New Features
+- [`544671c`](https://github.com/klikli-dev/modonomicon/commit/544671cf6ea5f39981192e56790da1f48621ec19) - allow text on recipe pages with 2 recipes *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.107.1] - 2024-09-30
 ### :bug: Bug Fixes
 - [`b851f69`](https://github.com/klikli-dev/modonomicon/commit/b851f69708cb5e1a3a109362c9a710a6f1ca454b) - be blockstate validity check differs across modloaders *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1456,3 +1461,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.106.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.106.0...release/v1.21.1-1.106.1
 [release/v1.21.1-1.106.2]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.106.1...release/v1.21.1-1.106.2
 [release/v1.21.1-1.107.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.107.0...release/v1.21.1-1.107.1
+[release/v1.21.1-1.108.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.107.1...release/v1.21.1-1.108.0
