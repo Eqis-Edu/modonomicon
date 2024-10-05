@@ -37,12 +37,16 @@ public class CreativeModeTabRegistry {
         if (tabName == null)
             return;
 
+        var modonomiconTab = CreativeModeTabRegistry.MODONOMICON.get();
+
         //From: Neo EventHooks#onCreativeModeTabBuildContents
         //we need to use it here to test before inserting, because event.getEntries().contains uses a different hashing strategy and is thus not reliable
         final var searchDupes = new ObjectLinkedOpenCustomHashSet<ItemStack>(ItemStackLinkedSet.TYPE_AND_TAG);
 
         BookDataManager.get().getBooks().values().forEach(b -> {
-            if (event.getTabKey() == CreativeModeTabs.SEARCH || net.minecraftforge.common.CreativeModeTabRegistry.getTab(ResourceLocation.parse(b.getCreativeTab())) == event.getTab()) {
+            if (event.getTabKey() == CreativeModeTabs.SEARCH ||
+                    modonomiconTab == event.getTab() ||
+                    net.minecraftforge.common.CreativeModeTabRegistry.getTab(ResourceLocation.parse(b.getCreativeTab())) == event.getTab()) {
                 if (b.generateBookItem()) {
                     ItemStack stack = new ItemStack(ItemRegistry.MODONOMICON.get());
 

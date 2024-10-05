@@ -38,6 +38,7 @@ public class CreativeModeTabRegistry {
 
         BookDataManager.get().getBooks().values().forEach(b -> {
             if (tabKey == CreativeModeTabs.SEARCH ||
+                    MODONOMICON == group ||
                     BuiltInRegistries.CREATIVE_MODE_TAB.get(ResourceLocation.parse(b.getCreativeTab())) == group) {
                 if (b.generateBookItem()) {
                     ItemStack stack = new ItemStack(ItemRegistry.MODONOMICON.get());
