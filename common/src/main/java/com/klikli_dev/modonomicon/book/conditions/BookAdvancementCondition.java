@@ -89,6 +89,7 @@ public class BookAdvancementCondition extends BookCondition {
     }
 
     public static class DistHelper {
+        public static long lastRequestTime = 0;
         public static Component getAdvancementTitle(Player player, ResourceLocation advancementId) {
             if (player instanceof LocalPlayer localPlayer) {
                 //Problem: Advancements are not syncted to the client by vanilla if they are visible - and actively removed if they are not.
@@ -101,7 +102,11 @@ public class BookAdvancementCondition extends BookCondition {
 
                 //if not available locally, request from server for our local cache
                 if (adv == null) {
-                    Services.NETWORK.sendToServer(new RequestAdvancementMessage(advancementId));
+                    //only request every second
+                    if(System.currentTimeMillis() - lastRequestTime < 1000) {
+                        lastRequestTime = System.currentTimeMillis();
+                        Services.NETWORK.sendToServer(new RequestAdvancementMessage(advancementId));
+                    }
                     return Component.translatable(Tooltips.CONDITION_ADVANCEMENT_LOADING);
                 }
 

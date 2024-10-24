@@ -105,14 +105,15 @@ public class BookOrCondition extends BookCondition {
     public List<Component> getTooltip(Player player, BookConditionContext context) {
         if (this.tooltips == null) {
             this.tooltips = new ArrayList<>();
-            if (this.tooltip != null)
-                this.tooltips.add(this.tooltip);
-            for (var child : this.children) {
-                this.tooltips.addAll(child.getTooltip(player, context));
-            }
         }
 
+        this.tooltips.clear(); //should not cache because e.g. advancement condition tooltips can change
+        if (this.tooltip != null)
+            this.tooltips.add(this.tooltip);
+        for (var child : this.children) {
+            this.tooltips.addAll(child.getTooltip(player, context));
+        }
 
-        return this.tooltips != null ? this.tooltips : List.of();
+        return this.tooltips;
     }
 }
