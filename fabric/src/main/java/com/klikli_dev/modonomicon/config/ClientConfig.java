@@ -26,6 +26,7 @@ public class ClientConfig {
 
     public static PropertyMirror<Boolean> enableSmoothZoom = PropertyMirror.create(ConfigTypes.BOOLEAN);
     public static PropertyMirror<Boolean> storeLastOpenPageWhenClosingEntry = PropertyMirror.create(ConfigTypes.BOOLEAN);
+    public static PropertyMirror<Boolean> bypassAdvancements = PropertyMirror.create(ConfigTypes.BOOLEAN);
     public static PropertyMirror<List<String>> fontFallbackLocales = PropertyMirror.create(ConfigTypes.makeList(ConfigTypes.STRING));
 
     private static final ConfigTree CONFIG = ConfigTree.builder()
@@ -41,6 +42,9 @@ public class ClientConfig {
             .beginValue("fontFallbackLocales", ConfigTypes.makeList(ConfigTypes.STRING), List.of("zh_cn", "ja_jp", "ko_kr"))
             .withComment("If your locale is not supported by the default Modonomicon font, indicated by the book just rendering blocky shapes instead of characters, add your locale to this list to fall back to the builtin Minecraft font.")
             .finishValue(fontFallbackLocales::mirror)
+            .beginValue("bypassAdvancements", ConfigTypes.BOOLEAN, false)
+            .withComment("Enable this to ignore advancements locks.")
+            .finishValue(bypassAdvancements::mirror)
             .finishBranch()
             .build();
 

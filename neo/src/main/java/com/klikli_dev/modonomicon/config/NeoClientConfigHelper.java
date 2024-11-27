@@ -26,5 +26,8 @@ public class NeoClientConfigHelper implements ClientConfigHelper {
         return ClientConfig.get().qolCategory.fontFallbackLocales.get().stream().map(String::toString).toList();
     }
 
-
+    @Override
+    public boolean bypassAdvancements() {
+        return ClientConfig.get().qolCategory.bypassAdvancements.get();
+    }
 }

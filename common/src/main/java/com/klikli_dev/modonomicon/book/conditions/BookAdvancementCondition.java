@@ -12,6 +12,7 @@ import com.klikli_dev.modonomicon.api.ModonomiconConstants.I18n.Tooltips;
 import com.klikli_dev.modonomicon.book.conditions.context.BookConditionContext;
 import com.klikli_dev.modonomicon.data.BookDataManager;
 import com.klikli_dev.modonomicon.networking.RequestAdvancementMessage;
+import com.klikli_dev.modonomicon.platform.ClientServices;
 import com.klikli_dev.modonomicon.platform.Services;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.HolderLookup;
@@ -71,6 +72,10 @@ public class BookAdvancementCondition extends BookCondition {
     @Override
     public boolean test(BookConditionContext context, Player player) {
         if (player instanceof ServerPlayer serverPlayer) {
+
+            if (ClientServices.CLIENT_CONFIG.bypassAdvancements())
+                return true;
+
             var advancement = serverPlayer.getServer().getAdvancements().get(this.advancementId);
             return advancement != null && serverPlayer.getAdvancements().getOrStartProgress(advancement).isDone();
         }

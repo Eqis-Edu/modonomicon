@@ -25,4 +25,9 @@ public class FabricClientConfigHelper implements ClientConfigHelper {
     public List<String> fontFallbackLocales() {
         return ClientConfig.fontFallbackLocales.getValue();
     }
+
+    @Override
+    public boolean bypassAdvancements() {
+        return ClientConfig.bypassAdvancements.getValue();
+    }
 }

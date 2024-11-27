@@ -26,5 +26,8 @@ public class ForgeClientConfigHelper implements ClientConfigHelper {
         return ClientConfig.get().qolCategory.fontFallbackLocales.get();
     }
 
-
+    @Override
+    public boolean bypassAdvancements() {
+        return ClientConfig.get().qolCategory.bypassAdvancements.get();
+    }
 }
