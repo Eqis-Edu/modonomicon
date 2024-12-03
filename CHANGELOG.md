@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.110.1] - 2024-12-03
+### :bug: Bug Fixes
+- [`2f93b9a`](https://github.com/klikli-dev/modonomicon/commit/2f93b9ae5e2fcc66522f74eb05e8c0df4330d9a8) - advancement requesting from server *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.110.0] - 2024-12-03
 ### :bug: Bug Fixes
 - [`5003ddb`](https://github.com/klikli-dev/modonomicon/commit/5003ddbf6a381a53186337229bdad37a70aedfa7) - add special handling for SP/LAN to avoid issues with datagen registry holders *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1780,3 +1785,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.108.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.108.4...release/v1.21.1-1.108.5
 [release/v1.21.1-1.109.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.108.5...release/v1.21.1-1.109.0
 [release/v1.21.1-1.110.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.109.0...release/v1.21.1-1.110.0
+[release/v1.21.1-1.110.1]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.110.0...release/v1.21.1-1.110.1
