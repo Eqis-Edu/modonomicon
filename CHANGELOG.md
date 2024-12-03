@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [release/v1.21.1-1.109.0] - 2024-12-03
+### :sparkles: New Features
+- [`fc97982`](https://github.com/klikli-dev/modonomicon/commit/fc9798233309d01f4314066cfdd683df719eb4da) - allow neo and forge book providers to take custom registry providers *(commit by [@klikli-dev](https://github.com/klikli-dev))*
+
+
 ## [release/v1.21.1-1.108.5] - 2024-12-02
 ### :wrench: Chores
 - [`a4c24e2`](https://github.com/klikli-dev/modonomicon/commit/a4c24e2b054bb4dc2316ab03991e2678e4b8453b) - increase mod version to force update *(commit by [@klikli-dev](https://github.com/klikli-dev))*
@@ -1765,3 +1770,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [release/v1.21.1-1.108.3]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.108.2...release/v1.21.1-1.108.3
 [release/v1.21.1-1.108.4]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.108.3...release/v1.21.1-1.108.4
 [release/v1.21.1-1.108.5]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.108.4...release/v1.21.1-1.108.5
+[release/v1.21.1-1.109.0]: https://github.com/klikli-dev/modonomicon/compare/release/v1.21.1-1.108.5...release/v1.21.1-1.109.0
